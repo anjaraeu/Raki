@@ -18,7 +18,7 @@ class CreateGroupsTable extends Migration
             $table->string('slug')->unique();
             $table->string('name');
             $table->integer('downloads')->default(0);
-            $table->timestamp('expiry')->default(0);
+            $table->timestamp('expiry')->default(0)->nullable();
             $table->timestamps();
         });
     }
