@@ -74,7 +74,7 @@ class UploadController extends Controller
         $group = Group::findOrFail(session('pending_group'));
         if ($request->filled(['name', 'expiry'])) {
             $group->name = $request->input('name');
-            $group->expiry = now()->addSeconds($request->input('expiry'))->timestamp;
+            $group->expiry = now()->addSeconds($request->input('expiry'));
             $group->save();
             return response()->json($group);
             session(['pending_group' => 'create']);
