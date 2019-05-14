@@ -17,7 +17,7 @@ npm i
 cd resources/semantic
 npx gulp build
 npm run production
-cd ../
+cd ../..
 ```
 
 Configure the .env file correctly:
@@ -25,4 +25,9 @@ Configure the .env file correctly:
 cp .env.example .env
 $EDITOR .env
 php artisan key:generate
+```
+
+Then setup the database:
+```
+php artisan migrate
 ```
