@@ -6,7 +6,19 @@
 
 require('./bootstrap');
 
+window.Dropzone = require('dropzone');
+
 window.Vue = require('vue');
+
+Dropzone.options.anjaradrop = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 500, // MB
+    maxFiles: 5,
+    chunking: true,
+    chunkSize: 1000000
+    // acceptedFiles: '.osk,.zip'
+};
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,4 +41,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    mounted() {
+        $('.ui.dropdown').dropdown();
+        $('.ui.checkbox').checkbox();
+    }
 });

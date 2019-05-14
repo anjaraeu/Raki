@@ -1,99 +1,41 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('app')
 
-        <title>Laravel</title>
+@section('content')
+    <div class="ui container first">
+        <div class="ui segment">
+            <h2>{{ __('welcome.title') }}</h2>
+            <p>{{ __('welcome.synopsis') }}</p>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+            <form action="/upload" class="dropzone" id="anjaradrop">
+                {{ csrf_field() }}
+            </form>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+            <br>
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+            <form action="/publish" method="POST" class="ui form">
+                {{ csrf_field() }}
+                <div class="field">
+                    <label for="name">{{ __('welcome.groupname._') }}</label>
+                    <input type="text" placeholder="{{ __('welcome.groupname.placeholder') }}" name="name">
                 </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div class="field">
+                    <label for="expiry">{{ __('welcome.expiry._') }}</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="expiry">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">{{ __('welcome.expiry.placeholder') }}</div>
+                        <div class="menu">
+                            <div class="item" data-value="86400">{{ __('welcome.expiry.day') }}</div>
+                            <div class="item" data-value="604800">{{ __('welcome.expiry.week') }}</div>
+                            <div class="item" data-value="2635200">{{ __('welcome.expiry.month') }}</div>
+                            <div class="item" data-value="31557600">{{ __('welcome.expiry.year') }}</div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div class="field">
+                    <input type="submit" class="ui blue button" value="{{ __('welcome.submit') }}">
                 </div>
-            </div>
+            </form>
         </div>
-    </body>
-</html>
+    </div>
+@endsection
