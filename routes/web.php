@@ -21,5 +21,6 @@ Route::get('/language.json', 'LocaleController@getJSON');
 Route::post('/upload', 'DependencyUploadController@uploadFile');
 Route::post('/publish', 'UploadController@publishGroup');
 
-Route::get('/f/{slug}', 'DownloadController@getFile');
-Route::get('/g/{slug}', 'DownloadController@getGroup');
+Route::get('/f/{slug}', 'DownloadController@getFile')->name('downloadFile');
+Route::get('/g/{slug}', 'DownloadController@getGroup')->name('showGroup');
+Route::get('/g/{slug}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');

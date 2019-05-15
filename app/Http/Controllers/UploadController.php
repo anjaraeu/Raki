@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Storage;
 use App\File;
 use App\Group;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\UploadedFile;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
@@ -59,12 +61,15 @@ class UploadController extends Controller
         } else {
             $group = Group::findOrFail($group);
         }
+        $path = $file->store('files');
         $file = File::create([
             'slug' => hash('sha256', random_bytes(25)),
             'name' => $file->getClientOriginalName(),
-            'path' => $file->store('files'),
+            'path' => $path,
             'deletepasswd' => hash('sha512', random_bytes(50)),
-            'group_id' => $group->id
+            'group_id' => $group->id,
+            'size' => Storage::size($path),
+            'checksum' => md5(Storage::get($path))
         ]);
         $group->load('files');
         return response()->json(['file' => $file, 'group' => $group]);
@@ -72,14 +77,27 @@ class UploadController extends Controller
 
     public function publishGroup(Request $request) {
         $group = Group::findOrFail(session('pending_group'));
-        if ($request->filled(['name', 'expiry'])) {
+        $request->validate([
+            'name' => 'max:250',
+            'expiry' => [
+                'required',
+                Rule::in(['86400', '604800', '2635200', '31557600'])
+            ]
+        ]);
+        if ($group->files->count() == 0) {
+            return abort(400);
+        } elseif ($request->filled(['name', 'expiry'])) {
             $group->name = $request->input('name');
             $group->expiry = now()->addSeconds($request->input('expiry'));
             $group->save();
-            return response()->json($group);
             session(['pending_group' => 'create']);
+            return redirect()->route('showGroup', ['slug' => $group->slug]);
         } else {
-            return abort(400);
+            $group->name = $group->files->first()->name;
+            $group->expiry = now()->addSeconds($request->input('expiry'));
+            $group->save();
+            session(['pending_group' => 'create']);
+            return redirect()->route('showGroup', ['slug' => $group->slug]);
         }
     }
 }

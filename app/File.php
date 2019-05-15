@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    protected $fillable = ['path', 'name', 'downloads', 'slug', 'group_id', 'deletepassword'];
+    protected $fillable = ['path', 'name', 'downloads', 'slug', 'group_id', 'deletepassword', 'size', 'checksum'];
 
     protected $hidden = ['deletepassword'];
 

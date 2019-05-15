@@ -14,7 +14,12 @@ class DownloadController extends Controller
         if (empty($file)) {
             abort(404);
         } else {
-            dd($file);
+            if (now()->greaterThan($file->group->expiry)) {
+                abort(419);
+                // TODO : trigger files delete to free space
+            } else {
+                return response()->download(storage_path('app/'.$file->path), $file->name);
+            }
         }
     }
 
@@ -23,7 +28,13 @@ class DownloadController extends Controller
         if (empty($group)) {
             abort(404);
         } else {
-            dd($group);
+            if (now()->greaterThan($group->expiry)) {
+                abort(419);
+                // TODO : trigger files delete to free space
+            } else {
+                $group->load('files');
+                return view('group', ['group' => $group]);
+            }
         }
     }
 

@@ -6,6 +6,16 @@
             <h2>{{ __('welcome.title') }}</h2>
             <p>{{ __('welcome.synopsis') }}</p>
 
+            @if ($errors->any())
+            <div class="ui error message">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <form action="/upload" class="dropzone" id="anjaradrop">
                 {{ csrf_field() }}
             </form>
@@ -21,7 +31,7 @@
                 <div class="field">
                     <label for="expiry">{{ __('welcome.expiry._') }}</label>
                     <div class="ui selection dropdown">
-                        <input type="hidden" name="expiry">
+                        <input type="hidden" name="expiry" required>
                         <i class="dropdown icon"></i>
                         <div class="default text">{{ __('welcome.expiry.placeholder') }}</div>
                         <div class="menu">
