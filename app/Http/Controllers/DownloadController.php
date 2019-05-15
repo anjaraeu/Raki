@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
 use Storage;
 use App\File;
 use App\Group;
@@ -53,8 +54,10 @@ class DownloadController extends Controller
                     // Storage::download('zips/'.$group->slug.'.zip', 'afilesdl.zip'); <- This doesn't work ? (the same works on L23 wtf)
                     return response()->download(storage_path('app/zips/'.$group->slug.'.zip', ));
                 } else {
-                    ZipGroup::dispatch($group);
-                    return 'Please wait...';
+                    if (!Cache::get('job-group-'.$group->id, false)) {
+                        ZipGroup::dispatch($group);
+                    }
+                    return view('wait');
                 }
             }
         }

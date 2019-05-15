@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
+use Cache;
 use Storage;
 use App\Group;
-use ZipArchive;
+use PhpZip\ZipFile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -26,6 +27,7 @@ class ZipGroup implements ShouldQueue
     public function __construct(Group $group)
     {
         $this->group = $group;
+        Cache::put('job-group-'.$group->id, true);
     }
 
     /**
@@ -35,17 +37,14 @@ class ZipGroup implements ShouldQueue
      */
     public function handle()
     {
-        $zip = new ZipArchive;
-        if ($zip->open(storage_path('app/zips/'.$this->group->slug.'.zip'), ZipArchive::CREATE)) {
-            foreach ($this->group->files as $file) {
-                $zip->addFromString($file->name, Storage::get($file->path));
-                $zip->setCompressionName($file->name, ZipArchive::CM_STORE);
-            }
-            $zip->close();
-            return true;
-        } else {
-            throw new Error('Cannot create zip file.');
-            return false;
+        $zip = new ZipFile();
+        foreach ($this->group->files as $file) {
+            $zip->addFromString($file->name, Storage::get($file->path));
         }
+        $zip->saveAsFile(storage_path('app/zips/'.$this->group->slug.'.zip'));
+        $zip->setCompressionLevel(2);
+        $zip->close();
+        Cache::forget('job-group-'.$this->group->id);
+        return true;
     }
 }
