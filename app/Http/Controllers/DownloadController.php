@@ -52,7 +52,7 @@ class DownloadController extends Controller
             } else {
                 if (Storage::exists('zips/'.$group->slug.'.zip')) {
                     // Storage::download('zips/'.$group->slug.'.zip', 'afilesdl.zip'); <- This doesn't work ? (the same works on L23 wtf)
-                    return response()->download(storage_path('app/zips/'.$group->slug.'.zip', ));
+                    return response()->download(storage_path('app/zips/'.$group->slug.'.zip', $group->name.'.zip'));
                 } else {
                     if (!Cache::get('job-group-'.$group->id, false)) {
                         ZipGroup::dispatch($group);
