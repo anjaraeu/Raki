@@ -11,4 +11,8 @@ class Group extends Model
     public function files() {
         return $this->hasMany('App\File');
     }
+
+    public function link() {
+        return $this->hasOne('App\ShortLink');
+    }
 }

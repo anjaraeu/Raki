@@ -8,11 +8,13 @@
 
             @if ($errors->any())
             <div class="ui error message">
+                <div class="header">{{ __('welcome.error._') }}</div>
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <p><strong>{{ __('welcome.error.kept') }}</strong></p>
             </div>
             @endif
 
@@ -41,6 +43,15 @@
                             <div class="item" data-value="31557600">{{ __('welcome.expiry.year') }}</div>
                         </div>
                     </div>
+                </div>
+                <div class="field">
+                    <label for="link">{{ __('welcome.link._') }}</label>
+                    <input type="text" placeholder="{{ __('welcome.link.placeholder') }}" name="link">
+                    <small>{{ __('welcome.link.info', ['link' => url('/l/<link>')]) }}</small>
+                </div>
+                <div class="field">
+                    <label for="password">{{ __('welcome.password._') }}</label>
+                    <input type="password" placeholder="{{ __('welcome.password.placeholder') }}" name="password" disabled="">
                 </div>
                 <div class="field">
                     <input type="submit" class="ui blue button" value="{{ __('welcome.submit') }}">

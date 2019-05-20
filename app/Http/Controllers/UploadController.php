@@ -9,6 +9,7 @@ use App\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\UploadedFile;
+use App\Http\Controllers\LinkController;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
@@ -82,21 +83,25 @@ class UploadController extends Controller
             'expiry' => [
                 'required',
                 Rule::in(['86400', '604800', '2635200', '31557600'])
-            ]
+            ],
+            'link' => 'max:25|unique:short_links,link'
         ]);
         if ($group->files->count() == 0) {
             return abort(400);
         } elseif ($request->filled(['name', 'expiry'])) {
             $group->name = $request->input('name');
             $group->expiry = now()->addSeconds($request->input('expiry'));
-            $group->save();
-            session(['pending_group' => 'create']);
-            return redirect()->route('showGroup', ['slug' => $group->slug]);
         } else {
             $group->name = $group->files->first()->name;
             $group->expiry = now()->addSeconds($request->input('expiry'));
-            $group->save();
-            session(['pending_group' => 'create']);
+        }
+
+        $group->save();
+        session(['pending_group' => 'create']);
+
+        if ($request->filled('link')) {
+            return LinkController::createLink($group, $request->input('link'));
+        } else {
             return redirect()->route('showGroup', ['slug' => $group->slug]);
         }
     }

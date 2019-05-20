@@ -15,8 +15,12 @@ Dropzone.options.anjaradrop = {
     maxFilesize: 500, // MB
     maxFiles: 5,
     chunking: true,
-    chunkSize: 1000000
-    // acceptedFiles: '.osk,.zip'
+    chunkSize: 1000000,
+    init: function() {
+        this.on('uploadprogress', function(file, progress, bytesSent) {
+            console.log(file, progress, bytesSent);
+        });
+    }
 };
 
 
