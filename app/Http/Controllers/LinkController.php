@@ -8,6 +8,14 @@ use App\Group;
 
 class LinkController extends Controller
 {
+    public static function createLinkAjax (Group $group, $link) {
+        ShortLink::create([
+            'link' => $link,
+            'group_id' => $group->id
+        ]);
+        return response()->json(['link' => route('shortLink', ['link' => $link])]);
+    }
+
     public static function createLink (Group $group, $link) {
         ShortLink::create([
             'link' => $link,

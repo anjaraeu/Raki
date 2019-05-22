@@ -98,7 +98,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+    'cipher' => 'XCHACHA20-POLY1305-IETF',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Encryption\EncryptionServiceProvider::class,
+        // Illuminate\Encryption\EncryptionServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
@@ -182,6 +182,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         KgBot\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+
+        LaravelAEAD\Providers\EncryptionServiceProvider::class,
 
     ],
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3be17d288b9d5481ed0df7d0093ec93",
+    "content-hash": "33c2a4d4fe6d97ce26177a17e32957ad",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -427,6 +427,60 @@
                 "trusted proxy"
             ],
             "time": "2019-01-10T14:06:47+00:00"
+        },
+        {
+            "name": "hernandev/laravel-aead",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hernandev/laravel-aead.git",
+                "reference": "ebc98f7a0778881a8744b3bb670d10f2d3cce1ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hernandev/laravel-aead/zipball/ebc98f7a0778881a8744b3bb670d10f2d3cce1ac",
+                "reference": "ebc98f7a0778881a8744b3bb670d10f2d3cce1ac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-sodium": "*",
+                "illuminate/support": "^5.6",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^7.0",
+                "symfony/var-dumper": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaravelAEAD\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Diego Hernandes",
+                    "email": "diego@hernandev.com"
+                }
+            ],
+            "description": "Advanced Encryption with Associated Data (AEAD) for Laravel.",
+            "keywords": [
+                "ChaCha20",
+                "Poly1305",
+                "Xchacha20",
+                "aead",
+                "aes-256-gcm",
+                "cryptography",
+                "encryption",
+                "laravel"
+            ],
+            "time": "2018-04-21T16:08:24+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

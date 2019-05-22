@@ -18,45 +18,15 @@
             </div>
             @endif
 
-            <form action="/upload" class="dropzone" id="anjaradrop">
+            {{-- <form action="/upload" class="dropzone" id="anjaradrop">
                 {{ csrf_field() }}
-            </form>
+            </form> --}}
+
+            <div id="anjaradrop" class="dropzone"></div>
 
             <br>
 
-            <form action="/publish" method="POST" class="ui form">
-                {{ csrf_field() }}
-                <div class="field">
-                    <label for="name">{{ __('welcome.groupname._') }}</label>
-                    <input type="text" placeholder="{{ __('welcome.groupname.placeholder') }}" name="name">
-                </div>
-                <div class="field">
-                    <label for="expiry">{{ __('welcome.expiry._') }}</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="expiry" required>
-                        <i class="dropdown icon"></i>
-                        <div class="default text">{{ __('welcome.expiry.placeholder') }}</div>
-                        <div class="menu">
-                            <div class="item" data-value="86400">{{ __('welcome.expiry.day') }}</div>
-                            <div class="item" data-value="604800">{{ __('welcome.expiry.week') }}</div>
-                            <div class="item" data-value="2635200">{{ __('welcome.expiry.month') }}</div>
-                            <div class="item" data-value="31557600">{{ __('welcome.expiry.year') }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="link">{{ __('welcome.link._') }}</label>
-                    <input type="text" placeholder="{{ __('welcome.link.placeholder') }}" name="link">
-                    <small>{{ __('welcome.link.info', ['link' => url('/l/<link>')]) }}</small>
-                </div>
-                <div class="field">
-                    <label for="password">{{ __('welcome.password._') }}</label>
-                    <input type="password" placeholder="{{ __('welcome.password.placeholder') }}" name="password" disabled="">
-                </div>
-                <div class="field">
-                    <input type="submit" class="ui blue button" value="{{ __('welcome.submit') }}">
-                </div>
-            </form>
+            <submit-form :lang="lang" :appurl="env.MIX_APP_URL"></submit-form>
         </div>
     </div>
 @endsection

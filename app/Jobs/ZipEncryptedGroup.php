@@ -6,17 +6,20 @@ use Cache;
 use Storage;
 use App\Group;
 use PhpZip\ZipFile;
+use App\Helpers\CryptUtil;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ZipGroup implements ShouldQueue
+class ZipEncryptedGroup implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $group;
+
+    private $password;
 
     /**
      * Create a new job instance.
@@ -24,9 +27,10 @@ class ZipGroup implements ShouldQueue
      * @param Group $group
      * @return void
      */
-    public function __construct(Group $group)
+    public function __construct(Group $group, $password)
     {
         $this->group = $group;
+        $this->password = $password;
         Cache::put('job-group-'.$group->id, true);
     }
 
@@ -37,11 +41,15 @@ class ZipGroup implements ShouldQueue
      */
     public function handle()
     {
+        $crypt = CryptUtil::getEncrypter($this->password);
         $zip = new ZipFile();
         foreach ($this->group->files as $file) {
-            $zip->addFromString($file->name, Storage::get($file->path));
+            $content = Storage::get($file->path);
+            $decrypt = $crypt->decrypt($content);
+            $zip->addFromString($file->name, $decrypt);
         }
         $zip->setCompressionLevel(2);
+        $zip->setPassword($this->password);
         $zip->saveAsFile(storage_path('app/zips/'.$this->group->slug.'.zip'));
         $zip->close();
         Cache::forget('job-group-'.$this->group->id);

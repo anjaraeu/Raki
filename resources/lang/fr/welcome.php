@@ -32,7 +32,8 @@ return [
 
     'password' => [
         '_' => 'Mot de passe',
-        'placeholder' => 'mon super mot de passe'
+        'placeholder' => 'mon super mot de passe',
+        'info' => 'Les fichiers seront chiffrés avec ce mot de passe, il sera impossible pour personne de récupérer les fichiers.'
     ],
 
     'submit' => 'Créer !'

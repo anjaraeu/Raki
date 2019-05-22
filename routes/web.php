@@ -12,6 +12,7 @@
 */
 
 Route::get('/', function () {
+    session(['pending_group' => 'create']);
     return view('welcome');
 });
 

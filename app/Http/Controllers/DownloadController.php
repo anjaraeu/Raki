@@ -7,21 +7,45 @@ use Storage;
 use App\File;
 use App\Group;
 use App\Jobs\ZipGroup;
+use App\Helpers\CryptUtil;
 use Illuminate\Http\Request;
+use LaravelAEAD\Exceptions\DecryptException;
+use App\Jobs\DeleteFile;
+use App\Jobs\DeleteZip;
 
 class DownloadController extends Controller
 {
 
-    public function getFile($slug) {
+    public function getFile($slug, Request $request) {
         $file = File::where('slug', $slug)->get()->first();
         if (empty($file)) {
-            abort(404);
+            return abort(404);
         } else {
             if (now()->greaterThan($file->group->expiry)) {
-                abort(419);
-                // TODO : trigger files delete to free space
+                DeleteFile::dispatch($file);
+                return abort(419);
             } else {
-                return Storage::download($file->path, $file->name);
+                if ($file->group->encrypted && !$file->encrypted) {
+                    return abort(418);
+                }
+                if ($file->encrypted) {
+                    if ($request->filled('password')) {
+                        $encrypter = CryptUtil::getEncrypter($request->input('password'));
+                        try {
+                            $content = $encrypter->decrypt(Storage::get($file->path));
+                            if ($content === false) {
+                                return 'Wrong password - cannot decrypt';
+                            }
+                            return response($content, 200, ['content-type' => 'application/octet-stream', 'content-disposition' => 'attachment; filename="'.$file->name.'"']);
+                        } catch (DecryptException $e) {
+                            return abort(500);
+                        }
+                    } else {
+                        return abort(401);
+                    }
+                } else {
+                    return Storage::download($file->path, $file->name);
+                }
             }
         }
     }
@@ -29,11 +53,14 @@ class DownloadController extends Controller
     public function getGroup($slug) {
         $group = Group::where('slug', $slug)->get()->first();
         if (empty($group)) {
-            abort(404);
+            return abort(404);
         } else {
             if (now()->greaterThan($group->expiry)) {
-                abort(419);
-                // TODO : trigger files delete to free space
+                $group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($group);
+                return abort(419);
             } else {
                 $group->load('files');
                 return view('group', ['group' => $group]);
@@ -47,8 +74,11 @@ class DownloadController extends Controller
             abort(404);
         } else {
             if (now()->greaterThan($group->expiry)) {
-                abort(419);
-                // TODO : trigger files delete to free space
+                $group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($group);
+                return abort(419);
             } else {
                 if (Storage::exists('zips/'.$group->slug.'.zip')) {
                     return Storage::download('zips/'.$group->slug.'.zip', 'afilesdl_'.preg_replace('/[^A-Za-z \-_0-9]+/', '', $group->name).'.zip');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use Storage;
 use App\File;
 use App\Group;
+use App\Jobs\EncryptFile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\UploadedFile;
@@ -14,6 +14,8 @@ use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+use App\Jobs\ZipEncryptedGroup;
+// use App\Helpers\CryptUtil;
 
 class UploadController extends Controller
 {
@@ -86,23 +88,48 @@ class UploadController extends Controller
             ],
             'link' => 'max:25|unique:short_links,link'
         ]);
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => 'min:8|regex:/\\W/'
+            ]);
+        }
         if ($group->files->count() == 0) {
             return abort(400);
-        } elseif ($request->filled(['name', 'expiry'])) {
+        }
+        if ($request->filled('password')) {
+            $group->encrypted = true;
+            $group->files->each(function ($item) {
+                global $request;
+                EncryptFile::dispatch($item, $request->input('password'));
+            });
+            ZipEncryptedGroup::dispatch($group, $request->input('password'));
+        }
+        if ($request->filled('name')) {
             $group->name = $request->input('name');
-            $group->expiry = now()->addSeconds($request->input('expiry'));
         } else {
             $group->name = $group->files->first()->name;
+        }
+        if ($request->filled('expiry')) {
             $group->expiry = now()->addSeconds($request->input('expiry'));
+        } else {
+            $group->expiry = now()->addSeconds(2635200);
         }
 
         $group->save();
         session(['pending_group' => 'create']);
 
-        if ($request->filled('link')) {
-            return LinkController::createLink($group, $request->input('link'));
+        if ($request->ajax()) {
+            if ($request->filled('link')) {
+                return LinkController::createLinkAjax($group, $request->input('link'));
+            } else {
+                return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+            }
         } else {
-            return redirect()->route('showGroup', ['slug' => $group->slug]);
+            if ($request->filled('link')) {
+                return LinkController::createLink($group, $request->input('link'));
+            } else {
+                return redirect()->route('showGroup', ['slug' => $group->slug]);
+            }
         }
     }
 }
