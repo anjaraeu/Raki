@@ -31,7 +31,7 @@
 
                     <div class="menu">
                         <a href="/privacy" class="item">{{ __('layout.menu.privacy') }}</a>
-                        <a href="/terms" class="item">{{ __('layout.menu.legal') }}</a>
+                        <a href="/legal" class="item">{{ __('layout.menu.legal') }}</a>
                     </div>
                 </div>
                 <div class="right menu" id="navbarSupportedContent">

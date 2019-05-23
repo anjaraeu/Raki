@@ -9,8 +9,8 @@ class StaticController extends Controller {
         return view('legal');
     }
 
-    public function terms() {
-        return view('terms');
+    public function privacy() {
+        return view('privacy');
     }
 
 }

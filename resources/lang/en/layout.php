@@ -9,7 +9,7 @@ return [
 
     'menu' => [
         'privacy' => 'Privacy',
-        'legal' => 'Terms'
+        'legal' => 'Legal'
     ]
 
 ];
