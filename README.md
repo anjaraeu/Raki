@@ -4,7 +4,7 @@ La prochaine génération d'AnjaraFiles
 
 ## Installation
 
-You'll need to install [composer](https://getcomposer.org) for PHP dependencies, [Nodejs](https://nodejs.org) to compile assets.
+You'll need to install [composer](https://getcomposer.org) for PHP dependencies, [Nodejs](https://nodejs.org) to compile assets. You'll also need [Redis](https://redis.io) to manage the ZIP generation queue.
 
 First, install PHP dependencies:
 ```bash
