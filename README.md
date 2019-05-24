@@ -16,8 +16,8 @@ Then build assets:
 npm i
 cd resources/semantic
 npx gulp build
-npm run production
 cd ../..
+npm run production
 ```
 
 Configure the .env file correctly:
@@ -30,4 +30,13 @@ php artisan key:generate
 Then setup the database:
 ```
 php artisan migrate
+```
+
+To use SQLite, replace the whole `DB_*` block by this:
+```
+DB_CONNECTION=sqlite
+```
+You must also create the database file itself:
+```bash
+touch database/database.sqlite
 ```
