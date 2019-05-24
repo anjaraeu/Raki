@@ -79,6 +79,9 @@ class UploadController extends Controller
     }
 
     public function publishGroup(Request $request) {
+        if (session('pending_group', 'create') === 'create') {
+            return response()->json(['error' => 'nogroup'], 400);
+        }
         $group = Group::findOrFail(session('pending_group'));
         $request->validate([
             'name' => 'max:250',
