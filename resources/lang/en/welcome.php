@@ -32,7 +32,8 @@ return [
 
     'password' => [
         '_' => 'Password',
-        'placeholder' => 'my awesome password!'
+	'placeholder' => 'my awesome password!',
+	'info' => 'Files will be encrypted with this password, it\'ll impossible to recover them if you forgot the password.'
     ],
 
     'submit' => 'Submit!'
