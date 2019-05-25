@@ -1,0 +1,10 @@
+[Unit]
+Description=Horizon worker for Files
+
+[Service]
+Type=simple
+
+ExecStart=PATHTOPHP PATHTOFILES/artisan horizon
+
+[Install]
+WantedBy=default.target
