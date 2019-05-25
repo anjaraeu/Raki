@@ -12,6 +12,7 @@ return [
 
     'error' => [
         '_' => 'Des erreurs sont survenues durant la création du téléchargement',
+        'nogroup' => 'Aucun fichier n\'a été mis en ligne.',
         'kept' => 'Les fichiers que vous avez déjà mis en ligne ne sont pas perdus, resoumettez simplement le formulaire avec le nom et l\'expiration.'
     ],
 

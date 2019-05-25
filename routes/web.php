@@ -28,3 +28,4 @@ Route::get('/g/{slug}', 'DownloadController@getGroup')->name('showGroup');
 Route::get('/g/{slug}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');
 
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
+Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');
