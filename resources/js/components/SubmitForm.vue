@@ -38,9 +38,11 @@
             <div class="field">
                 <input type="submit" class="ui blue button" :value="lang.get('welcome.submit')">
             </div>
+            <div class="ui dimmer" v-bind:class="{ active: loading }">
+                <div class="ui text loader">{{ lang.get('welcome.loading') }}</div>
+            </div>
         </form>
     </div>
-
 </template>
 
 <script>
@@ -53,12 +55,18 @@ export default {
             name: '',
             link: '',
             password: '',
-            lastRequestStorage: {errors: {}, message: null}
+            lastRequestStorage: {errors: {}, message: null},
+            loading: false
         }
     },
 
     mounted() {
-        //
+        document.addEventListener('uploadinglock', e => {
+            this.loading = true;
+        });
+        document.addEventListener('uploadingunlock', e => {
+            this.loading = false;
+        });
     },
 
     methods: {

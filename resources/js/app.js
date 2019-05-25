@@ -54,8 +54,11 @@ axios.get('/language.json').then(res => {
                     chunking: true,
                     chunkSize: 1000000,
                     init: function() {
-                        this.on('uploadprogress', function(file, progress, bytesSent) {
-                            console.log(file, progress, bytesSent);
+                        this.on('complete', function(file) {
+                            document.dispatchEvent(new Event('uploadingunlock'));
+                        });
+                        this.on('processing', function(file) {
+                            document.dispatchEvent(new Event('uploadinglock'));
                         });
                         this.on('sending', function(_file, _xhr, formdata) {
                             formdata.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
@@ -63,6 +66,14 @@ axios.get('/language.json').then(res => {
                     }
                 });
             }
+
+            document.addEventListener('uploadinglock', function(e) {
+                console.log('BITCONNECT!', e);
+            }, false);
+
+            document.addEventListener('uploadingunlock', function(e) {
+                console.log('CONNEEEEEEEEEEEEEECT!', e);
+            }, false);
 
             $('.ui.dropdown').dropdown();
             $('.ui.checkbox').checkbox();

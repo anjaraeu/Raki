@@ -10,6 +10,8 @@ return [
         'placeholder' => 'Mon super upload !'
     ],
 
+    'loading' => 'Vos fichiers sont en cours de téléchargement, merci de patienter...',
+
     'error' => [
         '_' => 'Des erreurs sont survenues durant la création du téléchargement',
         'nogroup' => 'Aucun fichier n\'a été mis en ligne.',
