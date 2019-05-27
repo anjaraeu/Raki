@@ -61,7 +61,10 @@ class DownloadController extends Controller
         if (empty($group)) {
             return abort(404);
         } else {
-            if (now()->greaterThan($group->expiry)) {
+            if ($group->files->count() == 0) {
+                DeleteZip::dispatch($group);
+                return abort(419);
+            } elseif (now()->greaterThan($group->expiry)) {
                 $group->files->each(function($file) {
                     DeleteFile::dispatch($file);
                 });

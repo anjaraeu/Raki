@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Storage;
 use App\Group;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;

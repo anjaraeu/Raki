@@ -28,7 +28,7 @@
             </div>
             <div class="field">
                 <div class="ui checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden">
+                    <input type="checkbox" tabindex="0" class="hidden" name="single" id="onedl">
                     <label><strong>{{ lang.get('welcome.single._') }}</strong></label>
                     <small>{{ lang.get('welcome.single.info') }}</small>
                 </div>
@@ -82,7 +82,8 @@ export default {
                 name: this.name,
                 link: this.link,
                 password: this.password,
-                expiry: $('#expiry').val()
+                expiry: $('#expiry').val(),
+                single: $("#onedl").prop('checked')
             }).then(res => {
                 document.location.replace(res.data.link);
             }).catch(err => {

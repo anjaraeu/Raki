@@ -85,8 +85,8 @@ class UploadController extends Controller
         $group = Group::findOrFail(session('pending_group'));
         $request->validate([
             'name' => 'max:250',
-            'expiry' => Rule::in(['86400', '604800', '2635200', '31557600']),
-            'link' => 'max:25|unique:short_links,link'
+            'link' => 'max:25|unique:short_links,link',
+            'single' => 'required'
         ]);
         if ($request->filled('password')) {
             $request->validate([
@@ -110,11 +110,14 @@ class UploadController extends Controller
             $group->name = $group->files->first()->name;
         }
         if ($request->filled('expiry')) {
+            $request->validate([
+                'expiry' => Rule::in(['86400', '604800', '2635200', '31557600'])
+            ]);
             $group->expiry = now()->addSeconds($request->input('expiry'));
         } else {
             $group->expiry = now()->addSeconds(2635200);
         }
-        if ($request->filled('single')) {
+        if ($request->input('single')) {
             $group->single = true;
         }
 
