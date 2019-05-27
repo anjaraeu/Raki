@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="ui error message" v-if="Object.keys(lastRequestStorage.errors).length > 0">
+        <div class="ui error message" v-if="Object.keys(lastResponse.errors).length > 0">
             <div class="header">{{ lang.get('welcome.error._') }}</div>
             <ul>
-                <li v-for="name in Object.keys(lastRequestStorage.errors)">{{ lastRequestStorage.errors[name][0] }}</li>
+                <li v-for="name in Object.keys(lastResponse.errors)">{{ lastResponse.errors[name][0] }}</li>
             </ul>
         </div>
         <form action="/publish" method="POST" class="ui form" @submit.prevent="submitForm">
@@ -24,6 +24,14 @@
                         <div class="item" data-value="31557600">{{ lang.get('welcome.expiry.year') }}</div>
                     </div>
                 </div>
+                <small>{{ lang.get('welcome.expiry.info') }}</small>
+            </div>
+            <div class="field">
+                <div class="ui checkbox">
+                    <input type="checkbox" tabindex="0" class="hidden">
+                    <label><strong>{{ lang.get('welcome.single._') }}</strong></label>
+                    <small>{{ lang.get('welcome.single.info') }}</small>
+                </div>
             </div>
             <div class="field">
                 <label for="link">{{ lang.get('welcome.link._') }}</label>
@@ -36,10 +44,8 @@
                 <small>{{ lang.get('welcome.password.info') }}</small>
             </div>
             <div class="field">
-                <input type="submit" class="ui blue button" :value="lang.get('welcome.submit')">
-            </div>
-            <div class="ui dimmer" v-bind:class="{ active: loading }">
-                <div class="ui text loader">{{ lang.get('welcome.loading') }}</div>
+                <input type="submit" class="ui blue button" :value="lang.get('welcome.submit')" v-bind="{ disabled: loading }">
+                <small v-if="loading">{{ lang.get('welcome.loading') }}</small>
             </div>
         </form>
     </div>
@@ -55,7 +61,7 @@ export default {
             name: '',
             link: '',
             password: '',
-            lastRequestStorage: {errors: {}, message: null},
+            lastResponse: {errors: {}, message: null},
             loading: false
         }
     },
@@ -71,6 +77,7 @@ export default {
 
     methods: {
         submitForm() {
+            if (this.loading) return;
             axios.post('/publish', {
                 name: this.name,
                 link: this.link,
@@ -79,7 +86,7 @@ export default {
             }).then(res => {
                 document.location.replace(res.data.link);
             }).catch(err => {
-                this.lastRequestStorage = err.response.data;
+                this.lastResponse = err.response.data;
             });
         }
     }

@@ -21,6 +21,7 @@ return [
     'expiry' => [
         '_' => 'Expiration',
         'placeholder' => 'Choisir une période',
+        'info' => 'Les fichiers expireront après 1 mois par défaut.',
         'day' => '1 jour',
         'week' => '1 semaine',
         'month' => '1 mois',
@@ -37,6 +38,11 @@ return [
         '_' => 'Mot de passe',
         'placeholder' => 'mon super mot de passe',
         'info' => 'Les fichiers seront chiffrés avec ce mot de passe, il sera impossible pour personne de récupérer les fichiers.'
+    ],
+
+    'single' => [
+        '_' => 'Téléchargement unique',
+        'info' => 'Lorsque quelqu\'un télécharge un ou des fichiers, ils seront supprimés juste après.'
     ],
 
     'submit' => 'Créer !'

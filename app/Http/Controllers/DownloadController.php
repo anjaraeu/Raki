@@ -22,7 +22,10 @@ class DownloadController extends Controller
             return abort(404);
         } else {
             if (now()->greaterThan($file->group->expiry)) {
-                DeleteFile::dispatch($file);
+                $file->group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($file->group);
                 return abort(419);
             } else {
                 if ($file->group->encrypted && !$file->encrypted) {
@@ -44,6 +47,9 @@ class DownloadController extends Controller
                         return abort(401);
                     }
                 } else {
+                    if ($file->group->single) {
+                        DeleteFile::dispatch($file);
+                    }
                     return Storage::download($file->path, $file->name);
                 }
             }
@@ -81,6 +87,12 @@ class DownloadController extends Controller
                 return abort(419);
             } else {
                 if (Storage::exists('zips/'.$group->slug.'.zip')) {
+                    if ($group->single) {
+                        $group->files->each(function($file) {
+                            DeleteFile::dispatch($file);
+                        });
+                        DeleteZip::dispatch($group);
+                    }
                     return Storage::download('zips/'.$group->slug.'.zip', 'afilesdl_'.preg_replace('/[^A-Za-z \-_0-9]+/', '', $group->name).'.zip');
                 } else {
                     if (!Cache::get('job-group-'.$group->id, false)) {
