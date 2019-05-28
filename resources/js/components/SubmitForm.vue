@@ -72,6 +72,7 @@ export default {
         document.addEventListener('uploadingunlock', e => {
             this.loading = false;
         });
+        $('.ui.selection.dropdown').dropdown('set selected', process.env.MIX_DEFAULT_EXPIRATION);
     },
 
     methods: {
