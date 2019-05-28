@@ -11,6 +11,6 @@ return [
     'dictUploadCanceled' => 'Upload canceled.',
     'dictCancelUploadConfirmation' => 'Are you sure you want to cancel this upload?',
     'dictRemoveFile' => 'Remove file',
-    'dictRemoveFileConfirmation' => null,
+    'dictRemoveFileConfirmation' => 'Are you sure you want to remove this file?',
     'dictMaxFilesExceeded' => 'You can not upload any more files.'
 ];
