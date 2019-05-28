@@ -53,6 +53,20 @@ axios.get('/language.json').then(res => {
                     maxFiles: 5,
                     chunking: true,
                     chunkSize: 1000000,
+                    addRemoveLinks: true,
+                    dictDefaultMessage: this.lang.get('dropzone.dictDefaultMessage'),
+                    dictFallbackMessage: this.lang.get('dropzone.dictFallbackMessage'),
+                    dictFallbackText: this.lang.get('dropzone.dictFallbackText'),
+                    dictFileTooBig: this.lang.get('dropzone.dictFileTooBig'),
+                    dictInvalidFileType: this.lang.get('dropzone.dictInvalidFileType'),
+                    dictInvalidFileType: this.lang.get('dropzone.dictInvalidFileType'),
+                    dictResponseError: this.lang.get('dropzone.dictResponseError'),
+                    dictCancelUpload: this.lang.get('dropzone.dictCancelUpload'),
+                    dictUploadCanceled: this.lang.get('dropzone.dictUploadCanceled'),
+                    dictCancelUploadConfirmation: this.lang.get('dropzone.dictCancelUploadConfirmation'),
+                    dictRemoveFile: this.lang.get('dropzone.dictRemoveFile'),
+                    dictRemoveFileConfirmation: this.lang.get('dropzone.dictRemoveFileConfirmation'),
+                    dictMaxFilesExceeded: this.lang.get('dropzone.dictMaxFilesExceeded'),
                     init: function() {
                         this.on('complete', function(file) {
                             document.dispatchEvent(new Event('uploadingunlock'));
