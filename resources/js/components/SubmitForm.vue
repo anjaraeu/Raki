@@ -39,8 +39,8 @@
                 <small>{{ lang.get('welcome.link.info', {'link': appurl+'/l/'+link}) }}</small>
             </div>
             <div class="field">
-                <label for="password">{{ lang.get('welcome.password._') }}</label>
-                <input type="password" :placeholder="lang.get('welcome.password.placeholder')" name="password" v-model="password" autocomplete="off">
+                <label for="field">{{ lang.get('welcome.password._') }}</label>
+                <input type="text" :placeholder="lang.get('welcome.password.placeholder')" name="password" v-model="text" autocomplete="off">
                 <small>{{ lang.get('welcome.password.info') }}</small>
             </div>
             <div class="field">
