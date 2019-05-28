@@ -49,6 +49,9 @@ class DownloadController extends Controller
                 } else {
                     if ($file->group->single) {
                         DeleteFile::dispatch($file);
+                        if ($file->group->files->count() <= 1) {
+                            DeleteZip::dispatch($file->group);
+                        }
                     }
                     return Storage::download($file->path, $file->name);
                 }

@@ -93,6 +93,14 @@ class UploadController extends Controller
                 'password' => 'min:8|regex:/\\W/'
             ]);
         }
+        if ($request->filled('expiry')) {
+            $request->validate([
+                'expiry' => Rule::in(['86400', '604800', '2635200', '31557600'])
+            ]);
+            $group->expiry = now()->addSeconds($request->input('expiry'));
+        } else {
+            $group->expiry = now()->addSeconds(2635200);
+        }
         if ($group->files->count() == 0) {
             return abort(400);
         }
@@ -108,14 +116,6 @@ class UploadController extends Controller
             $group->name = $request->input('name');
         } else {
             $group->name = $group->files->first()->name;
-        }
-        if ($request->filled('expiry')) {
-            $request->validate([
-                'expiry' => Rule::in(['86400', '604800', '2635200', '31557600'])
-            ]);
-            $group->expiry = now()->addSeconds($request->input('expiry'));
-        } else {
-            $group->expiry = now()->addSeconds(2635200);
         }
         if ($request->input('single')) {
             $group->single = true;
