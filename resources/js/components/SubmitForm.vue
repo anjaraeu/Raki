@@ -24,7 +24,6 @@
                         <div class="item" data-value="31557600">{{ lang.get('welcome.expiry.year') }}</div>
                     </div>
                 </div>
-                <small>{{ lang.get('welcome.expiry.info') }}</small>
             </div>
             <div class="field">
                 <div class="ui checkbox">

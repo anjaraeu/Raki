@@ -91,6 +91,7 @@ axios.get('/language.json').then(res => {
 
             $('.ui.dropdown').dropdown();
             $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown('set selected', process.env.MIX_DEFAULT_EXPIRATION);
         }
     });
 });
