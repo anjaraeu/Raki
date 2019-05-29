@@ -15,6 +15,8 @@ use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use App\Jobs\ZipEncryptedGroup;
+use App\Jobs\DeleteFile;
+
 // use App\Helpers\CryptUtil;
 
 class UploadController extends Controller
@@ -76,6 +78,20 @@ class UploadController extends Controller
         ]);
         $group->load('files');
         return response()->json(['file' => $file, 'group' => $group]);
+    }
+
+    public function deleteFile(Request $request) {
+        $request->validate(['name' => 'required']);
+        if (session('pending_group', 'create') === 'create') {
+            return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
+        }
+        $file = File::where([['name', $request->input('name')], ['group_id', session('pending_group')]])->first();
+        if (!empty($file)) {
+            DeleteFile::dispatchNow($file);
+            return response()->json(true);
+        } else {
+            return response()->json(false, 422);
+        }
     }
 
     public function publishGroup(Request $request) {

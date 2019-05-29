@@ -77,6 +77,13 @@ axios.get('/language.json').then(res => {
                         this.on('sending', function(_file, _xhr, formdata) {
                             formdata.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
                         });
+                        this.on('removedfile', file => {
+                            axios.delete('/upload', {
+                                params: {
+                                    name: file.name
+                                }
+                            });
+                        });
                     }
                 });
             }

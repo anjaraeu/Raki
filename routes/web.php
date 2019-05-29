@@ -20,6 +20,7 @@ Route::get('/language/{lang}', 'LocaleController@setLocale');
 Route::get('/language.json', 'LocaleController@getJSON');
 
 Route::post('/upload', 'DependencyUploadController@uploadFile');
+Route::delete('/upload', 'UploadController@deleteFile');
 Route::post('/publish', 'UploadController@publishGroup');
 
 Route::get('/f/{slug}', 'DownloadController@getFile')->name('downloadFile');
