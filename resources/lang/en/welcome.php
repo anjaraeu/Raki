@@ -36,6 +36,11 @@ return [
 	'info' => 'Files will be encrypted with this password, it\'ll impossible to recover them if you forgot the password.'
     ],
 
+    'single' => [
+        '_' => 'Single download',
+        'info' => 'When someone downloads one or more files, they will be deleted from the server.'
+    ],  
+
     'submit' => 'Submit!'
 
 ];

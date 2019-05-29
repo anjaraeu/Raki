@@ -21,7 +21,6 @@ return [
     'expiry' => [
         '_' => 'Expiration',
         'placeholder' => 'Choisir une période',
-        'info' => 'Les fichiers expireront après 1 mois par défaut.',
         'day' => '1 jour',
         'week' => '1 semaine',
         'month' => '1 mois',
@@ -37,7 +36,7 @@ return [
     'password' => [
         '_' => 'Mot de passe',
         'placeholder' => 'mon super mot de passe',
-        'info' => 'Les fichiers seront chiffrés avec ce mot de passe, il sera impossible pour personne de récupérer les fichiers.'
+        'info' => 'Les fichiers seront chiffrés avec ce mot de passe, il sera impossible pour personne de récupérer les fichiers sans ce dernier.'
     ],
 
     'single' => [
