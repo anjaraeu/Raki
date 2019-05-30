@@ -5,6 +5,14 @@
         <div class="ui segment">
             <h2>{{ __('group.welcome._', ['name' => $group->name]) }}</h2>
             <p>{{ __('group.welcome.synopsis') }}</p>
+            @if(session('passwd_group', null))
+                <div class="ui info message">
+                    {{ __('group.passwd', ['passwd' => session('passwd_group')]) }}
+                </div>
+                {{-- @php
+                session(['passwd_group' => null]);
+                @endphp --}}
+            @endif
             <a href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue button">{{ __('group.download._') }}</a>
             <em>{{ __('group.download.tooltip') }}</em>
             <div class="ui relaxed divided list">

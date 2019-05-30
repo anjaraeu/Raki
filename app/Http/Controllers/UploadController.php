@@ -16,6 +16,7 @@ use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use App\Jobs\ZipEncryptedGroup;
 use App\Jobs\DeleteFile;
+use Illuminate\Support\Facades\Hash;
 
 // use App\Helpers\CryptUtil;
 
@@ -71,7 +72,6 @@ class UploadController extends Controller
             'slug' => hash('sha256', random_bytes(25)),
             'name' => $file->getClientOriginalName(),
             'path' => $path,
-            'deletepasswd' => hash('sha512', random_bytes(50)),
             'group_id' => $group->id,
             'size' => Storage::size($path),
             'checksum' => md5(Storage::get($path))
@@ -139,6 +139,10 @@ class UploadController extends Controller
 
         $group->save();
         session(['pending_group' => 'create']);
+
+        $passwd = hash('sha1', random_bytes(50));
+        $group->passwd = Hash::make($passwd);
+        session()->flash('passwd_group', $passwd);
 
         if ($request->ajax()) {
             if ($request->filled('link')) {

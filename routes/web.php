@@ -28,5 +28,9 @@ Route::get('/l/{link}', 'LinkController@handleLink')->name('shortLink');
 Route::get('/g/{slug}', 'DownloadController@getGroup')->name('showGroup');
 Route::get('/g/{slug}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');
 
+Route::any('/g/{slug}/manage', 'DeleteController@manageGroup')->name('manageGroup');
+Route::get('/g/{slug}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
+Route::get('/f/{slug}/delete', 'DeleteController@deleteFile')->name('deleteFile');
+
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
 Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');

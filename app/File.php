@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    protected $fillable = ['path', 'name', 'downloads', 'slug', 'group_id', 'deletepassword', 'size', 'checksum'];
-
-    protected $hidden = ['deletepassword'];
+    protected $fillable = ['path', 'name', 'downloads', 'slug', 'group_id', 'size', 'checksum'];
 
     public function group() {
         return $this->belongsTo('App\Group');
