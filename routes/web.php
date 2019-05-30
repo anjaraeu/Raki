@@ -34,3 +34,4 @@ Route::get('/f/{slug}/delete', 'DeleteController@deleteFile')->name('deleteFile'
 
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
 Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');
+Route::get('/manage', 'DeleteController@startManage')->name('startManage');

@@ -11,7 +11,7 @@
         @endif
         <p>{{ trans_choice('group.manage.desc', $group->files->count(), ['files' => $group->files->count()]) }}</p>
         <a href="{{ url('g/'.$group->slug.'/delete') }}" class="ui red button">{{ __('group.manage.delete.group') }}</a>
-        <div class="ui list">
+        <div class="ui relaxed divided list">
             @foreach ($group->files as $file)
                 <div class="item">
                     <div class="right floated content">

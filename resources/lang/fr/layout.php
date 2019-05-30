@@ -9,7 +9,8 @@ return [
 
     'menu' => [
         'privacy' => 'Vie privée',
-        'legal' => 'Mentions légales'
+        'legal' => 'Mentions légales',
+        'manage' => 'Gérer des téléchargements'
     ]
 
 ];

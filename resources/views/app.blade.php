@@ -34,6 +34,13 @@
                         <a href="/legal" class="item">{{ __('layout.menu.legal') }}</a>
                     </div>
                 </div>
+                <div href="#" class="ui dropdown item">
+                    <i class="wrench icon"></i><i class="dropdown icon"></i>
+
+                    <div class="menu">
+                        <a href="/manage" class="item">{{ __('layout.menu.manage') }}</a>
+                    </div>
+                </div>
                 <div class="right menu" id="navbarSupportedContent">
                     <div href="#" class="ui dropdown item">
                         <i class="language icon"></i><i class="dropdown icon"></i>

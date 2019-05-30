@@ -11,6 +11,10 @@ use App\File;
 
 class DeleteController extends Controller
 {
+    public function startManage() {
+        return view('startmanage');
+    }
+
     public function manageGroup(Request $request, $slug) {
         // dd($slug);
         $group = Group::where('slug', $slug)->first();
@@ -19,8 +23,8 @@ class DeleteController extends Controller
         }
         if (!$request->filled('password')) {
             return abort(400);
-        } elseif (Hash::check($request->input('password'), $group->passwd)) {
-            return abort(401);
+        } elseif (!Hash::check($request->input('password'), $group->passwd)) {
+            return redirect()->back();
         } else {
             session()->flash('password', $request->input('password'));
             return view('manage', ['group' => $group]);
@@ -34,7 +38,7 @@ class DeleteController extends Controller
         }
         if (session('password', false)) {
             return abort(419);
-        } elseif (Hash::check(session('password'), $group->passwd)) {
+        } elseif (!Hash::check(session('password'), $group->passwd)) {
             return abort(401);
         } else {
             $group->files->each(function($file) {
@@ -52,7 +56,7 @@ class DeleteController extends Controller
         }
         if (session('password', false)) {
             return abort(419);
-        } elseif (Hash::check(session('password'), $file->group->passwd)) {
+        } elseif (!Hash::check(session('password'), $file->group->passwd)) {
             return abort(401);
         } else {
             DeleteFile::dispatch($file);

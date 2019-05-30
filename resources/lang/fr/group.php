@@ -19,6 +19,17 @@ return [
         'delete' => [
             'file' => 'Supprimer ce fichier',
             'group' => 'Supprimer ce groupe'
+        ],
+        'form' => [
+            'url' => [
+                '_' => 'Lien du groupe',
+                'placeholder' => url('/g/...')
+            ],
+            'password' => [
+                '_' => 'Mot de passe de gestion',
+                'placeholder' => 'e619822bbb7e83ebb6f84893f961ae529906612e'
+            ],
+            'submit' => 'Gérer votre téléchargement'
         ]
     ]
 

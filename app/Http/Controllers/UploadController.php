@@ -137,12 +137,13 @@ class UploadController extends Controller
             $group->single = true;
         }
 
-        $group->save();
         session(['pending_group' => 'create']);
 
         $passwd = hash('sha1', random_bytes(50));
         $group->passwd = Hash::make($passwd);
         session()->flash('passwd_group', $passwd);
+
+        $group->save();
 
         if ($request->ajax()) {
             if ($request->filled('link')) {

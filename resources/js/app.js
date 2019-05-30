@@ -21,6 +21,8 @@ require('./bootstrap');
 
 Vue.component('submit-form', require('./components/SubmitForm.vue').default);
 
+Vue.component('manage-form', require('./components/ManageForm.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
