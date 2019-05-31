@@ -4,7 +4,7 @@
     <div class="ui container first">
         <div class="ui segment">
             <h2>{{ __('group.welcome._', ['name' => $group->name]) }}</h2>
-            <p>{{ __('group.welcome.synopsis') }}</p>
+            <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count()]) }}</p>
             @if(session('passwd_group', null))
                 <div class="ui success message">
                     {{ __('group.passwd', ['passwd' => session('passwd_group')]) }}
@@ -20,8 +20,13 @@
                     <div class="item">
                         <i class="file icon"></i>
                         <div class="content">
-                            <a class="header" href="{{ route('downloadFile', ['slug' => $file->slug]) }}">{{ $file->name }}</a>
-                            <div class="description">{{ hfs($file->size) }} | {{ $file->checksum }}</div>
+                            <a class="header" data-popup-activate="on" href="{{ route('downloadFile', ['slug' => $file->slug]) }}">{{ $file->name }}</a>
+                            <div class="ui special popup">
+                                @if (preg_match('/^image\//', $file->mime))
+                                    <img src="{{ route('previewFile', ['slug' => $file->slug]) }}" alt="">
+                                @endif
+                            </div>
+                            <div class="description">{{ hfs($file->size) }} | md5: {{ $file->checksum }}</div>
                         </div>
                     </div>
                 @endforeach

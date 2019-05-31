@@ -4,7 +4,7 @@ return [
 
     'welcome' => [
         '_' => '":name" sur AnjaraFiles',
-        'synopsis' => 'Ce groupe AnjaraFiles est un groupe de fichiers'
+        'synopsis' => 'Ce fichier est disponible sur AnjaraFiles. Il expirera le :date.|Ce groupe AnjaraFiles est un groupe de :files fichiers. Ils expireront le :date.'
     ],
 
     'download' => [
@@ -15,6 +15,8 @@ return [
     'passwd' => 'Merci de noter ce mot de passe, il vous servira à supprimer les fichiers : :passwd',
 
     'manage' => [
+        'title' => 'Gérer votre téléchargement',
+        'info' => 'Ici, vous pouvez supprimer votre téléchargement. Si vous avez perdu le mot de passe de gestion, nous ne serons pas en mesure ',
         'desc' => 'Ce groupe contient :files fichier|Ce groupe contient :files fichiers',
         'delete' => [
             'file' => 'Supprimer ce fichier',

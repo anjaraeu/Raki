@@ -100,6 +100,9 @@ axios.get('/language.json').then(res => {
 
             $('.ui.dropdown').dropdown();
             $('.ui.checkbox').checkbox();
+            $('[data-popup-activate=on]').popup({
+                inline: true
+            });
         }
     });
 });

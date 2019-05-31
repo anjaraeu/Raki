@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Cache;
 use Storage;
 use App\File;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use LaravelAEAD\Exceptions\DecryptException;
 use App\Jobs\DeleteFile;
 use App\Jobs\DeleteZip;
+use Illuminate\Support\Carbon;
 
 class DownloadController extends Controller
 {
@@ -59,6 +61,36 @@ class DownloadController extends Controller
         }
     }
 
+    public function previewFile($slug) {
+        $file = File::where('slug', $slug)->get()->first();
+        if (empty($file)) {
+            return abort(404);
+        } else {
+            if (now()->greaterThan($file->group->expiry)) {
+                $file->group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($file->group);
+                return abort(419);
+            } else {
+                if ($file->group->encrypted && !$file->encrypted) {
+                    return abort(418);
+                }
+                if ($file->encrypted) {
+                    return abort(400);
+                } else {
+                    // if ($file->group->single) {
+                    //     DeleteFile::dispatch($file);
+                    //     if ($file->group->files->count() <= 1) {
+                    //         DeleteZip::dispatch($file->group);
+                    //     }
+                    // }
+                    return response(Storage::get($file->path), 200, ['Content-Type' => $file->mime]);
+                }
+            }
+        }
+    }
+
     public function getGroup($slug) {
         $group = Group::where('slug', $slug)->get()->first();
         if (empty($group)) {
@@ -75,7 +107,7 @@ class DownloadController extends Controller
                 return abort(419);
             } else {
                 $group->load('files');
-                return view('group', ['group' => $group]);
+                return view('group', ['group' => $group, 'date' => Carbon::parse($group->expiry)->locale(App::getLocale())->isoFormat('LLLL')]);
             }
         }
     }

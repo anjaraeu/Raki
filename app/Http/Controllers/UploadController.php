@@ -74,7 +74,8 @@ class UploadController extends Controller
             'path' => $path,
             'group_id' => $group->id,
             'size' => Storage::size($path),
-            'checksum' => md5(Storage::get($path))
+            'checksum' => md5(Storage::get($path)),
+            'mime' => $file->getMimeType()
         ]);
         $group->load('files');
         return response()->json(['file' => $file, 'group' => $group]);
