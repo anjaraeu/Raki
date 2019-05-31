@@ -6,7 +6,7 @@
             <h2>{{ __('group.welcome._', ['name' => $group->name]) }}</h2>
             <p>{{ __('group.welcome.synopsis') }}</p>
             @if(session('passwd_group', null))
-                <div class="ui info message">
+                <div class="ui success message">
                     {{ __('group.passwd', ['passwd' => session('passwd_group')]) }}
                 </div>
                 {{-- @php
