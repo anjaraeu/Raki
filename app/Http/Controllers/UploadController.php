@@ -74,7 +74,7 @@ class UploadController extends Controller
             'path' => $path,
             'group_id' => $group->id,
             'size' => Storage::size($path),
-            'checksum' => md5(Storage::get($path)),
+            'checksum' => hash('sha256', Storage::get($path)),
             'mime' => $file->getMimeType()
         ]);
         $group->load('files');

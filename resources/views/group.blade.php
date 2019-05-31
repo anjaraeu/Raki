@@ -7,7 +7,7 @@
             <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count()]) }}</p>
             @if(session('passwd_group', null))
                 <div class="ui success message">
-                    {{ __('group.passwd', ['passwd' => session('passwd_group')]) }}
+                    {{ __('group.passwd', ['passwd' => session('passwd_group'), 'url' => url('/g/'.$group->slug.'/manage?password='.session('passwd_group'))]) }}
                 </div>
                 {{-- @php
                 session(['passwd_group' => null]);
@@ -26,7 +26,7 @@
                                     <img src="{{ route('previewFile', ['slug' => $file->slug]) }}" alt="">
                                 @endif
                             </div>
-                            <div class="description">{{ hfs($file->size) }} | md5: {{ $file->checksum }}</div>
+                            <div class="description">{{ hfs($file->size) }} | <a target="_blank" href="{{ url('/kb/sha256') }}">sha256</a>: {{ $file->checksum }}</div>
                         </div>
                     </div>
                 @endforeach
