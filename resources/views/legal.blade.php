@@ -3,7 +3,7 @@
 @section('content')
 <div class="ui container first">
     <div class="ui segment">
-        <h2>{{ __('static.legal.title') }}</h2>
+        {{-- <h2>{{ __('static.legal.title') }}</h2>
 
         <p>{{ __('static.legal.p1') }}</p>
 
@@ -24,7 +24,9 @@
 
         <p>{{ __('static.legal.p4') }}</p>
 
-        <p>{{ __('static.legal.p5') }}</p>
+        <p>{{ __('static.legal.p5') }}</p> --}}
+
+        {!! $md !!}
 
         <code>
             AnjaraFiles is a file sharing system over the Internet.<br>

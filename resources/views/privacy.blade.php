@@ -5,7 +5,7 @@
     <div class="ui segment">
         <h2>{{ __('static.privacy.title') }}</h2>
 
-        <p>{{ __('static.privacy.p1') }}</p>
+        {!! $md !!}
 
         <div class="ui list">
             <div class="item">
