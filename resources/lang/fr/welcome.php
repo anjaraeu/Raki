@@ -6,7 +6,7 @@ return [
     'synopsis' => 'AnjaraFiles est un système de partage de fichiers simple à utiliser, ne nécissitant pas de compte et qui ne vous piste pas. Génial, non ?',
 
     'groupname' => [
-        '_' => 'Nom de l\'upload',
+        '_' => 'Nom du téléchargement',
         'placeholder' => 'Mon super upload !'
     ],
 
@@ -17,6 +17,11 @@ return [
         'nogroup' => 'Aucun fichier n\'a été mis en ligne.',
         'kept' => 'Les fichiers que vous avez déjà mis en ligne ne sont pas perdus, resoumettez simplement le formulaire avec le nom et l\'expiration.'
     ],
+
+    'showoptions' => 'Montrer plus d\'options',
+    'hideoptions' => 'Montrer moins d\'options',
+
+    'disclaimer' => 'Tous les champs sont optionnels, ils seront remplis avec des valeurs par défaut le cas échéant.',
 
     'expiry' => [
         '_' => 'Expiration',
@@ -44,6 +49,6 @@ return [
         'info' => 'Lorsque quelqu\'un télécharge un ou des fichiers, ils seront supprimés juste après.'
     ],
 
-    'submit' => 'Créer !'
+    'submit' => 'Mettre en ligne !'
 
 ];
