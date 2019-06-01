@@ -4,7 +4,7 @@ return [
 
     'welcome' => [
         '_' => '":name" on AnjaraFiles',
-        'synopsis' => 'null'
+        'synopsis' => 'This file is available on :app. It\'ll expire on the :date.|This :app group is a :files files group. They\'ll expire on the :date.'
     ],
 
     'download' => [

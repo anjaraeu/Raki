@@ -3,8 +3,8 @@
 return [
 
     'welcome' => [
-        '_' => '":name" sur AnjaraFiles',
-        'synopsis' => 'Ce fichier est disponible sur AnjaraFiles. Il expirera le :date.|Ce groupe AnjaraFiles est un groupe de :files fichiers. Ils expireront le :date.'
+        '_' => '":name" sur :app',
+        'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app est un groupe de :files fichiers. Ils expireront le :date.'
     ],
 
     'download' => [
