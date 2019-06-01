@@ -24,6 +24,7 @@ Route::delete('/upload', 'UploadController@deleteFile');
 Route::post('/publish', 'UploadController@publishGroup');
 
 Route::get('/f/{slug}', 'DownloadController@getFile')->name('downloadFile');
+Route::get('/f/{slug}/check', 'DownloadController@checkFile')->name('checkFile');
 Route::get('/f/{slug}/preview', 'DownloadController@previewFile')->name('previewFile');
 Route::get('/l/{link}', 'LinkController@handleLink')->name('shortLink');
 Route::get('/g/{slug}', 'DownloadController@getGroup')->name('showGroup');

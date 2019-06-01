@@ -61,6 +61,40 @@ class DownloadController extends Controller
         }
     }
 
+    public function checkFile(Request $request, $slug) {
+        $file = File::where('slug', $slug)->get()->first();
+        if (empty($file)) {
+            return abort(404);
+        } else {
+            if (now()->greaterThan($file->group->expiry)) {
+                $file->group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($file->group);
+                return abort(419);
+            } else {
+                if ($file->encrypted) {
+                    if ($request->filled('password')) {
+                        $encrypter = CryptUtil::getEncrypter($request->input('password'));
+                        try {
+                            $content = $encrypter->decrypt(Storage::get($file->path));
+                            if ($content === false) {
+                                return response()->json(false);
+                            }
+                            return response()->json(true);
+                        } catch (DecryptException $e) {
+                            return abort(500);
+                        }
+                    } else {
+                        return abort(400);
+                    }
+                } else {
+                    return abort(400);
+                }
+            }
+        }
+    }
+
     public function previewFile($slug) {
         $file = File::where('slug', $slug)->get()->first();
         if (empty($file)) {
