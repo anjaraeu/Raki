@@ -15,6 +15,9 @@ return [
         'kept' => 'Your files are kept, don\'t reupload them.'
     ],
 
+    'showoptions' => 'More options',
+    'hideoptions' => 'Less options',
+
     'expiry' => [
         '_' => 'expiration date',
         'placeholder' => 'Choose a period',
