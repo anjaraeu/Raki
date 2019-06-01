@@ -33,6 +33,19 @@ return [
             ],
             'submit' => 'Gérer votre téléchargement'
         ]
+    ],
+
+    'encrypted' => [
+        '_' => 'Ce groupe est chiffré.',
+        'desc' => 'Les fichiers sont accessibles uniquement grâce au mot de passe défini par celui ou celle qui a partagé ce groupe.',
+        'ziptooltip' => 'Cette archive est chiffrée avec le mot de passe du groupe.',
+        'modal' => [
+            'title' => 'Déchiffrer un fichier',
+            'content' => 'Veuillez entrer le mot de passe du groupe pour déchiffrer :file.',
+            'password' => 'Mot de passe',
+            'submit' => 'Télécharger',
+            'err' => 'Le mot de passe est incorrect, merci de réesayer votre saisie.'
+        ]
     ]
 
 ];
