@@ -6,32 +6,33 @@
                 <li v-for="name in Object.keys(lastResponse.errors)">{{ lastResponse.errors[name][0] }}</li>
             </ul>
         </div>
-        <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ lang.get('welcome.showoptions') }}</a>
-        <a href="#" class="ui button" v-else @click="toggleOptions">{{ lang.get('welcome.hideoptions') }}</a>
         <!-- <br><br> -->
         <form action="/publish" method="POST" class="ui form" @submit.prevent="submitForm">
+            <div class="field">
+                <label for="name">{{ lang.get('welcome.groupname._') }}</label>
+                <input type="text" :placeholder="lang.get('welcome.groupname.placeholder')" name="name" v-model="name" autocomplete="off">
+            </div>
+            <div class="field">
+                <label for="expiry">{{ lang.get('welcome.expiry._') }}</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="expiry" required id="expiry">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">{{ lang.get('welcome.expiry.placeholder') }}</div>
+                    <div class="menu">
+                        <div class="item" data-value="86400">{{ lang.get('welcome.expiry.day') }}</div>
+                        <div class="item" data-value="604800">{{ lang.get('welcome.expiry.week') }}</div>
+                        <div class="item" data-value="2635200">{{ lang.get('welcome.expiry.month') }}</div>
+                        <div class="item" data-value="31557600">{{ lang.get('welcome.expiry.year') }}</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ lang.get('welcome.showoptions') }}</a>
+            <a href="#" class="ui button" v-else @click="toggleOptions">{{ lang.get('welcome.hideoptions') }}</a>
+            <br v-if="!options">
             <div id="fields" class="ui hidden transition">
                 <br>
                 <div class="ui info message">
                     {{ lang.get('welcome.disclaimer') }}
-                </div>
-                <div class="field">
-                    <label for="name">{{ lang.get('welcome.groupname._') }}</label>
-                    <input type="text" :placeholder="lang.get('welcome.groupname.placeholder')" name="name" v-model="name" autocomplete="off">
-                </div>
-                <div class="field">
-                    <label for="expiry">{{ lang.get('welcome.expiry._') }}</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="expiry" required id="expiry">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">{{ lang.get('welcome.expiry.placeholder') }}</div>
-                        <div class="menu">
-                            <div class="item" data-value="86400">{{ lang.get('welcome.expiry.day') }}</div>
-                            <div class="item" data-value="604800">{{ lang.get('welcome.expiry.week') }}</div>
-                            <div class="item" data-value="2635200">{{ lang.get('welcome.expiry.month') }}</div>
-                            <div class="item" data-value="31557600">{{ lang.get('welcome.expiry.year') }}</div>
-                        </div>
-                    </div>
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
