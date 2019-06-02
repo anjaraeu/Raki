@@ -15,11 +15,8 @@ return [
         'kept' => 'Your files are kept, don\'t reupload them.'
     ],
 
-    'options' => [
-        'show' => 'More options',
-        'hide' => 'Less options',
-        'tooltip' => 'Password, short link, etc...'
-    ],
+	'showoptions' => 'More options',
+	'hideoptions' => 'Less options',
 
     'expiry' => [
         '_' => 'expiration date',
