@@ -12,7 +12,12 @@ return [
         'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.'
     ],
 
-    'passwd' => 'Merci de noter ce mot de passe, il vous servira à supprimer les fichiers : :passwd. Vous pouvez aussi sauvegarder ce lien : :url',
+    'uploaded' => 'Vos fichiers sont en ligne !',
+    'links' => [
+        'share' => 'Lien à partager',
+        'delete' => 'Lien pour supprimer les fichiers'
+    ],
+    'copy' => 'Copier',
 
     'manage' => [
         'title' => 'Gérer votre téléchargement',

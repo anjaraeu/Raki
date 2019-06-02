@@ -26,8 +26,9 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ lang.get('welcome.showoptions') }}</a>
-            <a href="#" class="ui button" v-else @click="toggleOptions">{{ lang.get('welcome.hideoptions') }}</a>
+            <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ lang.get('welcome.options.show') }}</a>
+            <a href="#" class="ui button" v-else @click="toggleOptions">{{ lang.get('welcome.options.hide') }}</a>
+            <em>{{ lang.get('welcome.options.tooltip') }}</em>
             <br v-if="!options">
             <div id="fields" class="ui hidden transition">
                 <br>

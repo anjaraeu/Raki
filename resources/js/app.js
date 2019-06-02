@@ -105,6 +105,8 @@ axios.get('/language.json').then(res => {
             $('[data-popup-activate=on]').popup({
                 inline: true
             });
+
+            new ClipboardJS('#copybtn');
         },
         methods: {
             openModal(id) {

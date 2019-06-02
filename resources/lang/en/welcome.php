@@ -15,8 +15,11 @@ return [
         'kept' => 'Your files are kept, don\'t reupload them.'
     ],
 
-    'showoptions' => 'More options',
-    'hideoptions' => 'Less options',
+    'options' => [
+        'show' => 'More options',
+        'hide' => 'Less options',
+        'tooltip' => 'Password, short link, etc...'
+    ],
 
     'expiry' => [
         '_' => 'expiration date',
@@ -42,7 +45,7 @@ return [
     'single' => [
         '_' => 'Single download',
         'info' => 'When someone downloads one or more files, they will be deleted from the server.'
-    ],  
+    ],
 
     'submit' => 'Submit!'
 

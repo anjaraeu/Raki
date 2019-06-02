@@ -18,8 +18,11 @@ return [
         'kept' => 'Les fichiers que vous avez déjà mis en ligne ne sont pas perdus, resoumettez simplement le formulaire avec le nom et l\'expiration.'
     ],
 
-    'showoptions' => 'Plus d\'options',
-    'hideoptions' => 'Moins d\'options',
+    'options' => [
+        'show' => 'Plus d\'options',
+        'hide' => 'Moins d\'options',
+        'tooltip' => 'Mot de passe, lien court, etc...'
+    ],
 
     'disclaimer' => 'Tous les champs sont optionnels, ils seront remplis avec des valeurs par défaut le cas échéant.',
 

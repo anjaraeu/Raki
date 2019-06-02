@@ -2,17 +2,39 @@
 
 @section('content')
     <div class="ui container first">
-        <div class="ui segment">
-            <h2>{{ __('group.welcome._', ['name' => $group->name]) }}</h2>
-            <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
-            @if(session('passwd_group', null))
-                <div class="ui success message">
-                    {{ __('group.passwd', ['passwd' => session('passwd_group'), 'url' => url('/g/'.$group->slug.'/manage?password='.session('passwd_group'))]) }}
+        @if(session('passwd_group', null))
+            <div class="ui segment">
+                <h2>{{ __('group.uploaded') }}</h2>
+
+                <div class="ui action labeled fluid input">
+                    <div class="ui label">
+                        {{ __('group.links.share') }}
+                    </div>
+                    <input type="text" id="sharelink" value="{{ route('showGroup', ['slug' => $group->slug]) }}">
+                    <a href="javascript:null;" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
+                        <i class="copy icon"></i>
+                        {{ __('group.copy') }}
+                    </a>
                 </div>
-                {{-- @php
-                session(['passwd_group' => null]);
-                @endphp --}}
-            @endif
+                <br>
+                <div class="ui action labeled fluid input">
+                    <div class="ui label">
+                        {{ __('group.links.delete') }}
+                    </div>
+                    <input type="text" id="managelink" value="{{ url('/g/'.$group->slug.'/manage?password='.session('passwd_group')) }}">
+                    <a href="javascript:null;" class="ui teal right labeled icon button" data-clipboard-target="#managelink" id="copybtn">
+                        <i class="copy icon"></i>
+                        {{ __('group.copy') }}
+                    </a>
+                </div>
+            </div>
+            {{-- @php
+            session(['passwd_group' => null]);
+            @endphp --}}
+        @endif
+        <div class="ui segment">
+            <h2>{{ __('group.welcome._', ['name' => $group->name, 'app' => config('app.name')]) }}</h2>
+            <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
             @if($group->encrypted)
                 <div class="ui icon warning message">
                     <i class="lock icon"></i>
@@ -24,14 +46,8 @@
                     </div>
                 </div>
             @endif
-            <div class="ui grid">
-                <div class="three wide column">
-                    <a href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue button">{{ __('group.download._') }}</a>
-                </div>
-                <div class="right floated right aligned thirteen wide column">
-                    <em>{{ __('group.download.tooltip') }} @if($group->encrypted) {{ __('group.encrypted.ziptooltip') }} @endif</em>
-                </div>
-            </div>
+            <a href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue button">{{ __('group.download._') }}</a>
+            <em>{{ __('group.download.tooltip') }} @if($group->encrypted) {{ __('group.encrypted.ziptooltip') }} @endif</em>
             <div class="ui relaxed divided list">
                 @foreach ($group->files as $file)
                     <div class="item">

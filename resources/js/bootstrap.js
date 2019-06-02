@@ -61,3 +61,5 @@ Dropzone.autoDiscover = false;
 window.Vue = require('vue');
 
 window.Lang = require('lang.js');
+
+window.ClipboardJS = require('clipboard');
