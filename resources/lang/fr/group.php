@@ -27,6 +27,7 @@ return [
             'file' => 'Supprimer ce fichier',
             'group' => 'Supprimer ce groupe'
         ],
+        'deleted' => 'Ce fichier a été supprimé avec succès.',
         'form' => [
             'url' => [
                 '_' => 'Lien du groupe',

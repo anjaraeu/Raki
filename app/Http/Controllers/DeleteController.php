@@ -26,7 +26,7 @@ class DeleteController extends Controller
         } elseif (!Hash::check($request->input('password'), $group->passwd)) {
             return redirect()->back();
         } else {
-            session()->flash('password', $request->input('password'));
+            session(['password' => $request->input('password')]);
             return view('manage', ['group' => $group]);
         }
     }
@@ -36,7 +36,7 @@ class DeleteController extends Controller
         if (empty($group)) {
             return abort(404);
         }
-        if (session('password', false)) {
+        if (!session('password', false)) {
             return abort(419);
         } elseif (!Hash::check(session('password'), $group->passwd)) {
             return abort(401);
@@ -45,6 +45,7 @@ class DeleteController extends Controller
                 DeleteFile::dispatch($file);
             });
             DeleteZip::dispatch($group);
+            session()->forget('password');
             return redirect('/');
         }
     }
@@ -54,13 +55,13 @@ class DeleteController extends Controller
         if (empty($file)) {
             return abort(404);
         }
-        if (session('password', false)) {
+        if (!session('password', false)) {
             return abort(419);
         } elseif (!Hash::check(session('password'), $file->group->passwd)) {
             return abort(401);
         } else {
-            DeleteFile::dispatch($file);
-            return redirect()->back()->with('deleted');
+            DeleteFile::dispatchNow($file);
+            return redirect()->back()->with('deleted', true);
         }
     }
 }
