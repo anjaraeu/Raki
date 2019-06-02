@@ -18,6 +18,8 @@ return [
 	'showoptions' => 'More options',
 	'hideoptions' => 'Less options',
 
+	'disclaimer' => 'Every fields are optional, they\'ll be fulfilled with default values.',
+
     'expiry' => [
         '_' => 'expiration date',
         'placeholder' => 'Choose a period',
