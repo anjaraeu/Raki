@@ -8,7 +8,7 @@ return [
     ],
 
     'download' => [
-        '_' => 'Download all',
+        '_' => 'Download as ZIP',
         'tooltip' => 'The generation of the Zip archive may take some time, the archive will be downloaded automatically when it is ready.'
     ]
 

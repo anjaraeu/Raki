@@ -8,7 +8,7 @@ return [
     ],
 
     'download' => [
-        '_' => 'Tout télécharger',
+        '_' => 'Télécharger en ZIP',
         'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.'
     ],
 
