@@ -15,8 +15,11 @@ return [
         'kept' => 'Your files are kept, don\'t reupload them.'
     ],
 
-	'showoptions' => 'More options',
-	'hideoptions' => 'Less options',
+    'options' => [
+        'show' => 'More options',
+        'hide' => 'Less options',
+        'tooltip' => 'Password, short link, etc...'
+    ],
 
 	'disclaimer' => 'Every fields are optional, they\'ll be fulfilled with default values.',
 
