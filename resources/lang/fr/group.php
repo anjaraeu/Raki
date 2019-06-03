@@ -21,7 +21,7 @@ return [
 
     'manage' => [
         'title' => 'Gérer votre téléchargement',
-        'info' => 'Ici, vous pouvez supprimer votre téléchargement. Si vous avez perdu le mot de passe de gestion, nous ne serons pas en mesure ',
+        'info' => 'Ici, vous pouvez supprimer votre téléchargement. Si vous avez perdu le mot de passe de gestion, nous ne serons pas en mesure de supprimer vos fichiers.',
         'desc' => 'Ce groupe contient :files fichier|Ce groupe contient :files fichiers',
         'delete' => [
             'file' => 'Supprimer ce fichier',

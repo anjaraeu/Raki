@@ -29,6 +29,15 @@
                     <div class="description">{{ __('static.privacy.list.ip.desc') }}</div>
                 </div>
             </div>
+            @if(env('MIX_SENTRY_DSN'))
+            <div class="item">
+                <i class="error icon"></i>
+                <div class="content">
+                    <div class="header">{{ __('static.privacy.list.sentry._') }}</div>
+                    <div class="description">{{ __('static.privacy.list.sentry.desc') }}</div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>

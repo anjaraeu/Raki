@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\App;
 class StaticController extends Controller {
 
     public function legal() {
-        if (Storage::exists('md/legal.md')) {
+        if (Storage::exists('md/legal.'.App::getLocale().'.md')) {
+            return view('legal', ['md' => Markdown::convertToHtml(Storage::get('md/legal.'.App::getLocale().'.md'))]);
+        } elseif (Storage::exists('md/legal.md')) {
             return view('legal', ['md' => Markdown::convertToHtml(Storage::get('md/legal.md'))]);
         } else {
             return view('legal', ['md' => '']);
@@ -17,7 +19,9 @@ class StaticController extends Controller {
     }
 
     public function privacy() {
-        if (Storage::exists('md/privacy.md')) {
+        if (Storage::exists('md/privacy.'.App::getLocale().'.md')) {
+            return view('privacy', ['md' => Markdown::convertToHtml(Storage::get('md/privacy.'.App::getLocale().'.md'))]);
+        } elseif (Storage::exists('md/privacy.md')) {
             return view('privacy', ['md' => Markdown::convertToHtml(Storage::get('md/privacy.md'))]);
         } else {
             return view('privacy', ['md' => '']);

@@ -63,3 +63,19 @@ window.Vue = require('vue');
 window.Lang = require('lang.js');
 
 window.ClipboardJS = require('clipboard');
+
+/**
+ * Sentry provides a high-quality error tracking to help us repair
+ */
+
+import * as Sentry from '@sentry/browser';
+
+if (process.env.MIX_SENTRY_DSN) {
+    Sentry.init({
+        dsn: process.env.MIX_SENTRY_DSN,
+        integrations: [new Sentry.Integrations.Vue({
+            Vue: window.Vue,
+            attachProps: true
+        })]
+    });
+}

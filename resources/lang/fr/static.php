@@ -17,6 +17,10 @@ return [
             'ip' => [
                 '_' => 'Votre adresse Internet (IP), votre référent (Referer) ainsi que votre agent utilisateur.',
                 'desc' => 'Ces données sont stockés au maximum 1 an sur notre serveur.'
+            ],
+            'sentry' => [
+                '_' => 'Journaux d\'erreur',
+                'desc' => 'Nos fichiers d\'erreur sont interprétés par une instance Sentry.'
             ]
         ]
     ]
