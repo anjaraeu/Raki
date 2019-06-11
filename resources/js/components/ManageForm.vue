@@ -2,15 +2,15 @@
     <form :action="actionurl" method="POST" @submit="submitForm" class="ui form">
         <input type="hidden" name="_token" :value="csrf">
         <div class="field" v-bind:class="{ error: err.url }">
-            <label for="url">{{ lang.get('group.manage.form.url._') }}</label>
-            <input type="text" :placeholder="lang.get('group.manage.form.url.placeholder')" name="url" v-model="url" autocomplete="off">
+            <label for="url">{{ this.$lang.get('group.manage.form.url._') }}</label>
+            <input type="text" :placeholder="this.$lang.get('group.manage.form.url.placeholder')" name="url" v-model="url" autocomplete="off">
         </div>
         <div class="field" v-bind:class="{ error: err.pass }">
-            <label for="password">{{ lang.get('group.manage.form.password._') }}</label>
-            <input type="text" :placeholder="lang.get('group.manage.form.password.placeholder')" name="password" v-model="password" autocomplete="off">
+            <label for="password">{{ this.$lang.get('group.manage.form.password._') }}</label>
+            <input type="text" :placeholder="this.$lang.get('group.manage.form.password.placeholder')" name="password" v-model="password" autocomplete="off">
         </div>
         <div class="field">
-            <input class="ui blue button" type="submit" :value="lang.get('group.manage.form.submit')">
+            <input class="ui blue button" type="submit" :value="this.$lang.get('group.manage.form.submit')">
         </div>
     </form>
 </template>
@@ -18,7 +18,7 @@
 <script>
 export default {
 
-    props: ['csrf', 'lang'],
+    props: ['csrf'],
 
     data() {
         return {

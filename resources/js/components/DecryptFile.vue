@@ -1,22 +1,22 @@
 <template>
     <div class="ui modal" :id="'file'+id">
         <div class="header">
-            {{ lang.get('group.encrypted.modal.title') }}
+            {{ this.$lang.get('group.encrypted.modal.title') }}
         </div>
         <div class="content">
             <div class="description">
                 <div class="ui error message" v-if="lastResponse === false">
-                    <p>{{ lang.get('group.encrypted.modal.err') }}</p>
+                    <p>{{ this.$lang.get('group.encrypted.modal.err') }}</p>
                 </div>
-                <p>{{ lang.get('group.encrypted.modal.content', {file}) }}</p>
+                <p>{{ this.$lang.get('group.encrypted.modal.content', {file}) }}</p>
                 <div class="ui fluid input">
-                    <input type="text" :placeholder="lang.get('group.encrypted.modal.password')" v-model="password" @keyup.enter="submitForm">
+                    <input type="text" :placeholder="this.$lang.get('group.encrypted.modal.password')" v-model="password" @keyup.enter="submitForm">
                 </div>
             </div>
         </div>
         <div class="actions">
             <div class="field">
-                <a class="ui green button" @click="submitForm">{{ lang.get('group.encrypted.modal.submit') }}</a>
+                <a class="ui green button" @click="submitForm">{{ this.$lang.get('group.encrypted.modal.submit') }}</a>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
 <script>
 export default {
 
-    props: ['file', 'id', 'lang', 'url'],
+    props: ['file', 'id', 'url'],
 
     data() {
         return {

@@ -30,21 +30,17 @@ Vue.component('decrypt-file', require('./components/DecryptFile.vue').default);
  */
 
 axios.get('/language.json').then(res => {
+    Vue.prototype.$lang = new Lang({
+        messages: res.data,
+        locale: require('cookie-universal')().get('lang'),
+        fallback: res.data.defaultlang
+    });
     /* const app = */new Vue({
         el: '#app',
         data: {
-            language: res.data,
-            lang: null,
             env: process.env,
             dropzone: null,
             csrf: document.head.querySelector('meta[name="csrf-token"]').content
-        },
-        created() {
-            this.lang = new Lang({
-                messages: this.language,
-                locale: require('cookie-universal')().get('lang'),
-                fallback: this.language.defaultlang
-            });
         },
         mounted() {
             if ($('#anjaradrop').length > 0) {
@@ -56,19 +52,19 @@ axios.get('/language.json').then(res => {
                     chunking: true,
                     chunkSize: 1000000,
                     addRemoveLinks: true,
-                    dictDefaultMessage: this.lang.get('dropzone.dictDefaultMessage'),
-                    dictFallbackMessage: this.lang.get('dropzone.dictFallbackMessage'),
-                    dictFallbackText: this.lang.get('dropzone.dictFallbackText'),
-                    dictFileTooBig: this.lang.get('dropzone.dictFileTooBig'),
-                    dictInvalidFileType: this.lang.get('dropzone.dictInvalidFileType'),
-                    dictInvalidFileType: this.lang.get('dropzone.dictInvalidFileType'),
-                    dictResponseError: this.lang.get('dropzone.dictResponseError'),
-                    dictCancelUpload: this.lang.get('dropzone.dictCancelUpload'),
-                    dictUploadCanceled: this.lang.get('dropzone.dictUploadCanceled'),
-                    dictCancelUploadConfirmation: this.lang.get('dropzone.dictCancelUploadConfirmation'),
-                    dictRemoveFile: this.lang.get('dropzone.dictRemoveFile'),
-                    dictRemoveFileConfirmation: this.lang.get('dropzone.dictRemoveFileConfirmation'),
-                    dictMaxFilesExceeded: this.lang.get('dropzone.dictMaxFilesExceeded'),
+                    dictDefaultMessage: this.$lang.get('dropzone.dictDefaultMessage'),
+                    dictFallbackMessage: this.$lang.get('dropzone.dictFallbackMessage'),
+                    dictFallbackText: this.$lang.get('dropzone.dictFallbackText'),
+                    dictFileTooBig: this.$lang.get('dropzone.dictFileTooBig'),
+                    dictInvalidFileType: this.$lang.get('dropzone.dictInvalidFileType'),
+                    dictInvalidFileType: this.$lang.get('dropzone.dictInvalidFileType'),
+                    dictResponseError: this.$lang.get('dropzone.dictResponseError'),
+                    dictCancelUpload: this.$lang.get('dropzone.dictCancelUpload'),
+                    dictUploadCanceled: this.$lang.get('dropzone.dictUploadCanceled'),
+                    dictCancelUploadConfirmation: this.$lang.get('dropzone.dictCancelUploadConfirmation'),
+                    dictRemoveFile: this.$lang.get('dropzone.dictRemoveFile'),
+                    dictRemoveFileConfirmation: this.$lang.get('dropzone.dictRemoveFileConfirmation'),
+                    dictMaxFilesExceeded: this.$lang.get('dropzone.dictMaxFilesExceeded'),
                     init: function() {
                         this.on('complete', function(file) {
                             document.dispatchEvent(new Event('uploadingunlock'));

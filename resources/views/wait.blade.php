@@ -10,7 +10,7 @@
         <div class="ui middle aligned center aligned centered grid">
             <div class="center aligned column">
                 <img src="/images/loading.gif" alt="Loading glyph provided by loading.io">
-                <p>.zip archive is being generated, please wait. This page refreshs automatically.</p>
+                <p>{{ __('group.download.wait') }}</p>
             </div>
         </div>
     </div>

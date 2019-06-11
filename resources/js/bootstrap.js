@@ -69,11 +69,12 @@ window.ClipboardJS = require('clipboard');
  */
 
 import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
 
 if (process.env.MIX_SENTRY_DSN) {
     Sentry.init({
         dsn: process.env.MIX_SENTRY_DSN,
-        integrations: [new Sentry.Integrations.Vue({
+        integrations: [new Integrations.Vue({
             Vue: window.Vue,
             attachProps: true
         })]

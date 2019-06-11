@@ -9,7 +9,8 @@ return [
 
     'download' => [
         '_' => 'Télécharger en ZIP',
-        'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.'
+        'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.',
+        'wait' => 'L\'archive est en train d\'être générée, cette page se rafraîchit automatiquement.'
     ],
 
     'uploaded' => 'Vos fichiers sont en ligne !',

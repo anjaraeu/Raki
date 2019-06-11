@@ -1,62 +1,60 @@
 <template>
     <div>
         <div class="ui error message" v-if="Object.keys(lastResponse.errors).length > 0">
-            <div class="header">{{ lang.get('welcome.error._') }}</div>
+            <div class="header">{{ this.$lang.get('welcome.error._') }}</div>
             <ul>
-                <li v-for="name in Object.keys(lastResponse.errors)">{{ lastResponse.errors[name][0] }}</li>
+                <li v-for="name in Object.keys(lastResponse.errors)" v-bind:key="lastResponse.errors[name][0]">{{ lastResponse.errors[name][0] }}</li>
             </ul>
         </div>
         <!-- <br><br> -->
         <form action="/publish" method="POST" class="ui form" @submit.prevent="submitForm">
             <div class="field">
-                <label for="name">{{ lang.get('welcome.groupname._') }}</label>
-                <input type="text" :placeholder="lang.get('welcome.groupname.placeholder')" name="name" v-model="name" autocomplete="off">
+                <label for="name">{{ this.$lang.get('welcome.groupname._') }}</label>
+                <input type="text" :placeholder="this.$lang.get('welcome.groupname.placeholder')" name="name" v-model="name" autocomplete="off">
             </div>
             <div class="field">
-                <label for="expiry">{{ lang.get('welcome.expiry._') }}</label>
+                <label for="expiry">{{ this.$lang.get('welcome.expiry._') }}</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="expiry" required id="expiry">
                     <i class="dropdown icon"></i>
-                    <div class="default text">{{ lang.get('welcome.expiry.placeholder') }}</div>
+                    <div class="default text">{{ this.$lang.get('welcome.expiry.placeholder') }}</div>
                     <div class="menu">
-                        <div class="item" data-value="86400">{{ lang.get('welcome.expiry.day') }}</div>
-                        <div class="item" data-value="604800">{{ lang.get('welcome.expiry.week') }}</div>
-                        <div class="item" data-value="2635200">{{ lang.get('welcome.expiry.month') }}</div>
-                        <div class="item" data-value="31557600">{{ lang.get('welcome.expiry.year') }}</div>
+                        <div class="item" data-value="86400">{{ this.$lang.get('welcome.expiry.day') }}</div>
+                        <div class="item" data-value="604800">{{ this.$lang.get('welcome.expiry.week') }}</div>
+                        <div class="item" data-value="2635200">{{ this.$lang.get('welcome.expiry.month') }}</div>
+                        <div class="item" data-value="31557600">{{ this.$lang.get('welcome.expiry.year') }}</div>
                     </div>
                 </div>
             </div>
-            <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ lang.get('welcome.options.show') }}</a>
-            <a href="#" class="ui button" v-else @click="toggleOptions">{{ lang.get('welcome.options.hide') }}</a>
-            <em>{{ lang.get('welcome.options.tooltip') }}</em>
-            <br v-if="!options">
-            <div id="fields" class="ui hidden transition">
-                <br>
+            <a href="#" class="ui button" v-if="!options" @click="toggleOptions">{{ this.$lang.get('welcome.options.show') }}</a>
+            <a href="#" class="ui button" v-else @click="toggleOptions">{{ this.$lang.get('welcome.options.hide') }}</a>
+            <em>{{ this.$lang.get('welcome.options.tooltip') }}</em>
+            <br v-if="!options"><br v-if="!options">
+            <div id="fields" class="ui hidden transition minimargin">
                 <div class="ui info message">
-                    {{ lang.get('welcome.disclaimer') }}
+                    {{ this.$lang.get('welcome.disclaimer') }}
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
                         <input type="checkbox" tabindex="0" class="hidden" name="single" id="onedl">
-                        <label><strong>{{ lang.get('welcome.single._') }}</strong></label>
-                        <small>{{ lang.get('welcome.single.info') }}</small>
+                        <label><strong>{{ this.$lang.get('welcome.single._') }}</strong></label>
+                        <small>{{ this.$lang.get('welcome.single.info') }}</small>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="link">{{ lang.get('welcome.link._') }}</label>
-                    <input type="text" :placeholder="lang.get('welcome.link.placeholder')" name="link" v-model="link" autocomplete="off">
-                    <small>{{ lang.get('welcome.link.info', {'link': appurl+'/l/'+link}) }}</small>
+                    <label for="link">{{ this.$lang.get('welcome.link._') }}</label>
+                    <input type="text" :placeholder="this.$lang.get('welcome.link.placeholder')" name="link" v-model="link" autocomplete="off">
+                    <small>{{ this.$lang.get('welcome.link.info', {'link': appurl+'/l/'+link}) }}</small>
                 </div>
                 <div class="field">
-                    <label for="password">{{ lang.get('welcome.password._') }}</label>
-                    <input type="text" :placeholder="lang.get('welcome.password.placeholder')" name="password" v-model="password" autocomplete="off">
-                    <small>{{ lang.get('welcome.password.info') }}</small>
+                    <label for="password">{{ this.$lang.get('welcome.password._') }}</label>
+                    <input type="text" :placeholder="this.$lang.get('welcome.password.placeholder')" name="password" v-model="password" autocomplete="off">
+                    <small>{{ this.$lang.get('welcome.password.info') }}</small>
                 </div>
             </div>
-            <br>
             <div class="field">
-                <input type="submit" class="ui blue button" :value="lang.get('welcome.submit')" v-bind="{ disabled: loading }">
-                <small v-if="loading">{{ lang.get('welcome.loading') }}</small>
+                <input type="submit" class="ui blue button" :value="this.$lang.get('welcome.submit')" v-bind="{ disabled: loading }">
+                <small v-if="loading">{{ this.$lang.get('welcome.loading') }}</small>
             </div>
         </form>
     </div>
@@ -65,7 +63,7 @@
 <script>
 export default {
 
-    props: ['lang', 'appurl'],
+    props: ['appurl'],
 
     data() {
         return {
