@@ -9,7 +9,8 @@ return [
 
     'menu' => [
         'privacy' => 'Privacy',
-        'legal' => 'Legal'
+        'legal' => 'Legal',
+        'manage' => 'Manage downloads'
     ]
 
 ];

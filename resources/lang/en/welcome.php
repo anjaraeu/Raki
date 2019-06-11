@@ -10,8 +10,11 @@ return [
         'placeholder' => 'My wonderful upload !'
     ],
 
+    'loading' => 'Please wait while your files are being uploaded...',
+
     'error' => [
         '_' => 'Errors happened during your upload',
+        'nogroup' => 'There is no files in your upload.',
         'kept' => 'Your files are kept, don\'t reupload them.'
     ],
 
@@ -24,7 +27,7 @@ return [
 	'disclaimer' => 'Every fields are optional, they\'ll be fulfilled with default values.',
 
     'expiry' => [
-        '_' => 'expiration date',
+        '_' => 'Expiration date',
         'placeholder' => 'Choose a period',
         'day' => '1 day',
         'week' => '1 week',
@@ -40,8 +43,8 @@ return [
 
     'password' => [
         '_' => 'Password',
-	'placeholder' => 'my awesome password!',
-	'info' => 'Files will be encrypted with this password, it\'ll impossible to recover them if you forgot the password.'
+	    'placeholder' => 'my awesome password!',
+	    'info' => 'Files will be encrypted with this password, it\'ll impossible to recover them if you forgot the password.'
     ],
 
     'single' => [
