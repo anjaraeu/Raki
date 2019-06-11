@@ -79,7 +79,7 @@
 
     @if($group->encrypted)
         @foreach ($group->files as $file)
-            <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('downloadFile', ['slug' => $file->slug]) }}" :lang="lang"></decrypt-file>
+            <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('downloadFile', ['slug' => $file->slug]) }}"></decrypt-file>
         @endforeach
     @endif
 @endsection

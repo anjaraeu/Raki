@@ -26,7 +26,7 @@
 
             <br>
 
-            <submit-form :lang="lang" :appurl="env.MIX_APP_URL"></submit-form>
+            <submit-form :appurl="env.MIX_APP_URL"></submit-form>
         </div>
     </div>
 @endsection
