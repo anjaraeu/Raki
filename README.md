@@ -40,7 +40,7 @@ Dont forget to edit PATHTOPHP and PATHTOFILES to their respective values.
 
 
 ## SQLite
-To use SQLite, replace the whole `DB_*` block by this:
+To use SQLite, replace the whole `DB_*` block by this line:
 ```
 DB_CONNECTION=sqlite
 ```
