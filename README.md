@@ -38,6 +38,8 @@ sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.servic
 ```
 Dont forget to edit PATHTOPHP and PATHTOFILES to their respective values.
 
+
+## SQLite
 To use SQLite, replace the whole `DB_*` block by this:
 ```
 DB_CONNECTION=sqlite
