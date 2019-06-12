@@ -32,6 +32,12 @@ Then setup the database:
 php artisan migrate
 ```
 
+To manage the download queue, you'll need to run the Horizon daemon, with the provided systemd unit:
+```bash
+sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.service
+```
+Dont forget to edit PATHTOPHP and PATHTOFILES to their respective values.
+
 To use SQLite, replace the whole `DB_*` block by this:
 ```
 DB_CONNECTION=sqlite
