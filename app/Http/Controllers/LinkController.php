@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Jobs\DeleteFile;
+use App\Jobs\DeleteZip;
 use App\ShortLink;
 use App\Group;
 
@@ -27,14 +29,20 @@ class LinkController extends Controller
     public function handleLink ($link) {
         $group = ShortLink::where('link', $link)->get()->first()->group;
         if (empty($group)) {
-            abort(404);
+            return abort(404);
         } else {
-            if (now()->greaterThan($group->expiry)) {
-                abort(419);
-                // TODO : trigger files delete to free space
+            if ($group->files->count() == 0) {
+                DeleteZip::dispatch($group);
+                return abort(419);
+            } elseif (now()->greaterThan($group->expiry)) {
+                $group->files->each(function($file) {
+                    DeleteFile::dispatch($file);
+                });
+                DeleteZip::dispatch($group);
+                return abort(419);
             } else {
                 $group->load('files');
-                return view('group', ['group' => $group]);
+                return view('group', ['group' => $group, 'date' => Carbon::parse($group->expiry)->locale(App::getLocale())->isoFormat('LLLL')]);
             }
         }
     }

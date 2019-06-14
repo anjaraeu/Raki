@@ -10,7 +10,11 @@
                     <div class="ui label">
                         {{ __('group.links.share') }}
                     </div>
+                    @if(empty($group->link))
                     <input type="text" id="sharelink" value="{{ route('showGroup', ['slug' => $group->slug]) }}">
+                    @else
+                    <input type="text" id="sharelink" value="{{ route('shortLink', ['link' => $group->link->link]) }}">
+                    @endif
                     <a href="javascript:null;" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
                         <i class="copy icon"></i>
                         {{ __('group.copy') }}
