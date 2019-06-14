@@ -1,6 +1,6 @@
-# AnjaraFiles
+# Raki
 
-La prochaine génération d'AnjaraFiles
+Raki allows you to simply and quickly upload files.
 
 ## Installation
 
