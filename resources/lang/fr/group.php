@@ -53,6 +53,46 @@ return [
             'submit' => 'Télécharger',
             'err' => 'Le mot de passe est incorrect, merci de réesayer votre saisie.'
         ]
+    ],
+
+    'report' => [
+        '_' => 'Signaler ce groupe',
+        'create' => 'Signaler ":group"',
+        'encrypted' => [
+            '_' => 'ATTENTION !',
+            'disclaimer' => 'Ce groupe étant chiffré, afin que la modération puisse vérifier le signalement, il faudra fournir le mot de passe du groupe. Gardez bien à l\'esprit qu\'il est impossible de le changer et que nous serons en mesure de consulter vos fichiers.'
+        ],
+        'reason' => [
+            '_' => 'En quoi le contenu de ce groupe viole nos conditions d\'utilisation ?',
+            'placeholder' => 'Sélectionnez un motif',
+            'spam' => 'Ce contenu est inutile et vise à "spammer" nos infrastructures.',
+            'identity' => 'Ce contenu sert à l\'usurpation d\'identité ou ce contenu usurpe une identité.',
+            'shock' => 'Ce contenu est choquant, obscène, à caractère pédo·pornographique, incite à la haine ou au suicide/auto-mutilation.',
+            'copyright' => 'Ce contenu viole la propriété intellectuelle d\'un tiers ou de moi-même.',
+            'confidential' => 'Ce contenu n\'a pas être divulgué publiquement ou porte atteinte à une personne en particulier (droit image).'
+        ],
+        'cp' => [
+            'who' => [
+                '_' => 'Qui est victime de violation de droits d\'auteur ?',
+                'placeholder' => 'Raison sociale, nom et prénom'
+            ],
+            'what' => [
+                '_' => 'Quel est le nom du contenu incriminé ?',
+                'placeholder' => 'Nom du contenu'
+            ],
+            'dmca' => 'Je jure sur l\'honneur de l\'exactitude du formulaire et que les signalements abusifs peuvent entraîner une interdiction d\'émettre de futurs rapports.',
+            'sign' => [
+                '_' => 'Votre signature',
+                'placeholder' => 'Votre nom complet agit comme une signature papier classique'
+            ]
+        ],
+        'identity' => [
+            'who' => [
+                '_' => 'Qui est victime d\'usurpation d\'identité ?',
+                'placeholder' => 'Nom et prénom'
+            ]
+        ],
+        'submit' => 'Soumettre un rapport'
     ]
 
 ];

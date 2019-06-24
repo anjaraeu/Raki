@@ -34,6 +34,9 @@ Route::any('/g/{slug}/manage', 'DeleteController@manageGroup')->name('manageGrou
 Route::get('/g/{slug}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
 Route::get('/f/{slug}/delete', 'DeleteController@deleteFile')->name('deleteFile');
 
+Route::get('/g/report/{group}', 'ReportController@create')->name('reportGroup');
+Route::post('/g/report/{group}', 'ReportController@store')->name('reportGroup.post');
+
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
 Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');
 Route::get('/kb/{article}', 'StaticController@kb')->name('dynamicKb');

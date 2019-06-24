@@ -78,6 +78,9 @@
                     </div>
                 @endforeach
             </div>
+            <div>
+                <a href="{{ route('reportGroup', ['group' => $group->id]) }}" class="ui red labeled icon button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
+            </div>
         </div>
     </div>
 

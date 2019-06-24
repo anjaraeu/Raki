@@ -23,6 +23,8 @@ Vue.component('manage-form', require('./components/ManageForm.vue').default);
 
 Vue.component('decrypt-file', require('./components/DecryptFile.vue').default);
 
+Vue.component('report-form', require('./components/ReportForm.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
