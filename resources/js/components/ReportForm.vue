@@ -41,11 +41,7 @@
 
 <script>
 export default {
-    props: {
-        csrf: String,
-        encrypted: Boolean,
-        id: BigInt
-    },
+    props: ['csrf', 'id', 'encrypted'],
 
     data() {
         return {
@@ -59,7 +55,7 @@ export default {
 
     methods: {
         submitForm() {
-            if (this.type !== 'copyright' && !this.dmca) return false;
+            if (this.type === 'copyright' && !this.dmca) return false;
             axios.post('/g/report/'+this.id, {
                 type: this.type,
                 who: this.who,
