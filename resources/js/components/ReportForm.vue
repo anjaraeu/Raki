@@ -33,15 +33,20 @@
             <label for="sign">{{ this.$lang.get('group.report.cp.sign._') }}</label>
             <input type="text" name="sign" id="sign" :placeholder="this.$lang.get('group.report.cp.sign.placeholder')" v-model="sign">
         </div>
+        <div class="field" v-if="encrypted">
+            <label for="password">{{ this.$lang.get('group.report.password._') }}</label>
+            <input type="text" name="password" id="password" :placeholder="this.$lang.get('group.report.password.placeholder')" v-model="password">
+        </div>
         <div class="field" v-if="type !== null">
             <input type="submit" class="ui blue button" :value="this.$lang.get('group.report.submit')">
+            <small v-if="warning">{{ warning }}</small>
         </div>
     </form>
 </template>
 
 <script>
 export default {
-    props: ['csrf', 'id', 'encrypted'],
+    props: ['csrf', 'id', 'encrypted', 'fileslug'],
 
     data() {
         return {
@@ -49,21 +54,38 @@ export default {
             who: '',
             what: '',
             dmca: false,
-            sign: ''
+            sign: '',
+            password: '',
+            warning: false
         }
     },
 
     methods: {
-        submitForm() {
-            if (this.type === 'copyright' && !this.dmca) return false;
+        sendReport() {
             axios.post('/g/report/'+this.id, {
                 type: this.type,
                 who: this.who,
                 what: this.what,
+                password: this.password,
                 sign: this.sign
             }).then(res => {
                 document.location.href = '/';
             });
+        },
+        submitForm() {
+            if (this.type === 'copyright' && !this.dmca) {
+                this.warning = this.$lang.get('group.report.err.dmca');
+                return false;
+            }
+            if (this.encrypted == true) {
+                axios.get('/f/'+this.fileslug+'/check', { params: {
+                    password: this.password
+                }}).then(res => {
+                    if (res.data === true) this.sendReport();
+                    else this.warning = this.$lang.get('group.report.err.password');
+                });
+            } else this.sendReport();
+
         }
     }
 

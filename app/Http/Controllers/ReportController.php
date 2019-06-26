@@ -41,13 +41,14 @@ class ReportController extends Controller
         $request->validate([
             'type' => [Rule::in(['spam', 'identity', 'shock', 'copyright', 'confidential'])]
         ]);
+        $input = serialize($request->input());
         switch ($request->input('type')) {
             case 'spam':
             case 'shock':
             case 'confidential':
                 $report = Report::create([
                     'group_id' => $group->id,
-                    'reason' => $request->input('type'),
+                    'reason' => $input,
                     'processed' => false
                 ]);
                 return $report;
@@ -59,7 +60,7 @@ class ReportController extends Controller
                 ]);
                 $report = Report::create([
                     'group_id' => $group->id,
-                    'reason' => $request->input('type') . "\n" . $request->input('who'),
+                    'reason' => $input,
                     'processed' => false
                 ]);
                 return $report;
@@ -73,7 +74,7 @@ class ReportController extends Controller
                 ]);
                 $report = Report::create([
                     'group_id' => $group->id,
-                    'reason' => $request->input('type') . "\n" . $request->input('who') . "\n" . $request->input('what') . "\n" . $request->input('sign'),
+                    'reason' => $input,
                     'processed' => false
                 ]);
                 return $report;
@@ -127,6 +128,7 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        //
+        $report->delete();
+        return response()->json(true);
     }
 }

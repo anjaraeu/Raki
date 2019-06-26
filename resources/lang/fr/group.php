@@ -58,6 +58,10 @@ return [
     'report' => [
         '_' => 'Signaler ce groupe',
         'create' => 'Signaler ":group"',
+        'err' => [
+            'dmca' => 'Vous devez accepter les conditions.',
+            'password' => 'Le mot de passe est incorrect'
+        ],
         'encrypted' => [
             '_' => 'ATTENTION !',
             'disclaimer' => 'Ce groupe étant chiffré, afin que la modération puisse vérifier le signalement, il faudra fournir le mot de passe du groupe. Gardez bien à l\'esprit qu\'il est impossible de le changer et que nous serons en mesure de consulter vos fichiers.'
@@ -92,7 +96,11 @@ return [
                 'placeholder' => 'Nom et prénom'
             ]
         ],
-        'submit' => 'Soumettre un rapport'
+        'password' => [
+            '_' => 'Mot de passe',
+            'placeholder' => 'Il servira à déchiffrer les fichiers pour voir leur contenu'
+        ],
+        'submit' => 'Soumettre un signalement'
     ]
 
 ];

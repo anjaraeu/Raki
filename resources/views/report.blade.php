@@ -15,7 +15,7 @@
         </div>
         @endif
 
-        <report-form :csrf="csrf" encrypted={{ $group->encrypted }} id={{ $group->id }}></report-form>
+        <report-form :csrf="csrf" encrypted="{{ $group->encrypted }}" id="{{ $group->id }}" fileslug="{{ $group->files->first()->slug }}"></report-form>
     </div>
 </div>
 @endsection
