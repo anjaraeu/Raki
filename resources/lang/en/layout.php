@@ -3,8 +3,8 @@
 return [
 
     'js' => [
-        '_' => 'AnjaraFiles needs JavaScript to work properly.',
-        'tooltip' => 'AnjaraFiles will not work without JS. Please activate it, there\'s no tracking..'
+        '_' => config('app.name').' needs JavaScript to work properly.',
+        'tooltip' => config('app.name').' will not work without JS. Please activate it, there\'s no tracking..'
     ],
 
     'menu' => [

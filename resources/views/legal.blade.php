@@ -29,7 +29,7 @@
         {!! $md !!}
 
         <code>
-            AnjaraFiles is a file sharing system over the Internet.<br>
+            Raki is a file sharing system over the Internet.<br>
             Copyright &copy; 2019 Anjara - Files contributors<br>
             <br>
             This program is free software: you can redistribute it and/or modify<br>

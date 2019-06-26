@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'AnjaraFiles') }}</title>
+    <title>{{ config('app.name', 'Raki') }}</title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}" defer></script>
@@ -24,7 +24,7 @@
         <nav class="ui fixed inverted large menu">
             <div class="ui container">
                 <a class="header item" href="{{ url('/') }}">
-                    {{ config('app.name', 'AnjaraFiles') }}
+                    {{ config('app.name', 'Raki') }}
                 </a>
                 <div href="#" class="ui dropdown item">
                     <i class="info icon"></i><i class="dropdown icon"></i>

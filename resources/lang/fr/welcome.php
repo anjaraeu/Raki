@@ -2,8 +2,8 @@
 
 return [
 
-    'title' => 'Bievenue sur AnjaraFiles !',
-    'synopsis' => 'AnjaraFiles est un système de partage de fichiers simple à utiliser, ne nécissitant pas de compte et qui ne vous piste pas. Génial, non ?',
+    'title' => 'Bievenue sur '.config('app.name').' !',
+    'synopsis' => config('app.name').' est un système de partage de fichiers simple à utiliser, ne nécissitant pas de compte et qui ne vous piste pas. Génial, non ?',
 
     'groupname' => [
         '_' => 'Nom du téléchargement',

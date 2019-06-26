@@ -2,8 +2,8 @@
 
 return [
 
-    'title' => 'Welcome to AnjaraFiles !',
-    'synopsis' => 'AnjaraFiles is a file sharing system that is easy to use, does not require an account and which doesn\'t track you. Great, no?',
+    'title' => 'Welcome to '.config('app.name').' !',
+    'synopsis' => config('app.name').' is a file sharing system that is easy to use, does not require an account and which doesn\'t track you. Great, no?',
 
     'groupname' => [
         '_' => 'Name of the upload',
