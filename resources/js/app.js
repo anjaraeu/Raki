@@ -49,7 +49,7 @@ axios.get('/language.json').then(res => {
                 this.dropzone = new Dropzone('#anjaradrop', {
                     url: '/upload',
                     paramName: "file", // The name that will be used to transfer the file
-                    maxFilesize: 500, // MB
+                    maxFilesize: process.env.MIX_MAX_FILE_SIZE, // MB
                     maxFiles: 5,
                     chunking: true,
                     chunkSize: 1000000,
