@@ -26,7 +26,7 @@
 
             <br>
 
-            <submit-form :appurl="env.MIX_APP_URL"></submit-form>
+            <submit-form :appurl="env.MIX_APP_URL" :maxexp="env.MIX_MAX_EXPIRATION"></submit-form>
         </div>
     </div>
 @endsection

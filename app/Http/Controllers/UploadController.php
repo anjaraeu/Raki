@@ -57,6 +57,9 @@ class UploadController extends Controller
     }
 
     protected function saveFile(UploadedFile $file) {
+        if ($file->getSize() > env('MIX_MAX_FILE_SIZE')) {
+            return abort(413);
+        }
         $group = session('pending_group', 'create');
         if ($group === 'create') {
             $group = Group::create([
@@ -111,12 +114,15 @@ class UploadController extends Controller
             ]);
         }
         if ($request->filled('expiry')) {
+            if ($request->input('expiry') > env('MIX_MAX_EXPIRATION')) {
+                return abort(400);
+            }
             $request->validate([
                 'expiry' => Rule::in(['86400', '604800', '2635200', '31557600'])
             ]);
             $group->expiry = now()->addSeconds($request->input('expiry'));
         } else {
-            $group->expiry = now()->addSeconds(2635200);
+            $group->expiry = now()->addSeconds(env('MIX_DEFAULT_EXPIRATION'));
         }
         if ($group->files->count() == 0) {
             return abort(400);

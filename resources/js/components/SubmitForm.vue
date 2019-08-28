@@ -20,9 +20,9 @@
                     <div class="default text">{{ this.$lang.get('welcome.expiry.placeholder') }}</div>
                     <div class="menu">
                         <div class="item" data-value="86400">{{ this.$lang.get('welcome.expiry.day') }}</div>
-                        <div class="item" data-value="604800">{{ this.$lang.get('welcome.expiry.week') }}</div>
-                        <div class="item" data-value="2635200">{{ this.$lang.get('welcome.expiry.month') }}</div>
-                        <div class="item" data-value="31557600">{{ this.$lang.get('welcome.expiry.year') }}</div>
+                        <div class="item" data-value="604800" v-if="maxexp >= 604800">{{ this.$lang.get('welcome.expiry.week') }}</div>
+                        <div class="item" data-value="2635200" v-if="maxexp >= 2635200">{{ this.$lang.get('welcome.expiry.month') }}</div>
+                        <div class="item" data-value="31557600" v-if="maxexp >= 31557600">{{ this.$lang.get('welcome.expiry.year') }}</div>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
 <script>
 export default {
 
-    props: ['appurl'],
+    props: ['appurl', 'maxexp'],
 
     data() {
         return {
