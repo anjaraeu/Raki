@@ -57,7 +57,7 @@ class UploadController extends Controller
     }
 
     protected function saveFile(UploadedFile $file) {
-        if ($file->getSize() > env('MIX_MAX_FILE_SIZE')) {
+        if ($file->getSize() > (env('MIX_MAX_FILE_SIZE') * 1000000)) {
             return abort(413);
         }
         $group = session('pending_group', 'create');
