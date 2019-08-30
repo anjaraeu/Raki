@@ -20,6 +20,11 @@ return [
     ],
     'copy' => 'Copy',
 
+    'short' => [
+        'header' => 'Now the link is short!',
+        '_' => 'We linked our AnjaraLink instance to help you share files easier! Enjoy!'
+    ],
+
     'manage' => [
         'title' => 'Manage your upload',
         'info' => 'Here, you can delete your download. If you lost your managment password, we can\'t delete your files.',

@@ -20,6 +20,11 @@ return [
     ],
     'copy' => 'Copier',
 
+    'short' => [
+        'header' => 'Les liens sont courts !',
+        '_' => 'Nous avons connecté notre système AnjaraLink pour vous aider à partager vos fichiers.'
+    ],
+
     'manage' => [
         'title' => 'Gérer votre téléchargement',
         'info' => 'Ici, vous pouvez supprimer votre téléchargement. Si vous avez perdu le mot de passe de gestion, nous ne serons pas en mesure de supprimer vos fichiers.',

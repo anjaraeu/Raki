@@ -23,6 +23,15 @@
                     </a>
                 </div>
                 <br>
+                @if(session('short_link', null))
+                <div class="ui positive message">
+                    <div class="header">
+                        {{ __('group.short.header') }}
+                    </div>
+                    <p>{{ __('group.short._') }}</p>
+                </div>
+                @endif
+                <br>
                 <div class="ui action labeled fluid input">
                     <div class="ui label">
                         {{ __('group.links.delete') }}
