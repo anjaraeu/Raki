@@ -10,12 +10,14 @@
                     <div class="ui label">
                         {{ __('group.links.share') }}
                     </div>
-                    @if(empty($group->link))
+                    @if(session('short_link', null))
+                    <input type="text" id="sharelink" value="{{ session('short_link') }}">
+                    @elseif(empty($group->link))
                     <input type="text" id="sharelink" value="{{ route('showGroup', ['slug' => $group->slug]) }}">
                     @else
                     <input type="text" id="sharelink" value="{{ route('shortLink', ['link' => $group->link->link]) }}">
                     @endif
-                    <a href="javascript:null;" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
+                    <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
                         <i class="copy icon"></i>
                         {{ __('group.copy') }}
                     </a>
@@ -26,7 +28,7 @@
                         {{ __('group.links.delete') }}
                     </div>
                     <input type="text" id="managelink" value="{{ url('/g/'.$group->slug.'/manage?password='.session('passwd_group')) }}">
-                    <a href="javascript:null;" class="ui teal right labeled icon button" data-clipboard-target="#managelink" id="copybtn">
+                    <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#managelink" id="copybtn">
                         <i class="copy icon"></i>
                         {{ __('group.copy') }}
                     </a>

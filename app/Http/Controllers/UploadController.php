@@ -16,7 +16,9 @@ use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use App\Jobs\ZipEncryptedGroup;
 use App\Jobs\DeleteFile;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 // use App\Helpers\CryptUtil;
 
@@ -156,7 +158,15 @@ class UploadController extends Controller
             if ($request->filled('link')) {
                 return LinkController::createLinkAjax($group, $request->input('link'));
             } else {
-                return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+                if (empty(env('LINK_APP_API'))) {
+                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+                } else {
+                    $client = new Client(['base_uri' => env('LINK_APP_API')]);
+                    $res = $client->post('link', ['json' => ['link' => route('showGroup', ['slug' => $group->slug])]]);
+                    $ponse = json_decode($res->getBody());
+                    session()->flash('short_link', $ponse->link);
+                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+                }
             }
         } else {
             if ($request->filled('link')) {
