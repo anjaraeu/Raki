@@ -13,11 +13,11 @@ composer install
 
 Then build assets:
 ```bash
-npm i
-cd resources/semantic
+yarn
+cd resources/fomantic
 npx gulp build
 cd ../..
-npm run production
+yarn production
 ```
 
 Configure the .env file correctly:
