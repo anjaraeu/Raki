@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Raki.iml" filepath="$PROJECT_DIR$/.idea/Raki.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../laravel-aead/.idea/laravel-aead.iml" filepath="$PROJECT_DIR$/../laravel-aead/.idea/laravel-aead.iml" />
+    </modules>
+  </component>
+</project>
