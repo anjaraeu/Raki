@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Cache;
+use Illuminate\Support\Str;
 use Storage;
 use App\File;
 use App\Group;
@@ -55,7 +56,7 @@ class DownloadController extends Controller
                             DeleteZip::dispatch($file->group);
                         }
                     }
-                    return Storage::download($file->path, $file->name);
+                    return Storage::download($file->path, Str::slug($file->name));
                 }
             }
         }

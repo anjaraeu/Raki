@@ -17,7 +17,7 @@ class LinkController extends Controller
             'link' => $link,
             'group_id' => $group->id
         ]);
-        return response()->json(['link' => route('shortLink', ['link' => $link])]);
+        return route('shortLink', ['link' => $link]);
     }
 
     public static function createLink (Group $group, $link) {

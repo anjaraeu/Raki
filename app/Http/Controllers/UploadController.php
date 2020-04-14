@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Redis;
 use Storage;
 use App\File;
 use App\Group;
@@ -19,6 +20,7 @@ use App\Jobs\DeleteFile;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use TusPhp\Events\TusEvent;
 
 // use App\Helpers\CryptUtil;
 
@@ -58,7 +60,7 @@ class UploadController extends Controller
         ]);
     }
 
-    protected function saveFile(UploadedFile $file) {
+    /*protected function saveFile(UploadedFile $file) {
         if ($file->getSize() > (env('MIX_MAX_FILE_SIZE') * 1000000)) {
             return abort(413);
         }
@@ -84,6 +86,18 @@ class UploadController extends Controller
         ]);
         $group->load('files');
         return response()->json(['file' => $file, 'group' => $group]);
+    }*/
+
+    public function syncFile(Request $request) {
+        $file = File::where([['tus_uuid', $request->input('tus_uuid')], ['group_id', null]])->first();
+        if ($file === null) {
+            return response('Well fuck', 400);
+        } else {
+            session()->push('pending_files', $file);
+            Redis::del('tus:'.$file->tus_uuid);
+            dd($file);
+            return response('statement');
+        }
     }
 
     public function deleteFile(Request $request) {
@@ -102,9 +116,21 @@ class UploadController extends Controller
 
     public function publishGroup(Request $request) {
         if (session('pending_group', 'create') === 'create') {
-            return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
+            if (count(session('pending_files', [])) >= 1) {
+                $group = Group::create([
+                    'slug' => hash('sha256', random_bytes(25)),
+                    'name' => 'Untitled'
+                ]);
+                foreach (session('pending_files') as $file) {
+                    $file->group()->associate($group);
+                    $file->save();
+                }
+            } else {
+                return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
+            }
+        } else {
+            $group = Group::findOrFail(session('pending_group'));
         }
-        $group = Group::findOrFail(session('pending_group'));
         $request->validate([
             'name' => 'max:250',
             'link' => 'max:25|unique:short_links,link',
@@ -146,28 +172,26 @@ class UploadController extends Controller
             $group->single = true;
         }
 
-        session(['pending_group' => 'create']);
+        session(['pending_group' => 'create', 'pending_files' => []]);
 
         $passwd = hash('sha1', random_bytes(50));
         $group->passwd = Hash::make($passwd);
-        session()->flash('passwd_group', $passwd);
 
         $group->save();
 
         if ($request->ajax()) {
+            $ret = ['link' => route('showGroup', ['slug' => $group->slug]), 'manage' => route('manageGroup', ['slug' => $group->slug]).'?password='.$passwd];
             if ($request->filled('link')) {
-                return LinkController::createLinkAjax($group, $request->input('link'));
+                $ret['short_link'] = LinkController::createLinkAjax($group, $request->input('link'));
             } else {
-                if (empty(env('LINK_APP_API'))) {
-                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
-                } else {
+                if (!empty(env('LINK_APP_API'))) {
                     $client = new Client(['base_uri' => env('LINK_APP_API')]);
                     $res = $client->post('link', ['json' => ['link' => route('showGroup', ['slug' => $group->slug])]]);
                     $ponse = json_decode($res->getBody());
-                    session()->flash('short_link', $ponse->link);
-                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+                    $ret['short_link'] = $ponse->link;
                 }
             }
+            return response()->json($ret);
         } else {
             if ($request->filled('link')) {
                 return LinkController::createLink($group, $request->input('link'));

@@ -12,15 +12,21 @@
 */
 
 Route::get('/', function () {
-    session(['pending_group' => 'create']);
+    session(['pending_group' => 'create', 'pending_files' => []]);
     return view('welcome');
+});
+
+Route::get('/sessiondump', function () {
+    dd(session()->all());
 });
 
 Route::get('/language/{lang}', 'LocaleController@setLocale');
 Route::get('/language.json', 'LocaleController@getJSON');
 
-Route::post('/upload', 'DependencyUploadController@uploadFile');
-Route::delete('/upload', 'UploadController@deleteFile');
+Route::any('/tus/{any?}', 'TusController@serve')->where('any', '.*');
+/*Route::post('/upload', 'DependencyUploadController@uploadFile');
+Route::delete('/upload', 'UploadController@deleteFile');*/
+Route::post('/sync', 'UploadController@syncFile');
 Route::post('/publish', 'UploadController@publishGroup');
 
 Route::get('/f/{slug}', 'DownloadController@getFile')->name('downloadFile');

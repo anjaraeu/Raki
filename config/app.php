@@ -180,12 +180,13 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TusServiceProvider::class,
 
         KgBot\LaravelLocalization\LaravelLocalizationServiceProvider::class,
 
         LaravelAEAD\Providers\EncryptionServiceProvider::class,
 
-        Sentry\Laravel\ServiceProvider::class
+        Sentry\Laravel\ServiceProvider::class,
 
     ],
 

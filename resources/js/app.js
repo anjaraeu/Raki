@@ -1,10 +1,12 @@
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * First we will load Fomantic UI components in the Windows the old-fashioned way.
+ * It also loads axios.
+ * Then we import all the packages we need
  */
 
 require('./bootstrap');
+import Vue from 'vue';
+import Lang from 'lang.js';
 
 /**
  * The following block of code may be used to automatically register your
@@ -16,6 +18,12 @@ require('./bootstrap');
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+
+Vue.component('upload-form', require('./components/UploadForm').default);
+
+Vue.component('uppy-form', require('./components/UppyForm.vue').default);
+
+Vue.component('share-form', require('./components/ShareForm.vue').default);
 
 Vue.component('submit-form', require('./components/SubmitForm.vue').default);
 
@@ -37,72 +45,25 @@ axios.get('/language.json').then(res => {
         locale: require('cookie-universal')().get('lang'),
         fallback: res.data.defaultlang
     });
+    Vue.prototype.$env = {
+        url: process.env.MIX_APP_URL,
+        name: process.env.MIX_APP_NAME,
+        defaultExp: process.env.MIX_DEFAULT_EXPIRATION,
+        maxExp: process.env.MIX_MAX_EXPIRATION,
+        maxSize: process.env.MIX_MAX_FILE_SIZE
+    }
     /* const app = */new Vue({
         el: '#app',
         data: {
-            env: process.env,
             dropzone: null,
             csrf: document.head.querySelector('meta[name="csrf-token"]').content
         },
         mounted() {
-            if ($('#anjaradrop').length > 0) {
-                this.dropzone = new Dropzone('#anjaradrop', {
-                    url: '/upload',
-                    paramName: "file", // The name that will be used to transfer the file
-                    maxFilesize: process.env.MIX_MAX_FILE_SIZE, // MB
-                    maxFiles: 5,
-                    chunking: true,
-                    chunkSize: 1000000,
-                    addRemoveLinks: true,
-                    dictDefaultMessage: this.$lang.get('dropzone.dictDefaultMessage'),
-                    dictFallbackMessage: this.$lang.get('dropzone.dictFallbackMessage'),
-                    dictFallbackText: this.$lang.get('dropzone.dictFallbackText'),
-                    dictFileTooBig: this.$lang.get('dropzone.dictFileTooBig'),
-                    dictInvalidFileType: this.$lang.get('dropzone.dictInvalidFileType'),
-                    dictInvalidFileType: this.$lang.get('dropzone.dictInvalidFileType'),
-                    dictResponseError: this.$lang.get('dropzone.dictResponseError'),
-                    dictCancelUpload: this.$lang.get('dropzone.dictCancelUpload'),
-                    dictUploadCanceled: this.$lang.get('dropzone.dictUploadCanceled'),
-                    dictCancelUploadConfirmation: this.$lang.get('dropzone.dictCancelUploadConfirmation'),
-                    dictRemoveFile: this.$lang.get('dropzone.dictRemoveFile'),
-                    dictRemoveFileConfirmation: this.$lang.get('dropzone.dictRemoveFileConfirmation'),
-                    dictMaxFilesExceeded: this.$lang.get('dropzone.dictMaxFilesExceeded'),
-                    init: function() {
-                        this.on('complete', function(file) {
-                            document.dispatchEvent(new Event('uploadingunlock'));
-                        });
-                        this.on('processing', function(file) {
-                            document.dispatchEvent(new Event('uploadinglock'));
-                        });
-                        this.on('sending', function(_file, _xhr, formdata) {
-                            formdata.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
-                        });
-                        this.on('removedfile', file => {
-                            axios.delete('/upload', {
-                                params: {
-                                    name: file.name
-                                }
-                            });
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('uploadinglock', function(e) {
-                console.log('BITCONNECT!', e);
-            }, false);
-
-            document.addEventListener('uploadingunlock', function(e) {
-                console.log('CONNEEEEEEEEEEEEEECT!', e);
-            }, false);
-
             $('.ui.dropdown').dropdown();
             $('.ui.checkbox').checkbox();
             $('[data-popup-activate=on]').popup({
                 inline: true
             });
-
-            new ClipboardJS('#copybtn');
         },
         methods: {
             openModal(id) {
@@ -112,3 +73,17 @@ axios.get('/language.json').then(res => {
     });
 });
 
+/**
+ * At the end, register the Service Worker for Golden Retriever Uppy plugin.
+ */
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register(`${process.env.MIX_APP_URL}/js/sw.js`) // path to your bundled service worker with GoldenRetriever service worker
+        .then((registration) => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope)
+        })
+        .catch((error) => {
+            console.log('Registration failed with ' + error)
+        })
+}

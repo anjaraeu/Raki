@@ -1,8 +1,9 @@
 @import 'lato.css';
 
-@import '../semantic/dist/semantic.min.css';
+@import '../fomantic/dist/semantic.min.css';
 
-@import '~dropzone/dist/dropzone.css';
+@import '~@uppy/core/dist/style.css';
+@import '~@uppy/dashboard/dist/style.css';
 
 body {
     background-color: #353535;
@@ -15,4 +16,10 @@ body {
 .minimargin {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+
+@media only screen and (min-width:767.98px) {
+    .ui.button.instep {
+        margin-left: 1em;
+    }
 }

@@ -18,15 +18,16 @@
             </div>
             @endif
 
+
+
+
             {{-- <form action="/upload" class="dropzone" id="anjaradrop">
                 {{ csrf_field() }}
             </form> --}}
 
-            <div id="anjaradrop" class="dropzone"></div>
+            <upload-form></upload-form>
 
-            <br>
-
-            <submit-form :appurl="env.MIX_APP_URL" :maxexp="env.MIX_MAX_EXPIRATION"></submit-form>
+            {{-- <submit-form :appurl="env.MIX_APP_URL" :maxexp="env.MIX_MAX_EXPIRATION"></submit-form>--}}
         </div>
     </div>
 @endsection
