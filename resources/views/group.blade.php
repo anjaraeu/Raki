@@ -2,54 +2,8 @@
 
 @section('content')
     <div class="ui container first">
-        @if(session('passwd_group', null))
-            <div class="ui segment">
-                <h2>{{ __('group.uploaded') }}</h2>
-
-                <div class="ui action labeled fluid input">
-                    <div class="ui label">
-                        {{ __('group.links.share') }}
-                    </div>
-                    @if(session('short_link', null))
-                    <input type="text" id="sharelink" value="{{ session('short_link') }}">
-                    @elseif(empty($group->link))
-                    <input type="text" id="sharelink" value="{{ route('showGroup', ['slug' => $group->slug]) }}">
-                    @else
-                    <input type="text" id="sharelink" value="{{ route('shortLink', ['link' => $group->link->link]) }}">
-                    @endif
-                    <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
-                        <i class="copy icon"></i>
-                        {{ __('group.copy') }}
-                    </a>
-                </div>
-                <br>
-                @if(session('short_link', null))
-                <div class="ui positive message">
-                    <div class="header">
-                        {{ __('group.short.header') }}
-                    </div>
-                    <p>{{ __('group.short._') }}</p>
-                </div>
-                @endif
-                <br>
-                <div class="ui action labeled fluid input">
-                    <div class="ui label">
-                        {{ __('group.links.delete') }}
-                    </div>
-                    <input type="text" id="managelink" value="{{ url('/g/'.$group->slug.'/manage?password='.session('passwd_group')) }}">
-                    <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#managelink" id="copybtn">
-                        <i class="copy icon"></i>
-                        {{ __('group.copy') }}
-                    </a>
-                </div>
-            </div>
-            {{-- @php
-            session(['passwd_group' => null]);
-            @endphp --}}
-        @endif
         <div class="ui segment">
             <h2>{{ __('group.welcome._', ['name' => $group->name, 'app' => config('app.name')]) }}</h2>
-            <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
             @if($group->encrypted)
                 <div class="ui icon warning message">
                     <i class="lock icon"></i>
@@ -61,37 +15,61 @@
                     </div>
                 </div>
             @endif
-            <a href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue button">{{ __('group.download._') }}</a>
-            <em>{{ __('group.download.tooltip') }} @if($group->encrypted) {{ __('group.encrypted.ziptooltip') }} @endif</em>
-            <div class="ui relaxed divided list">
-                @foreach ($group->files as $file)
-                    <div class="item">
-                        <i class="file icon"></i>
-                        <div class="content">
-                            <a class="header"
-                            @if (preg_match('/^image\//', $file->mime) && !$group->encrypted)
-                            data-popup-activate="on"
-                            @endif
-                            @if ($group->encrypted)
-                            v-on:click="openModal('{{ $file->id }}')"
-                            @else
-                            href="{{ route('downloadFile', ['slug' => $file->slug]) }}"
-                            @endif>
-                                {{ $file->name }}
-                            </a>
+            <table class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th>
+                            Fichier
+                        </th>
+                        <th>
+                            Somme de contrôle SHA256 <a href="{{ url('/kb/sha256') }}" target="_blank">(?)</a>
+                        </th>
+                        <th class="collapsing">
+                            @if ($group->files->count() > 1)
+                            <a data-popup-activate="on" href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue labeled medium icon button"><i class="file archive icon"></i> {{ __('group.download._') }}</a>
                             <div class="ui special popup">
-                                @if (preg_match('/^image\//', $file->mime) && !$group->encrypted)
-                                    <img src="{{ route('previewFile', ['slug' => $file->slug]) }}" alt="">
-                                @endif
+                                <em>{{ __('group.download.tooltip') }}</em>
                             </div>
-                            <div class="description">{{ hfs($file->size) }} | <a target="_blank" href="{{ url('/kb/sha256') }}">sha256</a>: {{ $file->checksum }}</div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div>
-                <a href="{{ route('reportGroup', ['group' => $group->id]) }}" class="ui red labeled icon button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
-            </div>
+                            @endif
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($group->files as $file)
+                        <tr>
+                            <td class="collapsing selectable">
+                                <a @if ($group->encrypted)
+                                   @click.prevent="openModal('{{ $file->id }}')"
+                                   @else
+                                   href="{{ route('downloadFile', ['slug' => $file->slug]) }}"
+                                    @endif>
+                                    <h4><i class="file export icon"></i> {{ $file->name }}</h4>
+                                </a>
+                            </td>
+                            <td class="center aligned">
+                                {{ $file->checksum }}
+                            </td>
+                            <td class="center aligned aligned">
+                                <a @if ($group->encrypted)
+                                   @click.prevent="openModal('{{ $file->id }}')"
+                                   @else
+                                   href="{{ route('downloadFile', ['slug' => $file->slug]) }}"
+                                   @endif class="ui blue labeled icon button"><i class="download icon"></i> {{ __('group.download.single')  }}</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2">
+                            <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
+                        </th>
+                        <th class="center aligned">
+                            <a href="{{ route('reportGroup', ['group' => $group->id]) }}" class="ui red labeled icon mini basic button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 

@@ -4,11 +4,12 @@ return [
 
     'welcome' => [
         '_' => '":name" sur :app',
-        'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app est un groupe de :files fichiers. Ils expireront le :date.'
+        'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app se compose de :files fichiers. Il expirera le :date.'
     ],
 
     'download' => [
         '_' => 'Télécharger en ZIP',
+        'single' => 'Télécharger',
         'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.',
         'wait' => 'L\'archive est en train d\'être générée, cette page se rafraîchit automatiquement.'
     ],

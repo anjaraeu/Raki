@@ -56,7 +56,7 @@ class DownloadController extends Controller
                             DeleteZip::dispatch($file->group);
                         }
                     }
-                    return Storage::download($file->path, Str::slug($file->name));
+                    return Storage::download($file->path, normalizeUtf8String($file->name));
                 }
             }
         }

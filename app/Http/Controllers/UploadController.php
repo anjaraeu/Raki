@@ -26,77 +26,17 @@ use TusPhp\Events\TusEvent;
 
 class UploadController extends Controller
 {
-    /**
-     * Handles the file upload
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     *
-     * @throws UploadMissingFileException
-     * @throws \Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException
-     */
-    public function upload(Request $request) {
-        // create the file receiver
-        $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
-        // check if the upload is success, throw exception or return response you need
-        if ($receiver->isUploaded() === false) {
-            throw new UploadMissingFileException();
-        }
-        // receive the file
-        $save = $receiver->receive();
-        // check if the upload has finished (in chunk mode it will send smaller files)
-        if ($save->isFinished()) {
-            // save the file and return any response you need, current example uses `move` function. If you are
-            // not using move, you need to manually delete the file by unlink($save->getFile()->getPathname())
-            return $this->saveFile($save->getFile());
-        }
-        // we are in chunk mode, lets send the current progress
-        /** @var AbstractHandler $handler */
-        $handler = $save->handler();
-        return response()->json([
-            "done" => $handler->getPercentageDone(),
-            'status' => true
-        ]);
-    }
-
-    /*protected function saveFile(UploadedFile $file) {
-        if ($file->getSize() > (env('MIX_MAX_FILE_SIZE') * 1000000)) {
-            return abort(413);
-        }
-        $group = session('pending_group', 'create');
-        if ($group === 'create') {
-            $group = Group::create([
-                'slug' => hash('sha256', random_bytes(25)),
-                'name' => 'Untitled'
-            ]);
-            session(['pending_group' => $group->id]);
-        } else {
-            $group = Group::findOrFail($group);
-        }
-        $path = $file->store('files');
-        $file = File::create([
-            'slug' => hash('sha256', random_bytes(25)),
-            'name' => $file->getClientOriginalName(),
-            'path' => $path,
-            'group_id' => $group->id,
-            'size' => Storage::size($path),
-            'checksum' => hash('sha256', Storage::get($path)),
-            'mime' => $file->getMimeType()
-        ]);
-        $group->load('files');
-        return response()->json(['file' => $file, 'group' => $group]);
-    }*/
 
     public function syncFile(Request $request) {
         $file = File::where([['tus_uuid', $request->input('tus_uuid')], ['group_id', null]])->first();
         if ($file === null) {
+            Log::notice('BITCONNEEEEEEEECT');
+            Log::warning('File '.$request->input('tus_uuid').' is requested for sync but wasn\'t found.');
             return response('Well fuck', 400);
         } else {
             session()->push('pending_files', $file);
             Redis::del('tus:'.$file->tus_uuid);
-            dd($file);
-            return response('statement');
+            return response()->json(true); // TODO: change that
         }
     }
 

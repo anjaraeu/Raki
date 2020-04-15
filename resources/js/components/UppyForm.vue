@@ -27,7 +27,11 @@
                     maxFileSize: process.env.MIX_MAX_FILE_SIZE * 1048576,
                     maxNumberOfFiles: 5
                 },
-                locale: French
+                locale: French,
+                onBeforeFileAdded(file) {
+                    // Avoid Tus problems
+                    file.name = file.name.replace(/\.\.\/|"|'|&|\/|\\|\?|#|:/g, '');
+                }
             }).use(Dashboard, {
                 inline: true,
                 target: '.DashboardContainer',
@@ -37,13 +41,14 @@
                 width: "100%",
                 height: 570,
                 showLinkToFileUploadResult: false
-            }).use(GoldenRetriever, {
+            })/*.use(GoldenRetriever, {
                 serviceWorker: false
-            }).use(Tus, {
+            })*/.use(Tus, {
                 endpoint: `${this.$env.url}/tus`,
                 resume: true,
                 autoRetry: true,
-                retryDelays: [0, 1000, 3000, 5000]
+                retryDelays: [0, 1000, 3000, 5000],
+                removeFingerprintOnSuccess: true
             }).on('upload-success', (file, response) => {
                 this.$emit('file-uploaded', {file, response});
             });
