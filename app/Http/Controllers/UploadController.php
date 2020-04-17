@@ -3,24 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Redis;
-use Storage;
 use App\File;
 use App\Group;
 use App\Jobs\EncryptFile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\UploadedFile;
-use App\Http\Controllers\LinkController;
-use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
-use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
-use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
-use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use App\Jobs\ZipEncryptedGroup;
 use App\Jobs\DeleteFile;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use TusPhp\Events\TusEvent;
 
 // use App\Helpers\CryptUtil;
 
@@ -120,13 +112,13 @@ class UploadController extends Controller
         $group->save();
 
         if ($request->ajax()) {
-            $ret = ['link' => route('showGroup', ['slug' => $group->slug]), 'manage' => route('manageGroup', ['slug' => $group->slug]).'?password='.$passwd];
+            $ret = ['link' => route('showGroup', ['group' => $group]), 'manage' => route('manageGroup', ['group' => $group]).'?password='.$passwd];
             if ($request->filled('link')) {
                 $ret['short_link'] = LinkController::createLinkAjax($group, $request->input('link'));
             } else {
                 if (!empty(env('LINK_APP_API'))) {
                     $client = new Client(['base_uri' => env('LINK_APP_API')]);
-                    $res = $client->post('link', ['json' => ['link' => route('showGroup', ['slug' => $group->slug])]]);
+                    $res = $client->post('link', ['json' => ['link' => route('showGroup', ['group' => $group])]]);
                     $ponse = json_decode($res->getBody());
                     $ret['short_link'] = $ponse->link;
                 }
@@ -136,7 +128,7 @@ class UploadController extends Controller
             if ($request->filled('link')) {
                 return LinkController::createLink($group, $request->input('link'));
             } else {
-                return redirect()->route('showGroup', ['slug' => $group->slug]);
+                return redirect()->route('showGroup', ['group' => $group]);
             }
         }
     }

@@ -24,14 +24,18 @@
                         <th>
                             Somme de contrôle SHA256 <a href="{{ url('/kb/sha256') }}" target="_blank">(?)</a>
                         </th>
+                        @if ($group->files->count() > 1)
                         <th class="collapsing">
-                            @if ($group->files->count() > 1)
                             <a data-popup-activate="on" href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue labeled medium icon button"><i class="file archive icon"></i> {{ __('group.download._') }}</a>
                             <div class="ui special popup">
                                 <em>{{ __('group.download.tooltip') }}</em>
                             </div>
-                            @endif
                         </th>
+                        @else
+                        <th>
+
+                        </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +45,7 @@
                                 <a @if ($group->encrypted)
                                    @click.prevent="openModal('{{ $file->id }}')"
                                    @else
-                                   href="{{ route('downloadFile', ['slug' => $file->slug]) }}"
+                                   href="{{ route('downloadFile', ['file' => $file]) }}"
                                     @endif>
                                     <h4><i class="file export icon"></i> {{ $file->name }}</h4>
                                 </a>
@@ -49,11 +53,11 @@
                             <td class="center aligned">
                                 {{ $file->checksum }}
                             </td>
-                            <td class="center aligned aligned">
+                            <td class="center aligned collapsing">
                                 <a @if ($group->encrypted)
                                    @click.prevent="openModal('{{ $file->id }}')"
                                    @else
-                                   href="{{ route('downloadFile', ['slug' => $file->slug]) }}"
+                                   href="{{ route('downloadFile', ['file' => $file]) }}"
                                    @endif class="ui blue labeled icon button"><i class="download icon"></i> {{ __('group.download.single')  }}</a>
                             </td>
                         </tr>
@@ -65,7 +69,7 @@
                             <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $date, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
                         </th>
                         <th class="center aligned">
-                            <a href="{{ route('reportGroup', ['group' => $group->id]) }}" class="ui red labeled icon mini basic button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
+                            <a href="{{ route('reportGroup', ['group' => $group]) }}" class="ui red labeled icon mini basic button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
                         </th>
                     </tr>
                 </tfoot>
@@ -75,7 +79,7 @@
 
     @if($group->encrypted)
         @foreach ($group->files as $file)
-            <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('downloadFile', ['slug' => $file->slug]) }}"></decrypt-file>
+            <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('downloadFile', ['file' => $file]) }}"></decrypt-file>
         @endforeach
     @endif
 @endsection

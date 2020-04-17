@@ -15,12 +15,7 @@ class DeleteController extends Controller
         return view('startmanage');
     }
 
-    public function manageGroup(Request $request, $slug) {
-        // dd($slug);
-        $group = Group::where('slug', $slug)->first();
-        if (empty($group)) {
-            return abort(404);
-        }
+    public function manageGroup(Request $request, Group $group) {
         if (!$request->filled('password')) {
             return abort(400);
         } elseif (!Hash::check($request->input('password'), $group->passwd)) {
@@ -31,11 +26,7 @@ class DeleteController extends Controller
         }
     }
 
-    public function deleteGroup(Request $request, $slug) {
-        $group = Group::where('slug', $slug)->first();
-        if (empty($group)) {
-            return abort(404);
-        }
+    public function deleteGroup(Request $request, Group $group) {
         if (!session('password', false)) {
             return abort(419);
         } elseif (!Hash::check(session('password'), $group->passwd)) {
@@ -50,11 +41,7 @@ class DeleteController extends Controller
         }
     }
 
-    public function deleteFile(Request $request, $slug) {
-        $file = File::where('slug', $slug)->first();
-        if (empty($file)) {
-            return abort(404);
-        }
+    public function deleteFile(Request $request, File $file) {
         if (!session('password', false)) {
             return abort(419);
         } elseif (!Hash::check(session('password'), $file->group->passwd)) {

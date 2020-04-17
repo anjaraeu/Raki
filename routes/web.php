@@ -29,19 +29,19 @@ Route::delete('/upload', 'UploadController@deleteFile');*/
 Route::post('/sync', 'UploadController@syncFile');
 Route::post('/publish', 'UploadController@publishGroup');
 
-Route::get('/f/{slug}', 'DownloadController@getFile')->name('downloadFile');
-Route::get('/f/{slug}/check', 'DownloadController@checkFile')->name('checkFile');
-Route::get('/f/{slug}/preview', 'DownloadController@previewFile')->name('previewFile');
+Route::get('/f/{file}', 'DownloadController@getFile')->name('downloadFile');
+Route::get('/f/{file}/check', 'DownloadController@checkFile')->name('checkFile');
+Route::get('/f/{file}/preview', 'DownloadController@previewFile')->name('previewFile');
 Route::get('/l/{link}', 'LinkController@handleLink')->name('shortLink');
-Route::get('/g/{slug}', 'DownloadController@getGroup')->name('showGroup');
-Route::get('/g/{slug}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');
+Route::get('/g/{group}', 'DownloadController@getGroup')->name('showGroup');
+Route::get('/g/{group}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');
 
-Route::any('/g/{slug}/manage', 'DeleteController@manageGroup')->name('manageGroup');
-Route::get('/g/{slug}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
-Route::get('/f/{slug}/delete', 'DeleteController@deleteFile')->name('deleteFile');
+Route::any('/g/{group}/manage', 'DeleteController@manageGroup')->name('manageGroup');
+Route::get('/g/{group}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
+Route::get('/f/{group}/delete', 'DeleteController@deleteFile')->name('deleteFile');
 
-Route::get('/g/report/{group}', 'ReportController@create')->name('reportGroup');
-Route::post('/g/report/{group}', 'ReportController@store')->name('reportGroup.post');
+Route::get('/g/{group}/report', 'ReportController@create')->name('reportGroup');
+Route::post('/g/{group}/report', 'ReportController@store')->name('reportGroup.post');
 
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
 Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');

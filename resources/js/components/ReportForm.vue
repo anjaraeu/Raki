@@ -33,7 +33,7 @@
             <label for="sign">{{ this.$lang.get('group.report.cp.sign._') }}</label>
             <input type="text" name="sign" id="sign" :placeholder="this.$lang.get('group.report.cp.sign.placeholder')" v-model="sign">
         </div>
-        <div class="field" v-if="encrypted">
+        <div class="field" v-if="isEncrypted">
             <label for="password">{{ this.$lang.get('group.report.password._') }}</label>
             <input type="text" name="password" id="password" :placeholder="this.$lang.get('group.report.password.placeholder')" v-model="password">
         </div>
@@ -77,7 +77,7 @@ export default {
                 this.warning = this.$lang.get('group.report.err.dmca');
                 return false;
             }
-            if (this.encrypted == true) {
+            if (this.isEncrypted) {
                 axios.get('/f/'+this.fileslug+'/check', { params: {
                     password: this.password
                 }}).then(res => {
@@ -86,6 +86,12 @@ export default {
                 });
             } else this.sendReport();
 
+        }
+    },
+
+    computed: {
+        isEncrypted() {
+            return this.encrypted === 'true';
         }
     }
 

@@ -19,7 +19,7 @@
                     </div>
                     <i class="file icon"></i>
                     <div class="content">
-                        <a class="header" href="{{ route('downloadFile', ['slug' => $file->slug]) }}">{{ $file->name }}</a>
+                        <a class="header" href="{{ route('downloadFile', ['file' => $file]) }}">{{ $file->name }}</a>
                         <div class="description">{{ hfs($file->size) }} | {{ $file->checksum }}</div>
                     </div>
                 </div>
