@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.app')
 
 @section('head')
 <meta http-equiv="refresh" content="5">

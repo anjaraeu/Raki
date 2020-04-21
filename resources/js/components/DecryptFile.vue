@@ -1,5 +1,5 @@
 <template>
-    <div class="ui modal" :id="'file'+id">
+    <div class="ui modal" :id="'modal-'+id">
         <div class="header">
             {{ this.$lang.get('group.encrypted.modal.title') }}
         </div>

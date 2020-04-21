@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.app')
 
 @section('content')
 <div class="ui container first">

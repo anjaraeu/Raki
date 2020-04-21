@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        // 'guard' => 'web',
-        // 'passwords' => 'users',
+        'guard' => 'web',
+        'passwords' => 'users',
     ],
 
     /*
@@ -36,10 +36,10 @@ return [
     */
 
     'guards' => [
-    //     'web' => [
-    //         'driver' => 'session',
-    //         'provider' => 'users',
-    //     ],
+         'web' => [
+             'driver' => 'session',
+             'provider' => 'users',
+         ],
 
     //     'api' => [
     //         'driver' => 'token',
@@ -66,10 +66,10 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'users' => [
+             'driver' => 'database',
+             'table' => 'users',
+        ],
     ],
 
     /*

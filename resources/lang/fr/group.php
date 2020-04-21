@@ -7,6 +7,13 @@ return [
         'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app se compose de :files fichiers. Il expirera le :date.'
     ],
 
+    'layout' => [
+        'table' => [
+            'file' => 'Fichier|Fichiers',
+            'sha256' => 'Somme de contrôle SHA256'
+        ]
+    ],
+
     'download' => [
         '_' => 'Télécharger en ZIP',
         'single' => 'Télécharger',

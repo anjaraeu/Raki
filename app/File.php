@@ -11,4 +11,14 @@ class File extends Model
     public function group() {
         return $this->belongsTo('App\Group');
     }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

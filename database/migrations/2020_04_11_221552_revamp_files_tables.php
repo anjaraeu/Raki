@@ -15,7 +15,7 @@ class RevampFilesTables extends Migration
     {
         Schema::table('files', function (Blueprint $table) {
             $table->bigInteger('group_id')->unsigned()->nullable()->change();
-            $table->boolean('tus_uuid')->nullable();
+            $table->string('tus_uuid')->nullable();
         });
     }
 

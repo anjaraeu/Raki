@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.app')
 
 @section('content')
     <div class="ui container first">
@@ -19,10 +19,10 @@
                 <thead>
                     <tr>
                         <th>
-                            Fichier
+                            {{ trans_choice('group.layout.table.file', $group->files->count())  }}
                         </th>
                         <th>
-                            Somme de contrôle SHA256 <a href="{{ url('/kb/sha256') }}" target="_blank">(?)</a>
+                            {{ __('group.layout.table.sha256') }} <a href="{{ url('/kb/sha256') }}" target="_blank">(?)</a>
                         </th>
                         @if ($group->files->count() > 1)
                         <th class="collapsing">
@@ -33,7 +33,6 @@
                         </th>
                         @else
                         <th>
-
                         </th>
                         @endif
                     </tr>
