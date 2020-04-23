@@ -83,6 +83,7 @@
             },
             done(linkInfo) {
                 console.log('heya!', linkInfo);
+                window.onbeforeunload = null;
                 this.links.share = linkInfo.short_link ? linkInfo.short_link:linkInfo.link;
                 this.links.manage = linkInfo.manage;
                 this.step = 3;

@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'admin', 'id', 'updated_at'
     ];
 
     /**
@@ -37,4 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'admin' => 'bool'
     ];
+
+    public function groups() {
+        return $this->hasMany('App\Group', 'owner_id');
+    }
 }

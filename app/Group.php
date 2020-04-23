@@ -18,6 +18,10 @@ class Group extends Model
         return $this->hasOne('App\ShortLink');
     }
 
+    public function owner() {
+        return $this->belongsTo('App\User');
+    }
+
     /**
      * Get the route key for the model.
      *

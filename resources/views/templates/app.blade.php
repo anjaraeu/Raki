@@ -4,9 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Raki') }}</title>
 
     <!-- Scripts -->
@@ -16,8 +13,6 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
-    @yield('head')
 </head>
 <body>
     <div id="app">
@@ -26,7 +21,7 @@
                 <a class="header item" href="{{ url('/') }}">
                     {{ config('app.name', 'Raki') }}
                 </a>
-                <div href="#" class="ui dropdown item">
+                <div class="ui dropdown item">
                     <i class="info icon"></i><i class="dropdown icon"></i>
 
                     <div class="menu">
@@ -34,7 +29,7 @@
                         <a href="/legal" class="item">{{ __('layout.menu.legal') }}</a>
                     </div>
                 </div>
-                <div href="#" class="ui dropdown item">
+                <div class="ui dropdown item">
                     <i class="wrench icon"></i><i class="dropdown icon"></i>
 
                     <div class="menu">
@@ -42,7 +37,7 @@
                     </div>
                 </div>
                 <div class="right menu" id="navbarSupportedContent">
-                    <div href="#" class="ui dropdown item">
+                    <div class="ui right dropdown item">
                         <i class="language icon"></i><i class="dropdown icon"></i>
 
                         <div class="menu">
@@ -51,11 +46,12 @@
                             @endforeach
                         </div>
                     </div>
+                    <auth-menu :auth="auth" :user="user" v-on:auth="refreshAuth"></auth-menu>
                 </div>
             </div>
         </nav>
 
-        <main class="minimargin" {{-- v-if="lang" --}}>
+        <main class="minimargin">
             <noscript>
                 <div class="ui container">
                     <div class="ui negative message">
@@ -68,6 +64,8 @@
                 <br/>
             </noscript>
             @yield('content')
+            <login v-on:auth="refreshAuth"></login>
+            <register v-on:auth="refreshAuth"></register>
         </main>
     </div>
 </body>

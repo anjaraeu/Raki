@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use App\File;
 use App\Group;
@@ -34,16 +35,16 @@ class UploadController extends Controller
 
     public function deleteFile(Request $request) {
         $request->validate(['name' => 'required']);
-        if (session('pending_group', 'create') === 'create') {
+        if (count(session('pending_files', [])) === 0) {
             return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
         }
-        $file = File::where([['name', $request->input('name')], ['group_id', session('pending_group')]])->first();
+        /*$file = File::where([['name', $request->input('name')], ['group_id', session('pending_group')]])->first();
         if (!empty($file)) {
             DeleteFile::dispatchNow($file);
             return response()->json(true);
         } else {
             return response()->json(false, 422);
-        }
+        }*/
     }
 
     public function publishGroup(Request $request) {
@@ -70,7 +71,7 @@ class UploadController extends Controller
         ]);
         if ($request->filled('password')) {
             $request->validate([
-                'password' => 'min:8|regex:/\\W/'
+                'password' => 'min:8'
             ]);
         }
         if ($request->filled('expiry')) {
@@ -102,6 +103,9 @@ class UploadController extends Controller
         }
         if ($request->input('single')) {
             $group->single = true;
+        }
+        if (Auth::user()) {
+            $group->owner_id = Auth::id();
         }
 
         session(['pending_group' => 'create', 'pending_files' => []]);

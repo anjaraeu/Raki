@@ -17,6 +17,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'login' => 'Login',
     'register' => 'Register',
+    'logout' => 'Logout',
 
     'policy' => [
         '_' => 'Please review the :link. By clicking "Register", you accept the privacy policy.',
@@ -46,6 +47,8 @@ return [
             '_' => 'If you did not receive the email, :link.',
             'link' => 'click here to request another'
         ]
-    ]
+    ],
+
+    'anonymous' => 'Anonymous'
 
 ];

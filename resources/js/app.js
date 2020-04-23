@@ -37,6 +37,8 @@ Vue.component('login', require('./components/Login.vue').default);
 
 Vue.component('register', require('./components/Register.vue').default);
 
+Vue.component('auth-menu', require('./components/AuthMenu.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -59,8 +61,14 @@ axios.get('/language.json').then(res => {
     /* const app = */new Vue({
         el: '#app',
         data: {
-            dropzone: null,
-            csrf: document.head.querySelector('meta[name="csrf-token"]').content
+            auth: false,
+            user: {
+                name: null,
+                email: null
+            }
+        },
+        created() {
+            this.refreshAuth({type: null});
         },
         mounted() {
             $('.ui.dropdown').dropdown();
@@ -72,6 +80,34 @@ axios.get('/language.json').then(res => {
         methods: {
             openModal(id) {
                 $('#modal-'+id).modal('show');
+            },
+            closeModal(id) {
+                $('#modal-'+id).modal('hide');
+            },
+            refreshAuth(e) {
+                switch (e.type) {
+                    case 'logout':
+                        this.auth = false;
+                        this.user = {name: null, email: null};
+                        break;
+
+                    case 'login':
+                        axios.get('/user').then(res => {
+                            this.user = res.data;
+                        });
+                        this.auth = true;
+                        break;
+
+                    default:
+                        axios.get('/user').then(res => {
+                            this.auth = true;
+                            this.user = res.data;
+                        }).catch(err => {
+                            this.auth = false;
+                            this.user = {name: null, email: null};
+                        });
+                        break;
+                }
             }
         }
     });

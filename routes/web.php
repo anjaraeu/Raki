@@ -54,7 +54,14 @@ Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');
 Route::get('/kb/{article}', 'StaticController@kb')->name('dynamicKb');
 Route::get('/manage', 'DeleteController@startManage')->name('startManage');
 
+// Auth API
 Auth::routes(['verify' => true]);
+Route::get('/user', 'UserController@userApi');
+
+// User dashboard
+Route::middleware(['auth:web'])->group(function () {
+    Route::get('/dashboard', 'UserController@dashboard')->name('user.dashboard');
+});
 
 // Admin
 Route::middleware(['auth:web', 'admin'])->group(function() {

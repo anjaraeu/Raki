@@ -17,6 +17,7 @@ return [
     'throttle' => 'Trop de tentatives de connexion. Merci de réesayer dans :seconds secondes.',
     'login' => 'Se connecter',
     'register' => 'S\'inscrire',
+    'logout' => 'Se déconnecter',
 
     'policy' => [
         '_' => 'Merci de lire la :link. En cliquant sur "S\'inscrire", vous acceptez la politique de confidentialité.',
@@ -46,6 +47,8 @@ return [
             '_' => 'Si vous n\'avez pas reçu l\'e-mail, :link.',
             'link' => 'cliquez ici pour en envoyer un nouveau'
         ]
-    ]
+    ],
+
+    'anonymous' => 'Anonyme'
 
 ];

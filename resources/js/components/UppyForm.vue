@@ -31,6 +31,9 @@
                 onBeforeFileAdded(file) {
                     // Avoid Tus problems
                     file.name = file.name.replace(/\.\.\/|"|'|&|\/|\\|\?|#|:/g, '');
+                    window.onbeforeunload = function () {
+                        return false;
+                    }
                 }
             }).use(Dashboard, {
                 inline: true,
