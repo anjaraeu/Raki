@@ -46,7 +46,7 @@ Route::get('/f/{group}/delete', 'DeleteController@deleteFile')->name('deleteFile
 
 // Report
 Route::get('/g/{group}/report', 'ReportController@create')->name('reportGroup');
-Route::post('/g/{group}/report', 'ReportController@store')->name('reportGroup.post');
+Route::post('/g/{group}/report', 'ReportController@store')->middleware('throttle:10,1')->name('reportGroup.post');
 
 // Static pages
 Route::get('/legal', 'StaticController@legal')->name('legalPage');
@@ -66,4 +66,5 @@ Route::middleware(['auth:web'])->group(function () {
 // Admin
 Route::middleware(['auth:web', 'admin'])->group(function() {
     Route::get('/admin', 'AdminController@dashboard')->name('admin.dashboard');
+    Route::put('/r/{report}', 'ReportController@update')->name('reportGroup.put');
 });

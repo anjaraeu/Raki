@@ -47,7 +47,7 @@
             })/*.use(GoldenRetriever, {
                 serviceWorker: false
             })*/.use(Tus, {
-                endpoint: `${this.$env.url}/tus`,
+                endpoint: '/tus',
                 resume: true,
                 autoRetry: true,
                 retryDelays: [0, 1000, 3000, 5000],

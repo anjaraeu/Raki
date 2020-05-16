@@ -115,10 +115,19 @@ class ReportController extends Controller
     //  * @param  \App\Report  $report
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function update(Request $request, Report $report)
-    // {
-    //     //
-    // }
+    public function update(Request $request, Report $report)
+    {
+         $input = $request->validate([
+             'processed' => 'boolean',
+             'delete' => 'nullable|boolean'
+         ]);
+         if ($input['processed']) $report->processed = true;
+         $report->save();
+         if (isset($input['delete']) && $input['delete']) {
+            $report->group->delete();
+         }
+         return $report;
+    }
 
     /**
      * Remove the specified resource from storage.

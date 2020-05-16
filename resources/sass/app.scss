@@ -18,6 +18,10 @@ body {
     margin-bottom: 0.5em;
 }
 
+.micromargin {
+    margin-bottom: 0.25em !important;
+}
+
 @media only screen and (min-width:767.98px) {
     .ui.button.instep {
         margin-left: 1em;

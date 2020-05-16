@@ -25,23 +25,24 @@ class ZipEncryptedGroup implements ShouldQueue
      * Create a new job instance.
      *
      * @param Group $group
-     * @return void
+     * @param $password
      */
     public function __construct(Group $group, $password)
     {
         $this->group = $group;
-        $this->password = $password;
+        $this->password = hash('sha256', $password);
         Cache::put('job-group-'.$group->id, true);
     }
 
     /**
      * Execute the job.
      *
-     * @return void
+     * @return bool
+     * @throws \PhpZip\Exception\ZipException
      */
     public function handle()
     {
-        $crypt = CryptUtil::getEncrypter($this->password);
+        $crypt = CryptUtil::getEncrypter($this->password, true);
         $zip = new ZipFile();
         foreach ($this->group->files as $file) {
             $content = Storage::get($file->path);

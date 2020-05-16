@@ -39,6 +39,8 @@ Vue.component('register', require('./components/Register.vue').default);
 
 Vue.component('auth-menu', require('./components/AuthMenu.vue').default);
 
+Vue.component('report-buttons', require('./components/ReportButtons.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

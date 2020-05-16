@@ -22,6 +22,10 @@ class Group extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function reports() {
+        return $this->hasMany('App\Report');
+    }
+
     /**
      * Get the route key for the model.
      *

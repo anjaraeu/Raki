@@ -8,6 +8,8 @@ class File extends Model
 {
     protected $fillable = ['path', 'name', 'downloads', 'slug', 'group_id', 'size', 'checksum', 'mime', 'tus_uuid'];
 
+    protected $hidden = ['password'];
+
     public function group() {
         return $this->belongsTo('App\Group');
     }

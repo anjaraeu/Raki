@@ -16,4 +16,12 @@ class Report extends Model
         $this->processed = true;
         return $this;
     }
+
+    public function getReasonAttribute($value) {
+        return unserialize($value);
+    }
+
+    public function group() {
+        return $this->belongsTo('App\Group');
+    }
 }

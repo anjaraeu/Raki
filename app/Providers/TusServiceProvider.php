@@ -34,7 +34,6 @@ class TusServiceProvider extends ServiceProvider
                 ->setUploadDir(storage_path('app/tus_files')); // uploads dir.
 
             $server->setCachePrefix(config('database.redis.options.prefix').'tus:');
-            Log::info($server->getCache()->getPrefix());
 
             $server->event()->addListener('tus-server.upload.complete', function (TusEvent $event) {
                 $controller = new TusController();

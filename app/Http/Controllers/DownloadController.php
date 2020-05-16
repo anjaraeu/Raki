@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Storage;
 use App\File;
@@ -32,18 +33,19 @@ class DownloadController extends Controller
             }
             if ($file->encrypted) {
                 if ($request->filled('password')) {
-                    $encrypter = CryptUtil::getEncrypter($request->input('password'));
-                    try {
-                        $content = $encrypter->decrypt(Storage::get($file->path));
-                        if ($content === false) {
-                            return 'Wrong password - cannot decrypt';
+                    if (Hash::check(CryptUtil::getKey($request->input('password')), $file->password)) {
+                        try {
+                            return response()->streamDownload(function () use ($request, $file) {
+                                CryptUtil::getEncrypter($request->input('password'))->streamDecrypt($file->path);
+                            }, normalizeUtf8String($file->name), ['Content-Type' => $file->mime, 'Content-Length' => $file->size]);
+                        } catch (\Exception $e) {
+                            return response()->json(false);
                         }
-                        return response($content, 200, ['content-type' => 'application/octet-stream', 'content-disposition' => 'attachment; filename="'.$file->name.'"']);
-                    } catch (DecryptException $e) {
-                        return abort(500);
+                    } else {
+                        return redirect()->route('showGroup', ['group' => $file->group]);
                     }
                 } else {
-                    return abort(401);
+                    return abort(400);
                 }
             } else {
                 if ($file->group->single) {
@@ -59,23 +61,15 @@ class DownloadController extends Controller
 
     public function checkFile(File $file, Request $request) {
         if (now()->greaterThan($file->group->expiry)) {
-            $file->group->files->each(function($file) {
-                DeleteFile::dispatch($file);
-            });
-            DeleteZip::dispatch($file->group);
+            $file->group->delete();
             return abort(419);
         } else {
             if ($file->encrypted) {
                 if ($request->filled('password')) {
-                    $encrypter = CryptUtil::getEncrypter($request->input('password'));
-                    try {
-                        $content = $encrypter->decrypt(Storage::get($file->path));
-                        if ($content === false) {
-                            return response()->json(false);
-                        }
+                    if (Hash::check(CryptUtil::getKey($request->input('password')), $file->password)) {
                         return response()->json(true);
-                    } catch (DecryptException $e) {
-                        return abort(500);
+                    } else {
+                        return response()->json(false);
                     }
                 } else {
                     return abort(400);
@@ -112,14 +106,8 @@ class DownloadController extends Controller
     }
 
     public function getGroup(Group $group) {
-        if ($group->files->count() == 0) {
-            DeleteZip::dispatch($group);
-            return abort(419);
-        } elseif (now()->greaterThan($group->expiry)) {
-            $group->files->each(function($file) {
-                DeleteFile::dispatch($file);
-            });
-            DeleteZip::dispatch($group);
+        if (now()->greaterThan($group->expiry)) {
+            Cache::set('notifications.expiry', true);
             return abort(419);
         } else {
             $group->load('files');
@@ -144,6 +132,10 @@ class DownloadController extends Controller
                 }
                 return Storage::download('zips/'.$group->slug.'.zip', 'afilesdl_'.preg_replace('/[^A-Za-z \-_0-9]+/', '', $group->name).'.zip');
             } else {
+                if ($group->encrypted) {
+                    session()->flash('zipError');
+                    return redirect()->route('showGroup', ['group' => $group]);
+                }
                 if (!Cache::get('job-group-'.$group->id, false)) {
                     ZipGroup::dispatch($group);
                 }

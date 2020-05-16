@@ -100,7 +100,7 @@ export default {
 
     computed: {
         isEncrypted() {
-            return this.encrypted === 'true';
+            return this.encrypted === '1' || this.encrypted === 'true';
         }
     }
 

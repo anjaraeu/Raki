@@ -126,7 +126,7 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'cipher' => 'XCHACHA20-POLY1305-IETF',
+    'cipher' => 'AES-256-CBC',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
-        // Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
@@ -183,8 +183,6 @@ return [
         App\Providers\TusServiceProvider::class,
 
         KgBot\LaravelLocalization\LaravelLocalizationServiceProvider::class,
-
-        LaravelAEAD\Providers\EncryptionServiceProvider::class,
 
         Sentry\Laravel\ServiceProvider::class,
 

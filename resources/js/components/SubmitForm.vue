@@ -88,6 +88,7 @@ export default {
                 console.log(res);
             }).catch(err => {
                 this.lastResponse = err.response.data;
+                this.$parent.progress = false;
             });
         },
         toggleOptions() {

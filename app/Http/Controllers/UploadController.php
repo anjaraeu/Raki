@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Jobs\ZipEncryptedGroup;
 use App\Jobs\DeleteFile;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 // use App\Helpers\CryptUtil;
 
@@ -90,11 +90,14 @@ class UploadController extends Controller
         }
         if ($request->filled('password')) {
             $group->encrypted = true;
-            $group->files->each(function ($item) {
-                global $request;
-                EncryptFile::dispatch($item, $request->input('password'));
+            $group->files->each(function ($item) use ($request) {
+                $item->password = hash('sha256', $request->input('password'));
+                $item->save();
+                EncryptFile::dispatch($item);
             });
-            ZipEncryptedGroup::dispatch($group, $request->input('password'));
+            // NOTE: Zips for encrypted are probably gonna be disabled for security reasons, as
+            // this allows local bruteforce of passwords.
+            // ZipEncryptedGroup::dispatch($group, $request->input('password'));
         }
         if ($request->filled('name')) {
             $group->name = $request->input('name');
@@ -121,10 +124,9 @@ class UploadController extends Controller
                 $ret['short_link'] = LinkController::createLinkAjax($group, $request->input('link'));
             } else {
                 if (!empty(env('LINK_APP_API'))) {
-                    $client = new Client(['base_uri' => env('LINK_APP_API')]);
-                    $res = $client->post('link', ['json' => ['link' => route('showGroup', ['group' => $group])]]);
-                    $ponse = json_decode($res->getBody());
-                    $ret['short_link'] = $ponse->link;
+                    $ret['short_link'] = Http::post(env('LINK_APP_API').'/link', [
+                        'link' => route('showGroup', ['group' => $group])
+                    ])['link'];
                 }
             }
             return response()->json($ret);

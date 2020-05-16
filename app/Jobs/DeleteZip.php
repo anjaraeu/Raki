@@ -23,17 +23,17 @@ class DeleteZip implements ShouldQueue
      */
     public function __construct(Group $group)
     {
-        $this->group = $group;
+        $this->group = $group->withoutRelations();
     }
 
     /**
      * Execute the job.
      *
-     * @return void
+     * @return bool
      */
     public function handle()
     {
-        Storage::delete('zips/'.$this->group->slug.'.zip');
-        return $this->group->delete();
+        $this->group->delete();
+        return Storage::delete('zips/'.$this->group->slug.'.zip');
     }
 }

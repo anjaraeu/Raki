@@ -49,11 +49,50 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>
+                    @foreach($reports as $reportgroup)
+                        @foreach($reportgroup as $report)
+                            <tr>
+                                @if($loop->first)
+                                <td rowspan="{{ $loop->count }}">
+                                    {{ $report->group->name }}
+                                </td>
+                                @endif
+                                <td>
+                                    @switch($report->reason['type'])
+                                        @case('spam')
+                                        <i class="exclamation triangle icon"></i> Spam
+                                        @break
 
-                        </th>
-                    </tr>
+                                        @case('identity')
+                                        <i class="id card icon"></i> Usurpation d'identité
+                                        <a class="ui tag label">{{ $report->reason['who'] }}</a>
+                                        @break
+
+                                        @case('shock')
+                                        <i class="surprise icon"></i> Contenu choquant
+                                        @break
+
+                                        @case('copyright')
+                                        <i class="legal icon"></i> DMCA
+                                        <a class="ui tag label">{{ $report->reason['who'] }}</a>
+                                        <a class="ui tag label">{{ $report->reason['what'] }}</a>
+                                        <a class="ui tag label">{{ $report->reason['sign'] }}</a>
+                                        @break
+
+                                        @case('confidential')
+                                        <i class="user lock icon"></i> Contenu privé / confientiel
+                                        @break
+                                    @endswitch
+                                    @if($report->group->encrypted)
+                                        <a class="ui tag label">{{ $report->reason['password'] }}</a>
+                                    @endif
+                                </td>
+                                <td class="right aligned collapsing">
+                                    <report-buttons id="{{ $report->id }}"></report-buttons>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>

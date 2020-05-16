@@ -26,7 +26,7 @@
                         </th>
                         @if ($group->files->count() > 1)
                         <th class="collapsing">
-                            <a data-popup-activate="on" href="{{ route('downloadGroup', ['slug' => $group->slug]) }}" class="ui blue labeled medium icon button"><i class="file archive icon"></i> {{ __('group.download._') }}</a>
+                            <a data-popup-activate="on" href="{{ route('downloadGroup', ['group' => $group]) }}" class="ui blue labeled medium icon button"><i class="file archive icon"></i> {{ __('group.download._') }}</a>
                             <div class="ui special popup">
                                 <em>{{ __('group.download.tooltip') }}</em>
                             </div>
