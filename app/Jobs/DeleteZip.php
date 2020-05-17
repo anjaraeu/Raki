@@ -19,7 +19,7 @@ class DeleteZip implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Group $group
      */
     public function __construct(Group $group)
     {
@@ -33,7 +33,6 @@ class DeleteZip implements ShouldQueue
      */
     public function handle()
     {
-        $this->group->delete();
         return Storage::delete('zips/'.$this->group->slug.'.zip');
     }
 }

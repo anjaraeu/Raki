@@ -42,6 +42,7 @@ class ZipEncryptedGroup implements ShouldQueue
      */
     public function handle()
     {
+        /*
         $crypt = CryptUtil::getEncrypter($this->password, true);
         $zip = new ZipFile();
         foreach ($this->group->files as $file) {
@@ -53,6 +54,7 @@ class ZipEncryptedGroup implements ShouldQueue
         $zip->setPassword($this->password);
         $zip->saveAsFile(storage_path('app/zips/'.$this->group->slug.'.zip'));
         $zip->close();
+        */
         Cache::forget('job-group-'.$this->group->id);
         return true;
     }

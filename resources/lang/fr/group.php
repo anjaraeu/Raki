@@ -65,6 +65,10 @@ return [
             'password' => 'Mot de passe',
             'submit' => 'Télécharger',
             'err' => 'Le mot de passe est incorrect, merci de réesayer votre saisie.'
+        ],
+        'wait' => [
+            'title' => 'Merci de patienter...',
+            'message' => 'Le groupe est encore en cours de chiffrement. Les fichiers ne sont pas disponibles durant cette période.'
         ]
     ],
 

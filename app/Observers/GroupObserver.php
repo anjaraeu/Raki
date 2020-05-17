@@ -17,7 +17,7 @@ class GroupObserver
      */
     public function updated(Group $group)
     {
-        DeleteZip::dispatchIf($group->files->count() === 0, $group);
+        if ($group->files->count() === 0) $group->delete();
     }
 
     /**
@@ -31,6 +31,6 @@ class GroupObserver
         $group->files->each(function($file) {
             DeleteFile::dispatch($file);
         });
-        DeleteZip::dispatch($group);
+        DeleteZip::dispatchNow($group);
     }
 }

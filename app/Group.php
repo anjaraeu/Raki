@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Group extends Model
 {
@@ -34,6 +36,10 @@ class Group extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function getExpiryFormattedAttribute() {
+        return Carbon::parse($this->expiry)->locale(App::getLocale())->isoFormat('LLLL');
     }
 
 }

@@ -42,7 +42,7 @@ Route::get('/g/{group}/dl', 'DownloadController@getGroupZip')->name('downloadGro
 // Manage
 Route::any('/g/{group}/manage', 'DeleteController@manageGroup')->name('manageGroup');
 Route::get('/g/{group}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
-Route::get('/f/{group}/delete', 'DeleteController@deleteFile')->name('deleteFile');
+Route::get('/f/{file}/delete', 'DeleteController@deleteFile')->name('deleteFile');
 
 // Report
 Route::get('/g/{group}/report', 'ReportController@create')->name('reportGroup');

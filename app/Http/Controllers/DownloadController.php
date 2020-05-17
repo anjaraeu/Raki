@@ -111,7 +111,7 @@ class DownloadController extends Controller
             return abort(419);
         } else {
             $group->load('files');
-            return view('group', ['group' => $group, 'date' => Carbon::parse($group->expiry)->locale(App::getLocale())->isoFormat('LLLL')]);
+            return view('group', ['group' => $group]);
         }
     }
 

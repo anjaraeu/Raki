@@ -36,7 +36,7 @@ To manage the download queue, you'll need to run the Horizon daemon, with the pr
 ```bash
 sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.service
 ```
-Dont forget to edit PATHTOPHP and PATHTOFILES to their respective values.
+Don't forget to edit PATHTOPHP and PATHTOFILES to their respective values.
 
 
 ## SQLite

@@ -25,10 +25,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         // Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
 
         Horizon::night();
-
-        Queue::after(function (JobProcessed $job) {
-            $job->job->delete();
-        });
     }
 
     /**

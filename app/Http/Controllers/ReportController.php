@@ -46,12 +46,11 @@ class ReportController extends Controller
             case 'spam':
             case 'shock':
             case 'confidential':
-                $report = Report::create([
+                return Report::create([
                     'group_id' => $group->id,
                     'reason' => $input,
                     'processed' => false
                 ]);
-                return $report;
                 break;
 
             case 'identity':

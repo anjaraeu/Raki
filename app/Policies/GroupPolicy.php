@@ -6,6 +6,7 @@ use App\Group;
 use App\User;
 use Hash;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class GroupPolicy
 {
@@ -31,8 +32,8 @@ class GroupPolicy
      * @param string|null $password
      * @return mixed
      */
-    public function update(User $user, Group $group, $password)
+    public function update(?User $user, Group $group, $password)
     {
-        return ($group->owner_id === $user->id || Hash::check((string) $password, $group->passwd));
+        return ($group->owner_id === optional($user)->id || Hash::check((string) $password, $group->passwd));
     }
 }
