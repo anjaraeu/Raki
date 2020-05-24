@@ -119,13 +119,13 @@ class UploadController extends Controller
         $group->save();
 
         if ($request->ajax()) {
-            $ret = ['link' => route('showGroup', ['group' => $group]), 'manage' => route('manageGroup', ['group' => $group]).'?password='.$passwd];
+            $ret = ['link' => route('group.show', ['group' => $group]), 'manage' => route('group.manage', ['group' => $group]).'?password='.$passwd];
             if ($request->filled('link')) {
                 $ret['short_link'] = LinkController::createLinkAjax($group, $request->input('link'));
             } else {
                 if (!empty(env('LINK_APP_API'))) {
                     $ret['short_link'] = Http::post(env('LINK_APP_API').'/link', [
-                        'link' => route('showGroup', ['group' => $group])
+                        'link' => route('group.show', ['group' => $group])
                     ])['link'];
                 }
             }
@@ -134,7 +134,7 @@ class UploadController extends Controller
             if ($request->filled('link')) {
                 return LinkController::createLink($group, $request->input('link'));
             } else {
-                return redirect()->route('showGroup', ['group' => $group]);
+                return redirect()->route('group.show', ['group' => $group]);
             }
         }
     }

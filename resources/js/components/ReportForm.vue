@@ -38,7 +38,9 @@
             <input type="text" name="password" id="password" :placeholder="this.$lang.get('group.report.password.placeholder')" v-model="password">
         </div>
         <div class="field" v-if="type !== null">
-            <button type="submit" class="ui blue button" v-bind:class="{loading}">{{ this.$lang.get('group.report.submit') }}</button>
+            <button type="submit" class="ui blue button" v-bind:class="{loading, disabled: done}">
+                {{ this.done ? this.$lang.get('group.report.done'):this.$lang.get('group.report.submit') }}
+            </button>
             <small v-if="warning">{{ warning }}</small>
         </div>
     </form>
@@ -63,6 +65,9 @@ export default {
     },
 
     methods: {
+        goHome() {
+            return window.location.replace(this.$env.url);
+        },
         sendReport() {
             axios.post(`/g/${this.slug}/report`, {
                 type: this.type,
@@ -73,6 +78,7 @@ export default {
             }).then(res => {
                 this.loading = false;
                 this.done = true;
+                window.setTimeout(this.goHome, 2500);
             }).catch(err => {
                 this.loading = false;
             });

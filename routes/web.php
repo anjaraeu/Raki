@@ -14,49 +14,45 @@
 Route::get('/', function () {
     session(['pending_group' => 'create', 'pending_files' => []]);
     return view('welcome');
-});
-
-Route::get('/sessiondump', function () {
-    dd(session()->all());
-});
+})->name('home');
 
 // Languages for Vue.js
-Route::get('/language/{lang}', 'LocaleController@setLocale');
-Route::get('/language.json', 'LocaleController@getJSON');
+Route::get('/language/{lang}', 'LocaleController@setLocale')->name('lang.set');
+Route::get('/language.json', 'LocaleController@getJSON')->name('lang.get');
 
 // Tus endpoint, Files APIs
 Route::any('/tus/{any?}', 'TusController@serve')->where('any', '.*');
 /*Route::post('/upload', 'DependencyUploadController@uploadFile');
 Route::delete('/upload', 'UploadController@deleteFile');*/
-Route::post('/sync', 'UploadController@syncFile');
-Route::post('/publish', 'UploadController@publishGroup');
+Route::post('/sync', 'UploadController@syncFile')->name('file.sync');
+Route::post('/publish', 'UploadController@publishGroup')->name('file.publish');
 
 // Download
-Route::get('/f/{file}', 'DownloadController@getFile')->name('downloadFile');
-Route::get('/f/{file}/check', 'DownloadController@checkFile')->name('checkFile');
-Route::get('/f/{file}/preview', 'DownloadController@previewFile')->name('previewFile');
-Route::get('/l/{link}', 'LinkController@handleLink')->name('shortLink');
-Route::get('/g/{group}', 'DownloadController@getGroup')->name('showGroup');
-Route::get('/g/{group}/dl', 'DownloadController@getGroupZip')->name('downloadGroup');
+Route::get('/f/{file}', 'DownloadController@getFile')->name('file.download');
+Route::get('/f/{file}/check', 'DownloadController@checkFile')->name('file.check');
+Route::get('/f/{file}/preview', 'DownloadController@previewFile')->name('file.preview');
+Route::get('/l/{link}', 'LinkController@handleLink')->name('link.handle');
+Route::get('/g/{group}', 'DownloadController@getGroup')->name('group.show');
+Route::get('/g/{group}/dl', 'DownloadController@getGroupZip')->name('group.download');
 
 // Manage
-Route::any('/g/{group}/manage', 'DeleteController@manageGroup')->name('manageGroup');
-Route::get('/g/{group}/delete', 'DeleteController@deleteGroup')->name('deleteGroup');
-Route::get('/f/{file}/delete', 'DeleteController@deleteFile')->name('deleteFile');
+Route::any('/g/{group}/manage', 'DeleteController@manageGroup')->name('group.manage');
+Route::get('/g/{group}/delete', 'DeleteController@deleteGroup')->name('group.delete');
+Route::get('/f/{file}/delete', 'DeleteController@deleteFile')->name('file.delete');
 
 // Report
-Route::get('/g/{group}/report', 'ReportController@create')->name('reportGroup');
-Route::post('/g/{group}/report', 'ReportController@store')->middleware('throttle:10,1')->name('reportGroup.post');
+Route::get('/g/{group}/report', 'ReportController@create')->name('report.create');
+Route::post('/g/{group}/report', 'ReportController@store')->middleware('throttle:10,1')->name('report.store');
 
 // Static pages
-Route::get('/legal', 'StaticController@legal')->name('legalPage');
-Route::get('/privacy', 'StaticController@privacy')->name('privacyPage');
-Route::get('/kb/{article}', 'StaticController@kb')->name('dynamicKb');
-Route::get('/manage', 'DeleteController@startManage')->name('startManage');
+Route::get('/legal', 'StaticController@legal')->name('static.legal');
+Route::get('/privacy', 'StaticController@privacy')->name('static.privacy');
+Route::get('/kb/{article}', 'StaticController@kb')->name('static.kb');
+Route::get('/manage', 'DeleteController@startManage')->name('group.start');
 
 // Auth API
 Auth::routes(['verify' => true]);
-Route::get('/user', 'UserController@userApi');
+Route::get('/user', 'UserController@userApi')->name('user.getSelf');
 
 // User dashboard
 Route::middleware(['auth:web'])->group(function () {
@@ -66,5 +62,6 @@ Route::middleware(['auth:web'])->group(function () {
 // Admin
 Route::middleware(['auth:web', 'admin'])->group(function() {
     Route::get('/admin', 'AdminController@dashboard')->name('admin.dashboard');
-    Route::put('/r/{report}', 'ReportController@update')->name('reportGroup.put');
+    Route::get('/g/{group}/reports', 'ReportController@show')->name('group.showReports');
+    Route::put('/g/{group}/reports', 'ReportController@update')->name('group.updateReports');
 });

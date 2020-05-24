@@ -25,14 +25,14 @@
             @if ($group->files->count() > 1)
                 <th class="collapsing">
                     @if ($type == 'admin')
-                        <a data-popup-activate="on" href="{{ route('downloadGroup', ['group' => $group]) }}" class="ui blue labeled medium icon button">
+                        <a href="{{ route('group.delete', ['group' => $group]) }}" class="ui red labeled medium icon button"><i class="delete icon"></i> {{ __('group.manage.delete.group') }}</a>
+                    @else
+                        <a data-popup-activate="on" href="{{ route('group.download', ['group' => $group]) }}" class="ui blue labeled medium icon button">
                             <i class="file archive icon"></i> {{ __('group.download._') }}
                         </a>
                         <div class="ui special popup">
                             <em>{{ __('group.download.tooltip') }}</em>
                         </div>
-                    @else
-                        <a href="{{ route('deleteGroup', ['group' => $group]) }}" class="ui red labeled medium icon button"><i class="delete icon"></i> {{ __('group.manage.delete.group') }}</a>
                     @endif
                 </th>
             @else
@@ -51,7 +51,7 @@
                     <a  @if ($group->encrypted)
                             @click.prevent="openModal('{{ $file->id }}')"
                         @else
-                            href="{{ route('downloadFile', ['file' => $file]) }}"
+                            href="{{ route('file.download', ['file' => $file]) }}"
                         @endif>
                         <h4><i class="file export icon"></i> {{ $file->name }}</h4>
                     </a>
@@ -61,12 +61,12 @@
                 </td>
                 <td class="center aligned collapsing">
                     @if ($type == 'admin')
-                        <a href="{{ route('deleteFile', ['file' => $file]) }}" class="ui red labeled icon button"><i class="delete icon"></i> {{ __('group.manage.delete.file') }}</a>
+                        <a href="{{ route('file.delete', ['file' => $file]) }}" class="ui red labeled icon button"><i class="delete icon"></i> {{ __('group.manage.delete.file') }}</a>
                     @else
                         <a  @if ($group->encrypted)
                                 @click.prevent="openModal('{{ $file->id }}')"
                             @else
-                                href="{{ route('downloadFile', ['file' => $file]) }}"
+                                href="{{ route('file.download', ['file' => $file]) }}"
                             @endif class="ui blue
                                 @if ($group->encrypted && !$file->encrypted) disabled @endif
                             labeled icon button">
@@ -83,7 +83,7 @@
                 <p>{{ trans_choice('group.welcome.synopsis', $group->files->count(), ['date' => $group->expiry_formatted, 'files' => $group->files->count(), 'app' => config('app.name')]) }}</p>
             </th>
             <th class="center aligned">
-                <a href="{{ route('reportGroup', ['group' => $group]) }}" class="ui red labeled icon mini basic button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
+                <a href="{{ route('report.create', ['group' => $group]) }}" class="ui red labeled icon mini basic button"><i class="flag icon"></i>{{ __('group.report._') }}</a>
             </th>
         </tr>
     </tfoot>
@@ -91,6 +91,6 @@
 
 @if($group->encrypted)
     @foreach ($group->files as $file)
-        <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('downloadFile', ['file' => $file]) }}"></decrypt-file>
+        <decrypt-file file="{{ $file->name }}" id="{{ $file->id }}" url="{{ route('file.download', ['file' => $file]) }}"></decrypt-file>
     @endforeach
 @endif

@@ -117,7 +117,8 @@ return [
             '_' => 'Mot de passe',
             'placeholder' => 'Il servira à déchiffrer les fichiers pour voir leur contenu'
         ],
-        'submit' => 'Soumettre un signalement'
+        'submit' => 'Soumettre un signalement',
+        'done' => 'Merci ! Vous allez être redirigé vers l\'accueil.'
     ]
 
 ];

@@ -42,7 +42,7 @@ class DownloadController extends Controller
                             return response()->json(false);
                         }
                     } else {
-                        return redirect()->route('showGroup', ['group' => $file->group]);
+                        return redirect()->route('group.show', ['group' => $file->group]);
                     }
                 } else {
                     return abort(400);
@@ -134,7 +134,7 @@ class DownloadController extends Controller
             } else {
                 if ($group->encrypted) {
                     session()->flash('zipError');
-                    return redirect()->route('showGroup', ['group' => $group]);
+                    return redirect()->route('group.show', ['group' => $group]);
                 }
                 if (!Cache::get('job-group-'.$group->id, false)) {
                     ZipGroup::dispatch($group);

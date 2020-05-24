@@ -1,30 +1,28 @@
 <template>
-    <div>
-        <a href="#" @click.prevent="markAsRead" class="ui blue button micromargin">Marquer comme lu</a><br>
-        <a href="#" @click.prevent="deleteGroup" class="ui red button">Supprimer</a>
-    </div>
+    <a href="#" @click.prevent="markAsRead" class="ui blue fluid button" :class="{loading, disabled: done}">
+        <i class="checkmark icon"></i> Marquer tout comme lu
+    </a>
 </template>
 
 <script>
     export default {
-        props: ['id'],
+        props: ['slug'],
+
+        data() {
+            return {
+                loading: false,
+                done: false
+            }
+        },
 
         methods: {
             markAsRead(_e) {
-                axios.put('/r/'+this.id, {
+                this.loading = true;
+                axios.put('/g/'+this.slug+'/reports', {
                     processed: true
                 }).then(res => {
-                    console.log(res);
-                });
-            },
-            deleteGroup(_e) {
-                axios.put('/r/'+this.id, {
-                    processed: true,
-                    delete: true
-                }).then(res => {
-                    console.log(res);
-                }).catch(err => {
-                    console.log(err);
+                    this.loading = false;
+                    window.location.replace(`${this.$env.url}/admin`);
                 });
             }
         }

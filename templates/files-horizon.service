@@ -1,5 +1,5 @@
 [Unit]
-Description=Horizon worker for Files
+Description=Horizon worker for Raki
 
 [Service]
 Type=simple

@@ -30,7 +30,7 @@
 
         <code>
             Raki is a file sharing system over the Internet.<br>
-            Copyright &copy; 2019 Anjara - Files contributors<br>
+            Copyright &copy; 2019-2020 Anjara - Files contributors<br>
             <br>
             This program is free software: you can redistribute it and/or modify<br>
             it under the terms of the GNU Affero General Public License as published by<br>

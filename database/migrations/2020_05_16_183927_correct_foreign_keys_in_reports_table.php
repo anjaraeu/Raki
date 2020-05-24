@@ -15,8 +15,8 @@ class CorrectForeignKeysInReportsTable extends Migration
     {
         Schema::table('reports', function (Blueprint $table) {
             $table->dropForeign(['group_id']);
-            $table->bigInteger('group_id')->unsigned()->nullable()->change();
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('set null');
+            $table->bigInteger('group_id')->unsigned()->change();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 

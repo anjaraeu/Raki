@@ -5,7 +5,7 @@
         <div class="menu">
             <a @click.prevent="open('register')" class="item" v-if="!auth"><i class="user plus icon"></i> {{ this.$lang.get('auth.register') }}</a>
             <a @click.prevent="open('login')" class="item" v-if="!auth"><i class="sign in alternate icon"></i> {{ this.$lang.get('auth.login') }}</a>
-            <a href="/dashboard" class="item"><i class="dashboard icon"></i> {{ this.$lang.get('dashboard._') }}</a>
+            <a href="/dashboard" class="item" v-if="auth"><i class="dashboard icon"></i> {{ this.$lang.get('dashboard._') }}</a>
             <a @click.prevent="logout()" class="item" v-if="auth"><i class="sign out alternate icon"></i> {{ this.$lang.get('auth.logout') }}</a>
         </div>
     </div>

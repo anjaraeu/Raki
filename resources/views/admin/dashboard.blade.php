@@ -60,43 +60,13 @@
                     @foreach ($reports as $reportgroup)
                         <tr>
                             <td>
-                                <div class="ui list">
-                                    <div class="item">
-                                        @if ($reportgroup[0]->group->files->count() == 1)
-                                            <i class="file icon"></i>
-                                        @else
-                                            <i class="folder icon"></i>
-                                        @endif
-                                        <div class="content">
-                                            <a href="{{ route('showGroup', ['group' => $reportgroup[0]->group]) }}" class="header">
-                                                {{ $reportgroup[0]->group->name }}
-                                            </a>
-                                            <div class="description">{{ trans_choice('group.welcome.synopsis', $reportgroup[0]->group->files->count(), ['date' => $reportgroup[0]->group->expiry_formatted, 'files' => $reportgroup[0]->group->files->count(), 'app' => config('app.name')]) }}</div>
-
-                                            @if ($reportgroup[0]->group->files->count() > 1)
-                                                <div class="list">
-                                                    @foreach ($reportgroup[0]->group->files as $file)
-                                                        <div class="item">
-                                                            <i class="file icon"></i>
-                                                            <div class="content">
-                                                                <a href="{{ route('downloadFile', ['file' => $file]) }}" class="header">
-                                                                    {{ $file->name }}
-                                                                </a>
-                                                                <div class="description">{{ hfs($file->size) }}</div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-group-list :group="$reportgroup[0]->group"></x-group-list>
                             </td>
                             <td>
                                 <p>{{ count($reportgroup) }} rapports déposés</p>
                             </td>
                             <td>
-                                <a href="#" class="ui blue button">Afficher rapports</a>
+                                <a href="{{ route('group.showReports', ['group' => $reportgroup[0]->group]) }}" class="ui blue button">Afficher rapports</a>
                             </td>
                         </tr>
                         {{-- @foreach ($reportgroup as $report)

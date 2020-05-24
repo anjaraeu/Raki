@@ -17,7 +17,7 @@ class LinkController extends Controller
             'link' => $link,
             'group_id' => $group->id
         ]);
-        return route('shortLink', ['link' => $link]);
+        return route('link.handle', ['link' => $link]);
     }
 
     public static function createLink(Group $group, $link) {
@@ -25,7 +25,7 @@ class LinkController extends Controller
             'link' => $link,
             'group_id' => $group->id
         ]);
-        return redirect()->route('shortLink', ['link' => $link]);
+        return redirect()->route('link.handle', ['link' => $link]);
     }
 
     public function handleLink($link) {
@@ -33,7 +33,7 @@ class LinkController extends Controller
         if (empty($group)) {
             return abort(404);
         } else {
-            return redirect()->route('showGroup', ['group' => $group]);
+            return redirect()->route('group.show', ['group' => $group]);
         }
     }
 }
