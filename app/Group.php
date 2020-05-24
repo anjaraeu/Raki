@@ -12,6 +12,10 @@ class Group extends Model
 
     protected $hidden = ['passwd'];
 
+    protected $casts = [
+        'expiry' => 'datetime'
+    ];
+
     public function files() {
         return $this->hasMany('App\File');
     }
@@ -39,7 +43,7 @@ class Group extends Model
     }
 
     public function getExpiryFormattedAttribute() {
-        return Carbon::parse($this->expiry)->locale(App::getLocale())->isoFormat('LLLL');
+        return $this->expiry->locale(App::getLocale())->isoFormat('LLLL');
     }
 
 }

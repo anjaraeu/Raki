@@ -3,29 +3,6 @@
 @section('content')
 <div class="ui container first">
     <div class="ui segment">
-        {{-- <h2>{{ __('static.legal.title') }}</h2>
-
-        <p>{{ __('static.legal.p1') }}</p>
-
-        <h2>{{ __('static.legal.terms') }}</h2>
-
-        <p>{{ __('static.legal.p2') }}</p>
-
-        <div class="ui bulleted list">
-            <div class="item">{{ __('static.legal.forbid.basic') }}</div>
-            <div class="item">{{ __('static.legal.forbid.identity') }}</div>
-            <div class="item">{{ __('static.legal.forbid.corp') }}</div>
-            <div class="item">{{ __('static.legal.forbid.spam') }}</div>
-            <div class="item">{{ __('static.legal.forbid.malware') }}</div>
-            <div class="item">{{ __('static.legal.forbid.copyright') }}</div>
-        </div>
-
-        <p>{{ __('static.legal.p3') }}</p>
-
-        <p>{{ __('static.legal.p4') }}</p>
-
-        <p>{{ __('static.legal.p5') }}</p> --}}
-
         {!! $md !!}
 
         <code>

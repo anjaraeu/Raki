@@ -1,6 +1,21 @@
 # Raki
 
-Raki allows you to simply and quickly upload files.
+Raki is a full-featured file sharing utility.
+It relies on Tus protocol to allow resumable uploads. 
+
+## Features
+
+- Upload 5 files and create a group
+  - optional AES256 encryption with password
+  - "single" downloads: deleted right after first download
+  - custom expiration (from one day to one month)
+  - create short link (with AnjaraLink or the integrated link shortener)
+  - management link
+- User accounts (totally optional)
+  - All the uploads in a single dashboard
+- Admin/Moderation panels
+  - Report features (DMCA, non-ethical, etc...)
+  - Admin dashboard with Horizon console
 
 ## Installation
 
@@ -9,6 +24,13 @@ You'll need to install [composer](https://getcomposer.org) for PHP dependencies,
 First, install PHP dependencies:
 ```bash
 composer install
+```
+
+Configure the .env file correctly:
+```bash
+cp .env.example .env
+$EDITOR .env
+php artisan key:generate
 ```
 
 Then build assets:
@@ -20,13 +42,6 @@ cd ../..
 yarn production
 ```
 
-Configure the .env file correctly:
-```bash
-cp .env.example .env
-$EDITOR .env
-php artisan key:generate
-```
-
 Then setup the database:
 ```
 php artisan migrate
@@ -36,7 +51,7 @@ To manage the download queue, you'll need to run the Horizon daemon, with the pr
 ```bash
 sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.service
 ```
-Don't forget to edit PATHTOPHP and PATHTOFILES to their respective values.
+Don't forget to edit PATHTOPHP and PATHTORAKI to their respective values.
 
 
 ## SQLite

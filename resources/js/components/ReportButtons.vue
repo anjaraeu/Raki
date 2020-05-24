@@ -22,6 +22,7 @@
                     processed: true
                 }).then(res => {
                     this.loading = false;
+                    this.done = true;
                     window.location.replace(`${this.$env.url}/admin`);
                 });
             }
