@@ -19,39 +19,43 @@ It relies on Tus protocol to allow resumable uploads.
 
 ## Installation
 
-You'll need to install [composer](https://getcomposer.org) for PHP dependencies, [Nodejs](https://nodejs.org) to compile assets. You'll also need [Redis](https://redis.io) to manage the ZIP generation queue.
+You'll need to install [Composer](https://getcomposer.org) for PHP dependencies, [Nodejs](https://nodejs.org) to compile assets. You'll also need [Redis](https://redis.io) to manage the ZIP generation queue.
 
-First, install PHP dependencies:
-```bash
-composer install
-```
+- First, install PHP dependencies:
+  ```bash
+  composer install --no-dev
+  ```
 
-Configure the .env file correctly:
-```bash
-cp .env.example .env
-$EDITOR .env
-php artisan key:generate
-```
+- Configure the .env file correctly:
+  ```bash
+  cp .env.example .env
+  $EDITOR .env
+  php artisan key:generate
+  ```
 
-Then build assets:
-```bash
-yarn
-cd resources/fomantic
-npx gulp build
-cd ../..
-yarn production
-```
+- Then build assets:
+  ```bash
+  yarn
+  cd resources/fomantic
+  npx gulp build
+  cd ../..
+  yarn production
+  ```
 
-Then setup the database:
-```
-php artisan migrate
-```
+- Then setup the database:
+  ```
+  php artisan migrate
+  ```
 
-To manage the download queue, you'll need to run the Horizon daemon, with the provided systemd unit:
-```bash
-sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.service
-```
-Don't forget to edit PATHTOPHP and PATHTORAKI to their respective values.
+- To manage the download queue, you'll need to run the Horizon daemon, with the provided systemd unit:
+  ```bash
+  sudo cp templates/files-horizon.service /etc/systemd/system/files-horizon.service
+  ```
+  Don't forget to edit PATHTOPHP and PATHTORAKI to their respective values.
+
+- (optional) Set the cron task to delete expired groups.
+  The task template can be found in the templates folder.
+  Again, don't forget to edit 
 
 
 ## SQLite

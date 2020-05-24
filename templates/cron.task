@@ -1,0 +1,1 @@
+0 */1 * * * PATHTOPHP PATHTORAKI/artisan schedule:run
