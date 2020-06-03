@@ -70,6 +70,15 @@ return [
         ]
     ],
 
-    'note' => ':size MB par fichier, 5 fichiers maximum'
+    'note' => ':size MB par fichier, 5 fichiers maximum',
+
+    'uploaded' => 'Vos fichiers sont en ligne !',
+    'links' => [
+        'share' => 'Lien à partager',
+        'delete' => 'Lien pour supprimer les fichiers'
+    ],
+    'copy' => 'Copier',
+
+    'auth' => 'Ce groupe a été sauvegardé dans votre panneau utilisateur. Vous n\'êtes pas obligé de noter l\'adresse de suppression.'
 
 ];

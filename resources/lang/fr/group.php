@@ -21,13 +21,6 @@ return [
         'wait' => 'L\'archive est en train d\'être générée, cette page se rafraîchit automatiquement.'
     ],
 
-    'uploaded' => 'Vos fichiers sont en ligne !',
-    'links' => [
-        'share' => 'Lien à partager',
-        'delete' => 'Lien pour supprimer les fichiers'
-    ],
-    'copy' => 'Copier',
-
     'short' => [
         'header' => 'Les liens sont courts !',
         '_' => 'Nous avons connecté notre système AnjaraLink pour vous aider à partager vos fichiers.'

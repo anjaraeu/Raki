@@ -1,25 +1,27 @@
 <template>
     <div class="ui attached segment">
+        <div class="ui success message" v-if="auth">
+
+        </div>
         <div class="ui action labeled fluid input">
             <div class="ui label">
-                {{ this.$lang.get('group.links.share') }}
+                {{ this.$lang.get('welcome.links.share') }}
             </div>
             <input type="text" id="sharelink" :value="share">
-
-            <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#sharelink" id="copybtn">
+            <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#sharelink">
                 <i class="copy icon"></i>
-                {{ this.$lang.get('group.copy') }}
+                {{ this.$lang.get('welcome.copy') }}
             </a>
         </div>
         <br>
         <div class="ui action labeled fluid input">
             <div class="ui label">
-                {{ this.$lang.get('group.links.delete') }}
+                {{ this.$lang.get('welcome.links.delete') }}
             </div>
             <input type="text" id="managelink" :value="manage">
-            <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#managelink" id="copybtn">
+            <a href="javascript:void(0);" class="ui teal right labeled icon button" data-clipboard-target="#managelink">
                 <i class="copy icon"></i>
-                {{ this.$lang.get('group.copy') }}
+                {{ this.$lang.get('welcome.copy') }}
             </a>
         </div>
         <br>
@@ -37,10 +39,10 @@
     import Clipboard from "clipboard";
 
     export default {
-        props: ['share', 'manage'],
+        props: ['share', 'manage', 'auth'],
 
         mounted() {
-            new Clipboard('#copybtn');
+            new Clipboard('.ui.teal.right.labeled.icon.button');
         },
 
         methods: {

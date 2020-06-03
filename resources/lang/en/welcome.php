@@ -70,6 +70,15 @@ return [
         ]
     ],
 
-    'note' => ':size MB per file, 5 files max'
+    'note' => ':size MB per file, 5 files max',
+
+    'uploaded' => 'Your files are online!',
+    'links' => [
+        'share' => 'Share link',
+        'delete' => 'Deletion link'
+    ],
+    'copy' => 'Copy',
+
+    'auth' => 'This group is automatically saved in your user dashboard. You don\'t need to save the deletion link.'
 
 ];

@@ -114,18 +114,3 @@ axios.get('/language.json').then(res => {
         }
     });
 });
-
-/**
- * At the end, register the Service Worker for Golden Retriever Uppy plugin.
- */
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-        .register(`${process.env.MIX_APP_URL}/js/sw.js`) // path to your bundled service worker with GoldenRetriever service worker
-        .then((registration) => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope)
-        })
-        .catch((error) => {
-            console.log('Registration failed with ' + error)
-        })
-}

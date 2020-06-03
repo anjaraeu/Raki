@@ -10,7 +10,7 @@
     import Tus from "@uppy/tus";
     import French from "@uppy/locales/lib/fr_FR";
     import Dashboard from "@uppy/dashboard";
-    import GoldenRetriever from "@uppy/golden-retriever";
+    import cookie from "cookie-universal";
 
     export default {
         props: ['reset'],
@@ -44,14 +44,15 @@
                 width: "100%",
                 height: 570,
                 showLinkToFileUploadResult: false
-            })/*.use(GoldenRetriever, {
-                serviceWorker: false
-            })*/.use(Tus, {
+            }).use(Tus, {
                 endpoint: '/tus',
                 resume: true,
                 autoRetry: true,
                 retryDelays: [0, 1000, 3000, 5000],
-                removeFingerprintOnSuccess: true
+                removeFingerprintOnSuccess: true,
+                headers: {
+                    "X-XSRF-TOKEN": cookie().get('XSRF-TOKEN')
+                }
             }).on('upload-success', (file, response) => {
                 this.$emit('file-uploaded', {file, response});
             });

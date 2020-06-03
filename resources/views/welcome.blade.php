@@ -18,16 +18,7 @@
             </div>
             @endif
 
-
-
-
-            {{-- <form action="/upload" class="dropzone" id="anjaradrop">
-                {{ csrf_field() }}
-            </form> --}}
-
-            <upload-form></upload-form>
-
-            {{-- <submit-form :appurl="env.MIX_APP_URL" :maxexp="env.MIX_MAX_EXPIRATION"></submit-form>--}}
+            <upload-form :auth="{{ !Auth::guest() }}"></upload-form>
         </div>
     </div>
 @endsection

@@ -7,18 +7,19 @@ return [
         'synopsis' => 'This file is available on :app. It\'ll expire on the :date.|This :app group is a :files files group. They\'ll expire on the :date.'
     ],
 
+    'layout' => [
+        'table' => [
+            'file' => 'File|Files',
+            'sha256' => 'SHA256 checksum'
+        ]
+    ],
+
     'download' => [
         '_' => 'Download as ZIP',
+        'single' => 'Download',
         'tooltip' => 'The generation of the Zip archive may take some time, the archive will be downloaded automatically when it is ready.',
         'wait' => '.zip archive is being generated, please wait. This page refreshs automatically.'
     ],
-
-    'uploaded' => 'Your files are online!',
-    'links' => [
-        'share' => 'Share link',
-        'delete' => 'Deletion link'
-    ],
-    'copy' => 'Copy',
 
     'short' => [
         'header' => 'Now the link is short!',
@@ -57,6 +58,10 @@ return [
             'password' => 'Password',
             'submit' => 'Download',
             'err' => 'Password is incorrect, please check your input.'
+        ],
+        'wait' => [
+            'title' => 'Merci de patienter...',
+            'message' => 'Le groupe est encore en cours de chiffrement. Les fichiers ne sont pas disponibles durant cette période.'
         ]
     ],
 
@@ -105,7 +110,8 @@ return [
             '_' => 'Password',
             'placeholder' => 'Used for decrypting the files'
         ],
-        'submit' => 'Submit report'
+        'submit' => 'Submit report',
+        'done' => 'Thanks! You will be taken to home.'
     ]
 
 ];

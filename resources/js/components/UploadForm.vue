@@ -32,7 +32,7 @@
         </div>
         <uppy-form v-show="step === 1" v-on:file-uploaded="storeFile" :reset="reset"></uppy-form>
         <submit-form v-show="step === 2" :submit="progress"></submit-form>
-        <share-form v-if="step === 3" :share="links.share" :manage="links.manage"></share-form>
+        <share-form v-if="step === 3" :share="links.share" :manage="links.manage" :auth="auth"></share-form>
     </div>
 </template>
 
@@ -42,6 +42,7 @@
         return regex.test(url) ? regex.exec(url)[1]:null;
     }
     export default {
+        props: ['auth'],
         data() {
             return {
                 step: 1,

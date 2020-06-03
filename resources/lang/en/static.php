@@ -14,7 +14,7 @@ return [
                 'desc' => 'These groups are stored whenever the files are stored.'
             ],
             'ip' => [
-                '_' => 'Your Internet Address (IP)',
+                '_' => 'Your Internet Address (IP), your referer and your User Agent.',
                 'desc' => 'These data can be stored for 1 year.'
             ],
             'sentry' => [

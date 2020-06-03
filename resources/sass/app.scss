@@ -31,3 +31,7 @@ body {
 table {
     word-break: break-word;
 }
+
+.ui.menu .dropdown.item .menu {
+    min-width: max-content;
+}
