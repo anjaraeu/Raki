@@ -46,12 +46,11 @@ class ReportController extends Controller
             case 'spam':
             case 'shock':
             case 'confidential':
-                $report = Report::create([
+                return Report::create([
                     'group_id' => $group->id,
                     'reason' => $input,
                     'processed' => false
                 ]);
-                return $report;
                 break;
 
             case 'identity':
@@ -87,14 +86,14 @@ class ReportController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the reports of a specific group.
      *
-     * @param  \App\Report  $report
+     * @param  \App\Group  $report
      * @return \Illuminate\Http\Response
      */
-    public function show(Report $report)
+    public function show(Group $group)
     {
-        //
+        return view('admin.reports', ['group' => $group]);
     }
 
     // /**
@@ -108,23 +107,31 @@ class ReportController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Report  $report
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, Report $report)
-    // {
-    //     //
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Report  $report
+     * @return Group
+     */
+    public function update(Request $request, Group $group)
+    {
+         $input = $request->validate([
+             'processed' => 'boolean'
+         ]);
+         $group->reports->each(function ($report) use ($input) {
+             if ($input['processed']) $report->processed = true;
+             $report->save();
+         });
+         return $group;
+    }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Report  $report
+     * @param \App\Report $report
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Report $report)
     {

@@ -1,10 +1,10 @@
 [Unit]
-Description=Horizon worker for Files
+Description=Horizon worker for Raki
 
 [Service]
 Type=simple
 
-ExecStart=PATHTOPHP PATHTOFILES/artisan horizon
+ExecStart=PATHTOPHP PATHTORAKI/artisan horizon
 
 [Install]
 WantedBy=default.target

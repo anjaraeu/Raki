@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.app')
 
 @section('content')
     <div class="ui container first">
@@ -18,15 +18,7 @@
             </div>
             @endif
 
-            {{-- <form action="/upload" class="dropzone" id="anjaradrop">
-                {{ csrf_field() }}
-            </form> --}}
-
-            <div id="anjaradrop" class="dropzone"></div>
-
-            <br>
-
-            <submit-form :appurl="env.MIX_APP_URL" :maxexp="env.MIX_MAX_EXPIRATION"></submit-form>
+            <upload-form :auth="{{ !Auth::guest() }}"></upload-form>
         </div>
     </div>
 @endsection

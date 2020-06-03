@@ -12,14 +12,14 @@ const fs = require('fs');
  |
  */
 
-if (!fs.existsSync('resources/semantic/dist/semantic.css') || !fs.existsSync('resources/semantic/dist/semantic.min.js')) {
-    console.error('Semantic UI is not built, run `npx gulp build` in resources/semantic folder');
+if (!fs.existsSync('resources/fomantic/dist/semantic.css') || !fs.existsSync('resources/fomantic/dist/semantic.min.js')) {
+    console.error('Fomantic UI is not built, run `npx gulp build` in resources/semantic folder');
     process.exit(1);
 }
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/err.js', 'public/js')
-    .extract(['vue', 'jquery', 'axios', 'lang.js', 'clipboard', 'cookie-universal', 'dropzone'])
+    .extract(['vue', 'jquery', 'axios', 'lang.js', 'clipboard', 'cookie-universal', '@uppy/core', '@uppy/dashboard'])
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/err.scss', 'public/css')
     .sourceMaps();

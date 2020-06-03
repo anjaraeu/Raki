@@ -7,18 +7,19 @@ return [
         'synopsis' => 'This file is available on :app. It\'ll expire on the :date.|This :app group is a :files files group. They\'ll expire on the :date.'
     ],
 
+    'layout' => [
+        'table' => [
+            'file' => 'File|Files',
+            'sha256' => 'SHA256 checksum'
+        ]
+    ],
+
     'download' => [
         '_' => 'Download as ZIP',
+        'single' => 'Download',
         'tooltip' => 'The generation of the Zip archive may take some time, the archive will be downloaded automatically when it is ready.',
         'wait' => '.zip archive is being generated, please wait. This page refreshs automatically.'
     ],
-
-    'uploaded' => 'Your files are online!',
-    'links' => [
-        'share' => 'Share link',
-        'delete' => 'Deletion link'
-    ],
-    'copy' => 'Copy',
 
     'short' => [
         'header' => 'Now the link is short!',
@@ -49,7 +50,7 @@ return [
 
     'encrypted' => [
         '_' => 'This group is encrypted',
-        'desc' => 'The files are readable only by using its password defined by the person who shared that group.',
+        'desc' => 'The files are readable only by using its password defined by the person who shared that group. The zips are disabled because it allows local bruteforce.',
         'ziptooltip' => 'This archive is encrypted with the group\'s password.',
         'modal' => [
             'title' => 'Decrypt file',
@@ -57,7 +58,60 @@ return [
             'password' => 'Password',
             'submit' => 'Download',
             'err' => 'Password is incorrect, please check your input.'
+        ],
+        'wait' => [
+            'title' => 'Please wait...',
+            'message' => 'The group is pending for encryption. The files aren\'t available during this period.'
         ]
+    ],
+
+    'report' => [
+        '_' => 'Report group',
+        'create' => 'Report ":group"',
+        'err' => [
+            'dmca' => 'You must accept the conditions.',
+            'password' => 'The password is incorrect.'
+        ],
+        'encrypted' => [
+            '_' => 'WARNING !',
+            'disclaimer' => 'This group is encrypted, so you need to supply the group password to let the moderation check the files. Keep that in mind, the password cannot be changed.'
+        ],
+        'reason' => [
+            '_' => 'How does the content of this group violate our terms of use?',
+            'placeholder' => 'Choose a reason',
+            'spam' => 'This content is useless and spam our infrastructures.',
+            'identity' => 'This content is doing identity theft.',
+            'shock' => 'This content is offensive, obscene, (child) pornography, incites hatred or suicide/self-mutilation.',
+            'copyright' => 'This content include copyright infringement (DMCA takedown).',
+            'confidential' => 'This content is confidential or violates personal rights.'
+        ],
+        'cp' => [
+            'who' => [
+                '_' => 'Copyright holder name',
+                'placeholder' => 'Corporation name or Person name'
+            ],
+            'what' => [
+                '_' => 'Copyrighted content name',
+                'placeholder' => 'Content name'
+            ],
+            'dmca' => 'I understand that making fake DMCA reports can lead to a ban of our network.',
+            'sign' => [
+                '_' => 'Sign here',
+                'placeholder' => 'Put in your complete name.'
+            ]
+        ],
+        'identity' => [
+            'who' => [
+                '_' => 'Who is target of identity theft?',
+                'placeholder' => 'Name'
+            ]
+        ],
+        'password' => [
+            '_' => 'Password',
+            'placeholder' => 'Used for decrypting the files'
+        ],
+        'submit' => 'Submit report',
+        'done' => 'Thanks! You will be taken to home.'
     ]
 
 ];

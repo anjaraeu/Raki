@@ -33,7 +33,9 @@ class ZipGroup implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
+     * @return bool
+     * @throws \PhpZip\Exception\ZipException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function handle()
     {

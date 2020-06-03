@@ -2,109 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use App\File;
 use App\Group;
 use App\Jobs\EncryptFile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\UploadedFile;
-use App\Http\Controllers\LinkController;
-use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
-use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
-use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
-use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use App\Jobs\ZipEncryptedGroup;
 use App\Jobs\DeleteFile;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 // use App\Helpers\CryptUtil;
 
 class UploadController extends Controller
 {
-    /**
-     * Handles the file upload
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     *
-     * @throws UploadMissingFileException
-     * @throws \Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException
-     */
-    public function upload(Request $request) {
-        // create the file receiver
-        $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
-        // check if the upload is success, throw exception or return response you need
-        if ($receiver->isUploaded() === false) {
-            throw new UploadMissingFileException();
-        }
-        // receive the file
-        $save = $receiver->receive();
-        // check if the upload has finished (in chunk mode it will send smaller files)
-        if ($save->isFinished()) {
-            // save the file and return any response you need, current example uses `move` function. If you are
-            // not using move, you need to manually delete the file by unlink($save->getFile()->getPathname())
-            return $this->saveFile($save->getFile());
-        }
-        // we are in chunk mode, lets send the current progress
-        /** @var AbstractHandler $handler */
-        $handler = $save->handler();
-        return response()->json([
-            "done" => $handler->getPercentageDone(),
-            'status' => true
-        ]);
-    }
 
-    protected function saveFile(UploadedFile $file) {
-        if ($file->getSize() > (env('MIX_MAX_FILE_SIZE') * 1000000)) {
-            return abort(413);
-        }
-        $group = session('pending_group', 'create');
-        if ($group === 'create') {
-            $group = Group::create([
-                'slug' => hash('sha256', random_bytes(25)),
-                'name' => 'Untitled'
-            ]);
-            session(['pending_group' => $group->id]);
+    public function syncFile(Request $request) {
+        $file = File::where([['tus_uuid', $request->input('tus_uuid')], ['group_id', null]])->first();
+        if ($file === null) {
+            Log::notice('BITCONNEEEEEEEECT');
+            Log::warning('File '.$request->input('tus_uuid').' is requested for sync but wasn\'t found.');
+            return response('Well fuck', 400);
         } else {
-            $group = Group::findOrFail($group);
+            session()->push('pending_files', $file);
+            Redis::del('tus:'.$file->tus_uuid);
+            return response()->json(true); // TODO: change that
         }
-        $path = $file->store('files');
-        $file = File::create([
-            'slug' => hash('sha256', random_bytes(25)),
-            'name' => $file->getClientOriginalName(),
-            'path' => $path,
-            'group_id' => $group->id,
-            'size' => Storage::size($path),
-            'checksum' => hash('sha256', Storage::get($path)),
-            'mime' => $file->getMimeType()
-        ]);
-        $group->load('files');
-        return response()->json(['file' => $file, 'group' => $group]);
     }
 
     public function deleteFile(Request $request) {
         $request->validate(['name' => 'required']);
-        if (session('pending_group', 'create') === 'create') {
+        if (count(session('pending_files', [])) === 0) {
             return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
         }
-        $file = File::where([['name', $request->input('name')], ['group_id', session('pending_group')]])->first();
+        /*$file = File::where([['name', $request->input('name')], ['group_id', session('pending_group')]])->first();
         if (!empty($file)) {
             DeleteFile::dispatchNow($file);
             return response()->json(true);
         } else {
             return response()->json(false, 422);
-        }
+        }*/
     }
 
     public function publishGroup(Request $request) {
         if (session('pending_group', 'create') === 'create') {
-            return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
+            if (count(session('pending_files', [])) >= 1) {
+                $group = Group::create([
+                    'slug' => hash('sha256', random_bytes(25)),
+                    'name' => 'Untitled'
+                ]);
+                foreach (session('pending_files') as $file) {
+                    $file->group()->associate($group);
+                    $file->save();
+                }
+            } else {
+                return response()->json(['errors' => ['emptygroup' => [__('welcome.error.nogroup')]]], 400);
+            }
+        } else {
+            $group = Group::findOrFail(session('pending_group'));
         }
-        $group = Group::findOrFail(session('pending_group'));
         $request->validate([
             'name' => 'max:250',
             'link' => 'max:25|unique:short_links,link',
@@ -112,7 +71,7 @@ class UploadController extends Controller
         ]);
         if ($request->filled('password')) {
             $request->validate([
-                'password' => 'min:8|regex:/\\W/'
+                'password' => 'min:8'
             ]);
         }
         if ($request->filled('expiry')) {
@@ -131,11 +90,14 @@ class UploadController extends Controller
         }
         if ($request->filled('password')) {
             $group->encrypted = true;
-            $group->files->each(function ($item) {
-                global $request;
-                EncryptFile::dispatch($item, $request->input('password'));
+            $group->files->each(function ($item) use ($request) {
+                $item->password = hash('sha256', $request->input('password'));
+                $item->save();
+                EncryptFile::dispatch($item);
             });
-            ZipEncryptedGroup::dispatch($group, $request->input('password'));
+            // NOTE: Zips for encrypted are probably gonna be disabled for security reasons, as
+            // this allows local bruteforce of passwords.
+            // ZipEncryptedGroup::dispatch($group, $request->input('password'));
         }
         if ($request->filled('name')) {
             $group->name = $request->input('name');
@@ -145,34 +107,34 @@ class UploadController extends Controller
         if ($request->input('single')) {
             $group->single = true;
         }
+        if (Auth::user()) {
+            $group->owner_id = Auth::id();
+        }
 
-        session(['pending_group' => 'create']);
+        session(['pending_group' => 'create', 'pending_files' => []]);
 
         $passwd = hash('sha1', random_bytes(50));
         $group->passwd = Hash::make($passwd);
-        session()->flash('passwd_group', $passwd);
 
         $group->save();
 
         if ($request->ajax()) {
+            $ret = ['link' => route('group.show', ['group' => $group]), 'manage' => route('group.manage', ['group' => $group]).'?password='.$passwd];
             if ($request->filled('link')) {
-                return LinkController::createLinkAjax($group, $request->input('link'));
+                $ret['short_link'] = LinkController::createLinkAjax($group, $request->input('link'));
             } else {
-                if (empty(env('LINK_APP_API'))) {
-                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
-                } else {
-                    $client = new Client(['base_uri' => env('LINK_APP_API')]);
-                    $res = $client->post('link', ['json' => ['link' => route('showGroup', ['slug' => $group->slug])]]);
-                    $ponse = json_decode($res->getBody());
-                    session()->flash('short_link', $ponse->link);
-                    return response()->json(['link' => route('showGroup', ['slug' => $group->slug])]);
+                if (!empty(env('LINK_APP_API'))) {
+                    $ret['short_link'] = Http::post(env('LINK_APP_API').'/link', [
+                        'link' => route('group.show', ['group' => $group])
+                    ])['link'];
                 }
             }
+            return response()->json($ret);
         } else {
             if ($request->filled('link')) {
                 return LinkController::createLink($group, $request->input('link'));
             } else {
-                return redirect()->route('showGroup', ['slug' => $group->slug]);
+                return redirect()->route('group.show', ['group' => $group]);
             }
         }
     }

@@ -3,11 +3,11 @@
         <input type="hidden" name="_token" :value="csrf">
         <div class="field" v-bind:class="{ error: err.url }">
             <label for="url">{{ this.$lang.get('group.manage.form.url._') }}</label>
-            <input type="text" :placeholder="this.$lang.get('group.manage.form.url.placeholder')" name="url" v-model="url" autocomplete="off">
+            <input type="text" :placeholder="this.$lang.get('group.manage.form.url.placeholder')" name="url" id="url" v-model="url" autocomplete="off">
         </div>
         <div class="field" v-bind:class="{ error: err.pass }">
             <label for="password">{{ this.$lang.get('group.manage.form.password._') }}</label>
-            <input type="text" :placeholder="this.$lang.get('group.manage.form.password.placeholder')" name="password" v-model="password" autocomplete="off">
+            <input type="text" :placeholder="this.$lang.get('group.manage.form.password.placeholder')" name="password" id="password" v-model="password" autocomplete="off">
         </div>
         <div class="field">
             <input class="ui blue button" type="submit" :value="this.$lang.get('group.manage.form.submit')">
@@ -60,9 +60,7 @@ export default {
             }
         },
         password(newVal, _old) {
-            if (newVal.length == 40) this.err.pass = false;
-            else this.err.pass = true;
-            return;
+            this.err.pass = newVal.length != 40;
         }
     }
 

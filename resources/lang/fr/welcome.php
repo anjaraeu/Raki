@@ -52,6 +52,33 @@ return [
         'info' => 'Lorsque quelqu\'un télécharge un ou des fichiers, ils seront supprimés juste après.'
     ],
 
-    'submit' => 'Mettre en ligne !'
+    'steps' => [
+        '1' => [
+            '_' => 'Fichiers',
+            'desc' => 'Choisissez vos fichiers',
+            'btn' => 'Suivant'
+        ],
+        '2' => [
+            '_' => 'Groupe',
+            'desc' => 'Donnez-lui un joli nom !',
+            'btn' => 'Publier'
+        ],
+        '3' => [
+            '_' => 'Partager',
+            'desc' => 'Copiez le lien et envoyez-le à vos proches.',
+            'btn' => 'Recommencer'
+        ]
+    ],
+
+    'note' => ':size MB par fichier, 5 fichiers maximum',
+
+    'uploaded' => 'Vos fichiers sont en ligne !',
+    'links' => [
+        'share' => 'Lien à partager',
+        'delete' => 'Lien pour supprimer les fichiers'
+    ],
+    'copy' => 'Copier',
+
+    'auth' => 'Ce groupe a été sauvegardé dans votre panneau utilisateur. Vous n\'êtes pas obligé de noter l\'adresse de suppression.'
 
 ];

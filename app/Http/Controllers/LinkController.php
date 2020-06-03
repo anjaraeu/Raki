@@ -12,40 +12,28 @@ use App;
 
 class LinkController extends Controller
 {
-    public static function createLinkAjax (Group $group, $link) {
+    public static function createLinkAjax(Group $group, $link) {
         ShortLink::create([
             'link' => $link,
             'group_id' => $group->id
         ]);
-        return response()->json(['link' => route('shortLink', ['link' => $link])]);
+        return route('link.handle', ['link' => $link]);
     }
 
-    public static function createLink (Group $group, $link) {
+    public static function createLink(Group $group, $link) {
         ShortLink::create([
             'link' => $link,
             'group_id' => $group->id
         ]);
-        return redirect()->route('shortLink', ['link' => $link]);
+        return redirect()->route('link.handle', ['link' => $link]);
     }
 
-    public function handleLink ($link) {
+    public function handleLink($link) {
         $group = ShortLink::where('link', $link)->get()->first()->group;
         if (empty($group)) {
             return abort(404);
         } else {
-            if ($group->files->count() == 0) {
-                DeleteZip::dispatch($group);
-                return abort(419);
-            } elseif (now()->greaterThan($group->expiry)) {
-                $group->files->each(function($file) {
-                    DeleteFile::dispatch($file);
-                });
-                DeleteZip::dispatch($group);
-                return abort(419);
-            } else {
-                $group->load('files');
-                return view('group', ['group' => $group, 'date' => Carbon::parse($group->expiry)->locale(App::getLocale())->isoFormat('LLLL')]);
-            }
+            return redirect()->route('group.show', ['group' => $group]);
         }
     }
 }

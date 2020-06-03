@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.app')
 
 @section('content')
 <div class="ui container first">
@@ -15,7 +15,7 @@
         </div>
         @endif
 
-        <report-form :csrf="csrf" encrypted="{{ $group->encrypted }}" id="{{ $group->id }}" fileslug="{{ $group->files->first()->slug }}"></report-form>
+        <report-form encrypted="{{ $group->encrypted }}" slug="{{ $group->slug }}" fileslug="{{ $group->files->first()->slug }}"></report-form>
     </div>
 </div>
 @endsection

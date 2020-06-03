@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Exception;
+use App\Group;
+use App\Observers\GroupObserver;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,12 +23,13 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
+     * @throws FatalError
      */
     public function boot()
     {
+        Group::observe(GroupObserver::class);
         if (env('MIX_DEFAULT_EXPIRATION') > env('MIX_MAX_EXPIRATION')) {
-            throw new FatalThrowableError(new Exception('Default expiration is higher than max expiration'));
-            die();
+            throw new FatalError('Default expiration is higher than max expiration', 500, [new \Error('.env error')]);
         }
     }
 }

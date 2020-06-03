@@ -52,6 +52,33 @@ return [
         'info' => 'When someone downloads one or more files, they will be deleted from the server.'
     ],
 
-    'submit' => 'Submit!'
+    'steps' => [
+        '1' => [
+            '_' => 'Files',
+            'desc' => 'Upload your files',
+            'btn' => 'Next'
+        ],
+        '2' => [
+            '_' => 'Group',
+            'desc' => 'Give it a pretty name!',
+            'btn' => 'Publish'
+        ],
+        '3' => [
+            '_' => 'Share',
+            'desc' => 'Share link with your friends!',
+            'btn' => 'Restart'
+        ]
+    ],
+
+    'note' => ':size MB per file, 5 files max',
+
+    'uploaded' => 'Your files are online!',
+    'links' => [
+        'share' => 'Share link',
+        'delete' => 'Deletion link'
+    ],
+    'copy' => 'Copy',
+
+    'auth' => 'This group is automatically saved in your user dashboard. You don\'t need to save the deletion link.'
 
 ];

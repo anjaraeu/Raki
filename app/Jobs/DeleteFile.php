@@ -30,10 +30,12 @@ class DeleteFile implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \Exception
      */
     public function handle()
     {
         Storage::delete($this->file->path);
-        return $this->file->delete();
+        $this->file->delete();
+        $this->file->group->touch();
     }
 }

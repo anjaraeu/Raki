@@ -19,6 +19,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // TODO : Make this routes CSRF-proof
+        '/tus',
+        '/tus/*',
     ];
 }

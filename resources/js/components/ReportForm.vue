@@ -1,7 +1,7 @@
 <template>
     <form method="POST" class="ui form" @submit.prevent="submitForm">
         <div class="field">
-            <label for="reason">{{ this.$lang.get('group.report.reason._') }}</label>
+            <label for="reportdown">{{ this.$lang.get('group.report.reason._') }}</label>
             <select class="ui selection dropdown" id="reportdown" v-model="type">
                 <option value="">{{ this.$lang.get('group.report.reason.placeholder') }}</option>
                 <option value="spam">{{ this.$lang.get('group.report.reason.spam') }}</option>
@@ -33,12 +33,14 @@
             <label for="sign">{{ this.$lang.get('group.report.cp.sign._') }}</label>
             <input type="text" name="sign" id="sign" :placeholder="this.$lang.get('group.report.cp.sign.placeholder')" v-model="sign">
         </div>
-        <div class="field" v-if="encrypted">
+        <div class="field" v-if="isEncrypted">
             <label for="password">{{ this.$lang.get('group.report.password._') }}</label>
             <input type="text" name="password" id="password" :placeholder="this.$lang.get('group.report.password.placeholder')" v-model="password">
         </div>
         <div class="field" v-if="type !== null">
-            <input type="submit" class="ui blue button" :value="this.$lang.get('group.report.submit')">
+            <button type="submit" class="ui blue button" v-bind:class="{loading, disabled: done}">
+                {{ this.done ? this.$lang.get('group.report.done'):this.$lang.get('group.report.submit') }}
+            </button>
             <small v-if="warning">{{ warning }}</small>
         </div>
     </form>
@@ -46,7 +48,7 @@
 
 <script>
 export default {
-    props: ['csrf', 'id', 'encrypted', 'fileslug'],
+    props: ['slug', 'encrypted', 'fileslug'],
 
     data() {
         return {
@@ -56,20 +58,29 @@ export default {
             dmca: false,
             sign: '',
             password: '',
-            warning: false
+            warning: false,
+            loading: false,
+            done: false
         }
     },
 
     methods: {
+        goHome() {
+            return window.location.replace(this.$env.url);
+        },
         sendReport() {
-            axios.post('/g/report/'+this.id, {
+            axios.post(`/g/${this.slug}/report`, {
                 type: this.type,
                 who: this.who,
                 what: this.what,
                 password: this.password,
                 sign: this.sign
             }).then(res => {
-                document.location.href = '/';
+                this.loading = false;
+                this.done = true;
+                window.setTimeout(this.goHome, 2500);
+            }).catch(err => {
+                this.loading = false;
             });
         },
         submitForm() {
@@ -77,15 +88,25 @@ export default {
                 this.warning = this.$lang.get('group.report.err.dmca');
                 return false;
             }
-            if (this.encrypted == true) {
+            this.loading = true;
+            if (this.isEncrypted) {
                 axios.get('/f/'+this.fileslug+'/check', { params: {
                     password: this.password
                 }}).then(res => {
                     if (res.data === true) this.sendReport();
-                    else this.warning = this.$lang.get('group.report.err.password');
+                    else {
+                        this.warning = this.$lang.get('group.report.err.password');
+                        this.loading = false;
+                    }
                 });
             } else this.sendReport();
 
+        }
+    },
+
+    computed: {
+        isEncrypted() {
+            return this.encrypted === '1' || this.encrypted === 'true';
         }
     }
 

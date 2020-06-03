@@ -4,21 +4,22 @@ return [
 
     'welcome' => [
         '_' => '":name" sur :app',
-        'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app est un groupe de :files fichiers. Ils expireront le :date.'
+        'synopsis' => 'Ce fichier est disponible sur :app. Il expirera le :date.|Ce groupe :app se compose de :files fichiers. Il expirera le :date.'
+    ],
+
+    'layout' => [
+        'table' => [
+            'file' => 'Fichier|Fichiers',
+            'sha256' => 'Somme de contrôle SHA256'
+        ]
     ],
 
     'download' => [
         '_' => 'Télécharger en ZIP',
+        'single' => 'Télécharger',
         'tooltip' => 'La génération de l\'archive .zip peut prendre un certain temps, l\'archive sera téléchargée automatiquement une fois prête.',
         'wait' => 'L\'archive est en train d\'être générée, cette page se rafraîchit automatiquement.'
     ],
-
-    'uploaded' => 'Vos fichiers sont en ligne !',
-    'links' => [
-        'share' => 'Lien à partager',
-        'delete' => 'Lien pour supprimer les fichiers'
-    ],
-    'copy' => 'Copier',
 
     'short' => [
         'header' => 'Les liens sont courts !',
@@ -49,7 +50,7 @@ return [
 
     'encrypted' => [
         '_' => 'Ce groupe est chiffré.',
-        'desc' => 'Les fichiers sont accessibles uniquement grâce au mot de passe défini par celui ou celle qui a partagé ce groupe.',
+        'desc' => 'Les fichiers sont accessibles uniquement grâce au mot de passe défini par celui ou celle qui a partagé ce groupe. Les archives zips sont désactivées pour éviter des attaques par force brute locales.',
         'ziptooltip' => 'Cette archive est chiffrée avec le mot de passe du groupe.',
         'modal' => [
             'title' => 'Déchiffrer un fichier',
@@ -57,6 +58,10 @@ return [
             'password' => 'Mot de passe',
             'submit' => 'Télécharger',
             'err' => 'Le mot de passe est incorrect, merci de réesayer votre saisie.'
+        ],
+        'wait' => [
+            'title' => 'Merci de patienter...',
+            'message' => 'Le groupe est encore en cours de chiffrement. Les fichiers ne sont pas disponibles durant cette période.'
         ]
     ],
 
@@ -105,7 +110,8 @@ return [
             '_' => 'Mot de passe',
             'placeholder' => 'Il servira à déchiffrer les fichiers pour voir leur contenu'
         ],
-        'submit' => 'Soumettre un signalement'
+        'submit' => 'Soumettre un signalement',
+        'done' => 'Merci ! Vous allez être redirigé vers l\'accueil.'
     ]
 
 ];

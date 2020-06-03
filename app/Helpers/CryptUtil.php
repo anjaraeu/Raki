@@ -2,21 +2,29 @@
 
 namespace App\Helpers;
 
-use LaravelAEAD\Encrypter;
+use FileVault;
 
 class CryptUtil {
 
-    public static function getEncrypter($password) {
-        $passwd = hash('sha256', $password);
-        return new Encrypter(hash_pbkdf2('sha256', $passwd, env('APP_KEY'), 25, 32, true));
+    /**
+     * Generate an encrypter class with the good key
+     *
+     * @param string $password
+     * @param bool $hashed If true, the password won't be hashed
+     * @return \SoareCostin\FileVault\FileVault
+     */
+    public static function getEncrypter($password, $hashed = false) {
+        $passwd = $hashed ? $password:hash('sha256', $password);
+        return FileVault::key(hash_pbkdf2('sha256', $passwd, env('APP_KEY'), 25, 32, true));
     }
 
     public static function getKeyEncrypter($key) {
-        return new Encrypter($key);
+        return FileVault::key($key);
     }
 
-    public static function getKey($password) {
-        return hash_pbkdf2('sha256', hash('sha256', $password), env('APP_KEY'), 25, 32, true);
+    public static function getKey($password, $hashed = false) {
+        $passwd = $hashed ? $password:hash('sha256', $password);
+        return hash_pbkdf2('sha256', $passwd, env('APP_KEY'), 25, 32, true);
     }
 
 }
