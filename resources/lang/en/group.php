@@ -50,7 +50,7 @@ return [
 
     'encrypted' => [
         '_' => 'This group is encrypted',
-        'desc' => 'The files are readable only by using its password defined by the person who shared that group.',
+        'desc' => 'The files are readable only by using its password defined by the person who shared that group. The zips are disabled because it allows local bruteforce.',
         'ziptooltip' => 'This archive is encrypted with the group\'s password.',
         'modal' => [
             'title' => 'Decrypt file',
@@ -60,8 +60,8 @@ return [
             'err' => 'Password is incorrect, please check your input.'
         ],
         'wait' => [
-            'title' => 'Merci de patienter...',
-            'message' => 'Le groupe est encore en cours de chiffrement. Les fichiers ne sont pas disponibles durant cette période.'
+            'title' => 'Please wait...',
+            'message' => 'The group is pending for encryption. The files aren\'t available during this period.'
         ]
     ],
 

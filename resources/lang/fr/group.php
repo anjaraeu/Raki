@@ -50,7 +50,7 @@ return [
 
     'encrypted' => [
         '_' => 'Ce groupe est chiffré.',
-        'desc' => 'Les fichiers sont accessibles uniquement grâce au mot de passe défini par celui ou celle qui a partagé ce groupe.',
+        'desc' => 'Les fichiers sont accessibles uniquement grâce au mot de passe défini par celui ou celle qui a partagé ce groupe. Les archives zips sont désactivées pour éviter des attaques par force brute locales.',
         'ziptooltip' => 'Cette archive est chiffrée avec le mot de passe du groupe.',
         'modal' => [
             'title' => 'Déchiffrer un fichier',

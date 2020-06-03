@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use App;
 use Cache;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Storage;
 use App\File;
 use App\Group;
 use App\Jobs\ZipGroup;
 use App\Helpers\CryptUtil;
 use Illuminate\Http\Request;
-use LaravelAEAD\Exceptions\DecryptException;
 use App\Jobs\DeleteFile;
 use App\Jobs\DeleteZip;
-use Illuminate\Support\Carbon;
 
 class DownloadController extends Controller
 {
@@ -51,7 +48,7 @@ class DownloadController extends Controller
                 if ($file->group->single) {
                     DeleteFile::dispatch($file);
                     if ($file->group->files->count() <= 1) {
-                        DeleteZip::dispatch($file->group);
+                        $file->group->delete();
                     }
                 }
                 return Storage::download($file->path, normalizeUtf8String($file->name));
@@ -107,7 +104,7 @@ class DownloadController extends Controller
 
     public function getGroup(Group $group) {
         if (now()->greaterThan($group->expiry)) {
-            Cache::set('notifications.expiry', true);
+            $group->delete();
             return abort(419);
         } else {
             $group->load('files');
@@ -117,18 +114,12 @@ class DownloadController extends Controller
 
     public function getGroupZip(Group $group) {
         if (now()->greaterThan($group->expiry)) {
-            $group->files->each(function($file) {
-                DeleteFile::dispatch($file);
-            });
-            DeleteZip::dispatch($group);
+            $group->delete();
             return abort(419);
         } else {
             if (Storage::exists('zips/'.$group->slug.'.zip')) {
                 if ($group->single) {
-                    $group->files->each(function($file) {
-                        DeleteFile::dispatch($file);
-                    });
-                    DeleteZip::dispatch($group);
+                    $group->delete();
                 }
                 return Storage::download('zips/'.$group->slug.'.zip', 'afilesdl_'.preg_replace('/[^A-Za-z \-_0-9]+/', '', $group->name).'.zip');
             } else {

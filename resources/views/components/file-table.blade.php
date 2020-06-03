@@ -27,7 +27,8 @@
                     @if ($type == 'admin')
                         <a href="{{ route('group.delete', ['group' => $group]) }}" class="ui red labeled medium icon button"><i class="delete icon"></i> {{ __('group.manage.delete.group') }}</a>
                     @else
-                        <a data-popup-activate="on" href="{{ route('group.download', ['group' => $group]) }}" class="ui blue labeled medium icon button">
+                        <a data-popup-activate="on" href="{{ route('group.download', ['group' => $group]) }}"
+                           class="ui blue labeled medium icon button @if($group->encrypted) disabled @endif">
                             <i class="file archive icon"></i> {{ __('group.download._') }}
                         </a>
                         <div class="ui special popup">

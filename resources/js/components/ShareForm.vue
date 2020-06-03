@@ -1,7 +1,7 @@
 <template>
     <div class="ui attached segment">
         <div class="ui success message" v-if="auth">
-
+            {{ this.$lang.get('welcome.auth') }}
         </div>
         <div class="ui action labeled fluid input">
             <div class="ui label">

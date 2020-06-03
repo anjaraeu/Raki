@@ -29,7 +29,7 @@ class GroupObserver
     public function deleting(Group $group)
     {
         $group->files->each(function($file) {
-            DeleteFile::dispatch($file);
+            DeleteFile::dispatchNow($file);
         });
         DeleteZip::dispatchNow($group);
     }
