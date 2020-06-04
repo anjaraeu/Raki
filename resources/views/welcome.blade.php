@@ -18,7 +18,7 @@
             </div>
             @endif
 
-            <upload-form :auth="{{ !Auth::guest() }}"></upload-form>
+            <upload-form :auth="{{ !Auth::guest()?'true':'false' }}"></upload-form>
         </div>
     </div>
 @endsection
